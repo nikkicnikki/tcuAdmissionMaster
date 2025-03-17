@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ApplicantController;
 use App\Http\Controllers\BarangayController;
 use App\Http\Controllers\ProgramController;
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -20,6 +21,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('applicant', ApplicantController::class);
     Route::resource('barangay', BarangayController::class);
     Route::resource('program', ProgramController::class);
+    Route::resource('user', UserController::class);
 });
 
 Route::middleware('auth')->group(function () {

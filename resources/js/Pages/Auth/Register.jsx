@@ -52,6 +52,7 @@ export default function Register() {
     };
 //----------------------------------
     return (
+        //<GuestLayout>AuthenticatedLayout
         <GuestLayout>
             <Head title="Register" />
 

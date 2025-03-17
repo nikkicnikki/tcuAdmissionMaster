@@ -30,6 +30,43 @@ export default function AuthenticatedLayout({ header, children }) {
                                 >
                                     Dashboard
                                 </NavLink>
+                                
+                                <NavLink
+                                    href={route('register')}
+                                    active={route().current('Auth/Register')}
+                                >
+                                    USER REGISTRATION
+                                </NavLink>
+                                
+                                <NavLink
+                                    href={route('applicant.index')}
+                                    active={route().current('applicant.index')}
+                                >
+                                    APPLICANTS
+                                </NavLink>
+                                
+                                <NavLink
+                                    href={route('barangay.index')}
+                                    active={route().current('barangay.index')}
+                                >
+                                    BARANGAYS
+                                </NavLink>
+                                
+                                <NavLink
+                                    href={route('program.index')}
+                                    active={route().current('program.index')}
+                                >
+                                    PROGRAMS
+                                </NavLink>
+                                
+                                <NavLink
+                                    href={route('user.index')}
+                                    active={route().current('user.index')}
+                                >
+                                    USERS
+                                </NavLink>
+                                
+                                
                             </div>
                         </div>
 

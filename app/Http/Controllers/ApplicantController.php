@@ -13,7 +13,13 @@ class ApplicantController extends Controller
      */
     public function index()
     {
-        //
+        $query = Applicant::query();
+
+        $applicants = $query->paginate(10)->onEachPage(1);
+        
+        return inertia('Applicant/Index', [
+
+        ]); 
     }
 
     /**
