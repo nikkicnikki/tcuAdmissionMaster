@@ -1,8 +1,11 @@
+import Pagination from "@/Components/Pagination";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
 
 export default function Index({applicants}){
+    
     return(
+        
         <AuthenticatedLayout
             //user={auth.user}
             header={
@@ -10,8 +13,10 @@ export default function Index({applicants}){
                     Applicant form
                 </h2>
             }
-        >
+            >
             <Head title="Applicant form" /> 
+
+            
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -31,14 +36,17 @@ export default function Index({applicants}){
                                         <th className="px-3 py-3 text-right">ACTIONS</th>
                                     </tr>
                                 </thead>
+                                
+                 <pre>{JSON.stringify(applicants, undefined , 2)}</pre>
                                 <tbody>
+                                   
                                     {applicants.data.map(applicant => (
                                         <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                             <th className="px-3 py-2">{applicant.id}</th>
-                                            <td className="px-3 py-2 uppercase">{applicant.f_name+" "+applicant.m_name+" "+applicant.sr_name}</td>
+                                            <td className="px-3 py-2 uppercase text-nowrap">{applicant.f_name+" "+applicant.m_name+" "+applicant.sr_name}</td>
                                             <td className="px-3 py-2">{applicant.sex}</td>
                                             <td className="px-3 py-2">{applicant.email}</td>
-                                            <td className="px-3 py-2">{applicant.created_at}</td>
+                                            <td className="px-3 py-2 text-nowrap">{applicant.created_at}</td>
                                             <td className="px-3 py-2">{applicant.validated_by.name}</td>
                                             <td className="px-3 py-2">{applicant.printed_by.name}</td>
                                             <td className="px-3 py-2 text-right">
@@ -59,7 +67,7 @@ export default function Index({applicants}){
                                     ))}
                                 </tbody>
                             </table>
-
+                            <Pagination links={applicants.meta.links}/>
                         </div>
                     </div>
                 </div>
