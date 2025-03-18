@@ -5,6 +5,7 @@ use App\Http\Controllers\ApplicantController;
 use App\Http\Controllers\BarangayController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\UserController;
+//use App\Http\Controllers\Auth\RegisteredUserController; //
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -17,6 +18,7 @@ Route::get('/dashboard', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', fn() => Inertia::render('Dashboard'))->name('dashboard');
+
 
     Route::resource('applicant', ApplicantController::class);
     Route::resource('barangay', BarangayController::class);

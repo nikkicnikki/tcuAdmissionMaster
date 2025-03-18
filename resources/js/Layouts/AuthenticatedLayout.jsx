@@ -33,16 +33,16 @@ export default function AuthenticatedLayout({ header, children }) {
                                 
                                 <NavLink
                                     href={route('register')}
-                                    active={route().current('Auth/Register')}
+                                    active={route().current('register')}
                                 >
-                                    USER REGISTRATION
+                                    REGISTRATION
                                 </NavLink>
                                 
                                 <NavLink
                                     href={route('applicant.index')}
                                     active={route().current('applicant.index')}
                                 >
-                                    APPLICANTS
+                                    APPLICANT
                                 </NavLink>
                                 
                                 <NavLink

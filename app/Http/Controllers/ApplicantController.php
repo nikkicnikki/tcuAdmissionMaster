@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Applicant;
 use App\Http\Requests\StoreApplicantRequest;
 use App\Http\Requests\UpdateApplicantRequest;
+use App\Http\Resources\ApplicantResource;
 
 class ApplicantController extends Controller
 {
@@ -15,10 +16,10 @@ class ApplicantController extends Controller
     {
         $query = Applicant::query();
 
-        $applicants = $query->paginate(10)->onEachPage(1);
+        $applicants = $query->paginate(10)->onEachSide(1);
         
         return inertia('Applicant/Index', [
-
+            'applicants' => ApplicantResource::collection($applicants),
         ]); 
     }
 

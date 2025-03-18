@@ -12,12 +12,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('applicant', function (Blueprint $table) {
+        Schema::create('applicants', function (Blueprint $table) {
             $table->id();
             $table->string('sr_name');
             $table->string('f_name');
             $table->string('m_name');
-            $table->foreignId('prog')->constrained('program');
+            $table->foreignId('prog')->constrained('programs');
             $table->string('sex');
             $table->date('bday');
             $table->string('bplace');
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('tag_res'); 
             $table->string('curr_add'); 
-            $table->string('brgy'); 
+            $table->foreignId('brgy')->nullable(); 
             $table->string('fb_acc');   
             $table->string('fb_acc_link');  
             $table->string('bs_degree');
@@ -79,6 +79,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('applicant');
+        Schema::dropIfExists('applicants');
     }
 };

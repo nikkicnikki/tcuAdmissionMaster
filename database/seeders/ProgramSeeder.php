@@ -14,7 +14,7 @@ class ProgramSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('program')->insert([
+        DB::table('programs')->insert([
             ['name' => 'MASTER IN PUBLIC ADMINISTRATION','acronym' => 'MPA' ,'created_at' => Carbon::now()],
             ['name' => 'MASTER IN BUSINESS ADMINISTRATION','acronym' => 'MBA' ,'created_at' => Carbon::now()],
             ['name' => 'MASTER OF ARTS IN EDUCATIONAL MAJOR IN EDUCATIONAL MANAGEMENT','acronym' => 'MAE-MEM' ,'created_at' => Carbon::now()],

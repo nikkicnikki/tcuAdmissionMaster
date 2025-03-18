@@ -1,4 +1,4 @@
-import { useEffect } from 'react'; //unknown use as of 3/12/2025
+import { useEffect } from 'react'; 
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
@@ -6,7 +6,7 @@ import TextInput from '@/Components/TextInput';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import SelectInput from '@/Components/SelectInput';
-
+//import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
 export default function Register() {
     /* old code

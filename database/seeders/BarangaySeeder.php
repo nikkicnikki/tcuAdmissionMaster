@@ -14,7 +14,7 @@ class BarangaySeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('barangay')->insert([
+        DB::table('barangays')->insert([
 
             ['name' => 'OTHERS', 'created_at' => Carbon::now()],
             	
