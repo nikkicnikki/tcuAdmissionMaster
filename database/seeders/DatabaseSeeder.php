@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Applicant;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,6 +22,8 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('asper@dante'),
             'role' => 1,
         ]);
+
+        Applicant::factory(300)->create();
 
         $this->call(BarangaySeeder::class);
         $this->call(ProgramSeeder::class);

@@ -42,24 +42,24 @@ return new class extends Migration
             $table->string('tor');
             
             $table->string('app_pic');
-            $table->string('img_path');
-            $table->smallinteger('exam_date');
-            $table->smallinteger('exam_room');
+            
+            $table->smallinteger('exam_date')->nullable();
+            $table->smallinteger('exam_room')->nullable();
 
             $table->longText('remarks')->nullable();
-            $table->string('image_path')->nullable();
-            $table->string('image_capture')->nullable();
-
+            
+            
             //$table->timestamps()->nullable();   //create_at , update_at column
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
             
             $table->string('status')->default('0');
             
-            $table->foreignId('validate_by')->constrained('users')->nullable();
-            $table->foreignId('printed_by')->constrained('users')->nullable();   
-            $table->foreignId('score_by')->constrained('users')->nullable();
-
+            $table->foreignId('validate_by')->nullable();
+            $table->foreignId('printed_by')->nullable();   
+            $table->foreignId('score_by')->nullable();
+            
+            $table->string('image_capture')->nullable();
             $table->timestamp('printed_date')->nullable();
             
             $table->double('score');

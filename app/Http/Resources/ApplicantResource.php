@@ -21,7 +21,7 @@ class ApplicantResource extends JsonResource
             'sr_name'   => $this->sr_name,
             'f_name'    => $this->f_name,
             'm_name'    => $this->m_name,
-            'sex'       => $this->sex,
+            'status'       => $this->status,
             'email'         => $this->email,
             'created_at'    => (new Carbon($this->created_at))->format('Y-m-d') ,
             'validated_by'  => new UserResource($this->validateBy),
