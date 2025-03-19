@@ -9,7 +9,7 @@ export default function Pagination({links}){
                 href={link.url ||  ""}
                 key={link.label}
                 className={
-                    "inline-block py-2 px-3 rounded-lg text-gray-200 text-xs " +
+                    "inline-block py-2 px-3 rounded-lg text-gray-600 text-xs " +
                     (link.active ? "bg-gray-950 " : " " ) +
                     (!link.url ? "!text-gray-500 cursor-not-allowed " : "hover:bg-gray-950 ")
                 }

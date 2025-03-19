@@ -16,10 +16,34 @@ class ApplicantController extends Controller
     {
         $query = Applicant::query();
 
+        $sortField = request("sort_field", "created_at");
+        $sortDirection = request("sort_direction", "desc");
+
+
+        if (request( "name" )) {
+            $query->where(function ($q) {
+                $q->where("f_name", "like", "%" . request("name") . "%")
+                  ->orWhere("m_name", "like", "%" . request("name") . "%")
+                  ->orWhere("sr_name", "like", "%" . request("name") . "%");
+            });
+        }
+
+        if (request()->has( "status" )) {
+            $query->where( "status" , request("status"));
+        }
+
+        // If sorting by "name", sort by f_name, m_name, and sr_name
+        if ($sortField === "name") {
+            $query->orderByRaw("CONCAT(f_name, ' ', m_name, ' ', sr_name) $sortDirection");
+        } else {
+            $query->orderBy($sortField, $sortDirection);
+        }
+
         $applicants = $query->paginate(10)->onEachSide(1);
         
         return inertia('Applicant/Index', [
             'applicants' => ApplicantResource::collection($applicants),
+            'queryParams' => request()->query() ?: null,
         ]); 
     }
 

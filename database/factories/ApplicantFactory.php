@@ -27,7 +27,7 @@ class ApplicantFactory extends Factory
         $yesno = fake()->randomElement(['yes','no']);
         $fakeGoogleDrive = fake()->regexify('[a-zA-Z0-9_-]{28}');
         $printedBy = fake()->optional(0.7)->numberBetween(1,2);
-        $status = fake()->numberBetween(0,2);
+        $status = fake()->numberBetween(1,3);
         $timeStamps = fake()->dateTimeBetween('2025-02-10', '2025-4-15')->format('Y-m-d');
         $scoreBy = fake()->optional(0.7)->numberBetween(1, 2); 
 
@@ -107,13 +107,13 @@ class ApplicantFactory extends Factory
             'tor'           => "https://drive.google.com/uc?id={$fakeGoogleDrive}" ,
             'app_pic'       => "https://drive.google.com/uc?id={$fakeGoogleDrive}" ,
             'status'        => $status ,
-            'exam_date'     => $status === 2 ? fake()->numberBetween(1,3) : null ,
-            'exam_room'     => $status === 2 ? fake()->numberBetween(1,3) : null ,
+            'exam_date'     => $status === 3 ? fake()->numberBetween(1,3) : null ,
+            'exam_room'     => $status === 3 ? fake()->numberBetween(1,3) : null ,
             
-            'remarks'       => $status === 1 ? fake()->sentence() : null ,
+            'remarks'       => $status === 2 ? fake()->sentence() : null ,
             
-            'created_at'    => $status === 0 ? $timeStamps : null,
-            'updated_at'    => $status === 0 ? $timeStamps : null,
+            'created_at'    => $status === 1 ? $timeStamps : null,
+            'updated_at'    => $status === 1 ? $timeStamps : null,
             'validate_by'   => fake()->numberBetween(1,2),
             'printed_by'    => $printedBy ,
             'score_by'      => $scoreBy , 
