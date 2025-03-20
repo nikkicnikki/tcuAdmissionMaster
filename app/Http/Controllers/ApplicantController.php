@@ -39,7 +39,7 @@ class ApplicantController extends Controller
             $query->orderBy($sortField, $sortDirection);
         }
 
-        $applicants = $query->paginate(10)->onEachSide(1);
+        $applicants = $query->paginate(20)->onEachSide(1);
         
         return inertia('Applicant/Index', [
             'applicants' => ApplicantResource::collection($applicants),
@@ -68,7 +68,9 @@ class ApplicantController extends Controller
      */
     public function show(Applicant $applicant)
     {
-        //
+        return inertia('Applicant/Show', [
+            'applicant' => new ApplicantResource($applicant) , 
+        ]);
     }
 
     /**

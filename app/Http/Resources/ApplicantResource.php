@@ -9,6 +9,9 @@ use App\Http\Resources\UserResource;
 
 class ApplicantResource extends JsonResource
 {
+    
+    public static $wrap = false;
+
     /**
      * Transform the resource into an array.
      *

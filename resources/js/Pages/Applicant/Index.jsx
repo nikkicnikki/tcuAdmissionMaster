@@ -158,7 +158,11 @@ export default function Index({ auth, applicants , queryParams = null }){
                                         {applicants.data.map(applicant => (
                                             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={applicant.id}>
                                                 <th className="px-3 py-2">{applicant.id}</th>
-                                                <td className="px-3 py-2 uppercase text-nowrap">{applicant.f_name+" "+applicant.m_name+" "+applicant.sr_name}</td>
+                                                <td className="px-3 py-2 uppercase text-nowrap hover:underline text-blue-600">
+                                                    <Link href={route('applicant.show', applicant.id)}>
+                                                        {applicant.f_name+" "+applicant.m_name+" "+applicant.sr_name}
+                                                    </Link>
+                                                </td>
                                                 <td className="px-3 py-2">
                                                     <span className={
                                                         "px-2 py-1 rounded text-white " +
