@@ -174,7 +174,7 @@ export default function Index({ auth, applicants , queryParams = null }){
                                                 <td className="px-3 py-2">{applicant.exam_date}</td>
                                                 <td className="px-3 py-2">{applicant.exam_room}</td>
                                                 <td className="px-3 py-2 text-nowrap">{applicant.created_at}</td>
-                                                <td className="px-3 py-2">{applicant.validated_by?.name}</td>
+                                                <td className="px-3 py-2">{applicant.validate_by?.name}</td>
                                                 <td className="px-3 py-2">{applicant.printed_by?.name}</td>
                                                 <td className="px-3 py-2 text-right">
                                                     <Link 

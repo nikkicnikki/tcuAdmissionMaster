@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Carbon\Carbon;
 
 class ProgramResource extends JsonResource
 {
@@ -14,6 +15,10 @@ class ProgramResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            "name"      => $this->name ,
+            "acronym"   => $this->acronym ,
+            "create_at" => (new Carbon($this->created_at))->format('Y-m-d') ,
+        ];
     }
 }
