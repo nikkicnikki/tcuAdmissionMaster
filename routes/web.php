@@ -5,6 +5,7 @@ use App\Http\Controllers\ApplicantController;
 use App\Http\Controllers\BarangayController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SettingController;
 //use App\Http\Controllers\Auth\RegisteredUserController; //
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('barangay', BarangayController::class);
     Route::resource('program', ProgramController::class);
     Route::resource('user', UserController::class);
+
+    //setting
+    Route::get('/setting', [SettingController::class,'index'])->name('setting.index');
+    //Route::delete('/setting', [SettingController::class, 'destroy'])->name('profile.destroy');
+
+
 });
 
 Route::middleware('auth')->group(function () {

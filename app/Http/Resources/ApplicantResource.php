@@ -8,6 +8,8 @@ use Carbon\Carbon;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\ProgramResource;
 use App\Http\Resources\BarangayResource;
+use App\Http\Resources\ExamDateResource;
+use App\Http\Resources\ExamRoomResource;
 
 class ApplicantResource extends JsonResource
 {
@@ -52,8 +54,8 @@ class ApplicantResource extends JsonResource
 
             'status'        => $this->status,
             'remarks'       => $this->remarks,
-            'exam_date'     => $this->exam_date,
-            'exam_room'     => $this->exam_room,
+            'exam_date'     => new ExamDateResource($this->examDate),
+            'exam_room'     => new ExamRoomResource($this->examRoom),
 
             'image_capture' => $this->image_capture,
 

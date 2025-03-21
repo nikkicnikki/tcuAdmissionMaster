@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('exam_date', function (Blueprint $table) {
+        Schema::create('exam_dates', function (Blueprint $table) {
             $table->id();
             $table->string('exam_date');
             $table->string('status')->default('0');
             $table->timestamps();
         });
         
-        Schema::create('exam_room', function (Blueprint $table) {
+        Schema::create('exam_rooms', function (Blueprint $table) {
             $table->id();
             $table->string('exam_room');
             $table->string('status')->default('0');
@@ -34,7 +34,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('exam_date');
-        Schema::dropIfExists('exam_room');
+        Schema::dropIfExists('exam_dates');
+        Schema::dropIfExists('exam_rooms');
     }
 };

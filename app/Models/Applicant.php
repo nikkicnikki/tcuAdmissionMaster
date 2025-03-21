@@ -31,4 +31,12 @@ class Applicant extends Model
     public function scoreBy(){
         return $this->belongsTo(User::class , 'score_by');
     }
+
+    public function examDate() {
+        return $this->belongsTo(ExamDate::class , 'exam_date');
+    }
+
+    public function examRoom() {
+        return $this->belongsTo(ExamRoom::class , 'exam_room');
+    }
 }

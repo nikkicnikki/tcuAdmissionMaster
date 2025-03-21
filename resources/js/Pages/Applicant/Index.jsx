@@ -4,7 +4,7 @@ import TextInput from "@/Components/TextInput";
 import { APPLICANT_STATUS_CLASS_MAP, APPLICANT_STATUS_TEXT_MAP } from "@/constants";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, router } from "@inertiajs/react";
-import { ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/16/solid";
+//import { ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/16/solid";
 import TableHeading from "@/Components/TableHeading";
 
 export default function Index({ auth, applicants , queryParams = null }){
@@ -54,8 +54,6 @@ export default function Index({ auth, applicants , queryParams = null }){
             }
             >
             <Head title="Applicant form" /> 
-
-            
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -171,8 +169,8 @@ export default function Index({ auth, applicants , queryParams = null }){
                                                         {APPLICANT_STATUS_TEXT_MAP[applicant.status]}
                                                     </span>
                                                 </td>
-                                                <td className="px-3 py-2">{applicant.exam_date}</td>
-                                                <td className="px-3 py-2">{applicant.exam_room}</td>
+                                                <td className="px-3 py-2">{applicant.exam_date?.exam_date}</td>
+                                                <td className="px-3 py-2">{applicant.exam_room?.exam_room}</td>
                                                 <td className="px-3 py-2 text-nowrap">{applicant.created_at}</td>
                                                 <td className="px-3 py-2">{applicant.validate_by?.name}</td>
                                                 <td className="px-3 py-2">{applicant.printed_by?.name}</td>

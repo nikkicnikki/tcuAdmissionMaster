@@ -6,6 +6,8 @@ use App\Models\Applicant;
 use App\Http\Requests\StoreApplicantRequest;
 use App\Http\Requests\UpdateApplicantRequest;
 use App\Http\Resources\ApplicantResource;
+use App\Http\Resources\ExamDateResource;
+use App\Http\Resources\ExamRoomResource;
 
 class ApplicantController extends Controller
 {
