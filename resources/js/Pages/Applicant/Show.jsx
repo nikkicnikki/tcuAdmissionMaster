@@ -14,10 +14,10 @@ export default function Show({ auth, applicant }) {
       >
         <Head title={`Applicant "${`${applicant.f_name} ${applicant.m_name} ${applicant.sr_name}`.toUpperCase()}"`} />
         
-        <div className="py-12">
+        <div className="py-12 ">
             <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
-                    <div className="p-6 text-gray-900 dark:text-gray-100">
+                    <div className="p-6 text-gray-900 dark:text-gray-100 shadow-lg border border-gray-300">
                         
                     <div className="grid gap-1 grid-cols-2 mt-2">
                         {/* Left Section */}

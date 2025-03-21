@@ -112,8 +112,8 @@ class ApplicantFactory extends Factory
             
             'remarks'       => $status === 2 ? fake()->sentence() : null ,
             
-            'created_at'    => $status === 1 ? $timeStamps : null,
-            'updated_at'    => $status === 1 ? $timeStamps : null,
+            'created_at'    => $timeStamps,
+            'updated_at'    => $timeStamps,
             'validate_by'   => fake()->numberBetween(1,2),
             'printed_by'    => $printedBy ,
             'score_by'      => $scoreBy , 

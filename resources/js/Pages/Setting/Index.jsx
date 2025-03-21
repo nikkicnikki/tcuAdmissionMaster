@@ -19,12 +19,12 @@ export default function Index({ auth , examDates , examRooms }) {
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
-                        <div className="p-6 text-gray-900 dark:text-gray-100">
+                        <div className="p-6 text-gray-900 dark:text-gray-100 shadow-lg border border-gray-300">
 
                         <div className="flex h-screen">
                             {/* Left Side DATE*/}
-                            <div className="overflow-auto w-1/2 h-full bg-gray-200 p-4">
-                                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                            <div className="overflow-auto w-1/2 h-full p-4 ">
+                                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 shadow-lg border border-gray-300">
                                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
                                         <tr className="text-nowrap">
                                             <th className="px-3 py-3">DATE</th>
@@ -62,8 +62,8 @@ export default function Index({ auth , examDates , examRooms }) {
                             </div>
 
                             {/* Right Side ROOM */}
-                            <div className="overflow-auto w-1/2 h-full bg-gray-200 p-4">
-                                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                            <div className="overflow-auto w-1/2 h-full p-4 ">
+                                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 shadow-lg border border-gray-300">
                                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
                                         <tr className="text-nowrap">
                                             <th className="px-3 py-3">ROOM</th>
