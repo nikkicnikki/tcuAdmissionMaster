@@ -15,14 +15,18 @@ return new class extends Migration
             $table->id();
             $table->string('exam_date');
             $table->string('status')->default('0');
-            $table->timestamps();
+            $table->text('des');
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
         
         Schema::create('exam_rooms', function (Blueprint $table) {
             $table->id();
             $table->string('exam_room');
             $table->string('status')->default('0');
-            $table->timestamps();
+            $table->text('des');
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
 
         

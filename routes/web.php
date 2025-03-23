@@ -28,6 +28,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     //setting
     Route::get('/setting', [SettingController::class,'index'])->name('setting.index');
+    Route::get('/setting/create_date', [SettingController::class,'examDateCreate'])->name('setting.examDateCreate');
     //Route::delete('/setting', [SettingController::class, 'destroy'])->name('profile.destroy');
 
 

@@ -23,4 +23,9 @@ class SettingController extends Controller
             'examRooms' => $examRooms,
         ]);
     }
+
+    public function examDateCreate()
+    {
+        return inertia("Setting/DateCreate");
+    }
 }
