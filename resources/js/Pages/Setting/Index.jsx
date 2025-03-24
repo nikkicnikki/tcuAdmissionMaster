@@ -1,9 +1,24 @@
+import TextInput from "@/Components/TextInput";
+import SelectInput from "@/Components/SelectInput";
 import { EXAM_STATUS_CLASS_MAP, EXAM_STATUS_TEXT_MAP } from "@/constants";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link } from "@inertiajs/react";
+import { Head, Link, useForm } from "@inertiajs/react";
+import TextAreaInput from "@/Components/TextAreaInput";
 
 
-export default function Index({ auth , examDates , examRooms }) {
+export default function Index({ auth , examDates , examRooms , programs , barangays , queryParams }) {
+
+    const { examDate_data , examDate_setData , post , error , reset } = useForm({
+        exam_date : '',
+        status : '',
+        description : '',
+    })
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+
+        post(route("setting/create_date"));
+    }
 
     return (
         <AuthenticatedLayout
@@ -20,16 +35,24 @@ export default function Index({ auth , examDates , examRooms }) {
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
                         <div className="p-6 text-gray-900 dark:text-gray-100 shadow-lg border border-gray-300">
-
-                            <div>
+                            
+                            {/* DATES TABLE*/}
+                            <div className="flex justify-between items-center p-2 text-xs text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
+                                <h2 className=" text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200 justify items-center">
+                                    Dates
+                                </h2>
                                 <Link 
                                     href={route("setting.examDateCreate")}
-                                    className="bg-emerald-500 py-1 px-3 text-white rounded shadow transition-all hover:bg-emerald-600"
+                                    className="bg-emerald-500 p-4 mx-4 text-white rounded shadow transition-all hover:bg-emerald-600"
                                 >
-                                    Add Date
+                                    Add new
                                 </Link>
                             </div>
+                            
+
                             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 border border-gray-300">
+                                
+                                    
                                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
                                     <tr className="text-nowrap">
                                         <th className="px-3 py-3">DATE</th>
@@ -76,19 +99,27 @@ export default function Index({ auth , examDates , examRooms }) {
                                     ))}
                                 </tbody>
                             </table>
-                        
-
-                        
-                            <Link 
-                                className="bg-emerald-500 py-1 px-3 text-white rounded shadow transition-all hover:bg-emerald-600"
-                            >
-                                Add Room
-                            </Link>
+                            <br /><br />
+                            
+                            {/* ROOMS TABLE */}
+                            <div className="flex justify-between items-center p-2 text-xs text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
+                                <h2 className=" text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200 justify items-center">
+                                    Rooms
+                                </h2>
+                                <Link 
+                                    href={route("setting.examRoomCreate")}
+                                    className="bg-emerald-500 p-4 mx-4 text-white rounded shadow transition-all hover:bg-emerald-600"
+                                >
+                                    Add new
+                                </Link>
+                            </div>
                             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 border border-gray-300">
                                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
                                     <tr className="text-nowrap">
                                         <th className="px-3 py-3">ROOM</th>
                                         <th className="px-3 py-3">STATUS</th>
+                                        <th className="px-3 py-3">DESCRIPTION</th>
+                                        <th className="px-3 py-3">CREATE</th>
                                         <th className="px-3 py-3">ACTION</th>
                                     </tr>
                                 </thead>
@@ -104,6 +135,78 @@ export default function Index({ auth , examDates , examRooms }) {
                                                     {EXAM_STATUS_TEXT_MAP[examRoom.status]}
                                                 </span>
                                             </td>
+                                            <td className="px-3 py-2">
+                                                {examRoom.des}
+                                            </td>
+                                            <td className="px-3 py-2">
+                                                {new Date(examRoom.created_at).toLocaleDateString("en-US", {
+                                                    year: "numeric",
+                                                    month: "long",
+                                                    day: "numeric",
+                                                })} 
+                                            </td>
+                                            <td className="px-3 py-2 text-right">
+                                                <Link 
+                                                    //href={route('examRoom.destroy', examRoom.id)}
+                                                    className="font-medium text-blue-600 dark:text-red-500 hover:underline mx-1"    
+                                                >
+                                                    edit
+                                                </Link>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+
+
+                           
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="py-12">
+                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
+                        <div className="p-6 text-gray-900 dark:text-gray-100 shadow-lg border border-gray-300">
+                            
+                            {/* PROGRAM TABLE */}
+                            <div className="flex justify-between items-center p-2 text-xs text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
+                                <h2 className=" text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200 justify items-center">
+                                    Program
+                                </h2>
+                                <Link 
+                                    href={route("setting.programCreate")}
+                                    className="bg-emerald-500 p-4 mx-4 text-white rounded shadow transition-all hover:bg-emerald-600"
+                                >
+                                    Add new
+                                </Link>
+                            </div>
+
+                            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 border border-gray-300">
+
+                                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
+                                    <tr className="text-nowrap">
+                                        <th className="px-3 py-3">PROGRAM</th>
+                                        <th className="px-3 py-3">CREATE</th>
+                                        <th className="px-3 py-3">ACTION</th>
+                                    </tr>
+                                </thead>
+                                
+                                <tbody>
+                                    {programs.data.map(program => (
+                                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={program.id}>
+                                            <td className="px-3 py-2">
+                                                {program.name +" - "+ program.acronym}
+                                            </td>
+                                            <td className="px-3 py-2">
+                                                {new Date(program.created_at).toLocaleDateString("en-US", {
+                                                    year: "numeric",
+                                                    month: "long",
+                                                    day: "numeric",
+                                                })} 
+                                            </td>
                                             <td className="px-3 py-2 text-right">
                                                 <Link 
                                                     //href={route('examRoom.destroy', examRoom.id)}
@@ -117,10 +220,62 @@ export default function Index({ auth , examDates , examRooms }) {
                                 </tbody>
                             </table>
                             
+                            <br /> <br />
+
+                            {/* BARANGAY TABLE */}
+                            <div className="flex justify-between items-center p-2 text-xs text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
+                                <h2 className=" text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200 justify items-center">
+                                    Barangay
+                                </h2>
+                                <Link 
+                                    href={route("setting.barangayCreate")}
+                                    className="bg-emerald-500 p-4 mx-4 text-white rounded shadow transition-all hover:bg-emerald-600"
+                                >
+                                    Add new
+                                </Link>
+                            </div>
+                            
+                            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 border border-gray-300">
+                                
+                                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
+                                    <tr className="text-nowrap">
+                                        <th className="px-3 py-3">BARANGAY</th>
+                                        <th className="px-3 py-3">CREATE</th>
+                                        <th className="px-3 py-3">ACTION</th>
+                                    </tr>
+                                </thead>
+                                
+                                <tbody>
+                                    {barangays.data.map(barangay => (
+                                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={barangay.id}>
+                                            <td className="px-3 py-2">
+                                                {barangay.name}
+                                            </td>
+                                            <td className="px-3 py-2">
+                                                {new Date(barangay.created_at).toLocaleDateString("en-US", {
+                                                    year: "numeric",
+                                                    month: "long",
+                                                    day: "numeric",
+                                                })} 
+                                            </td>
+                                            <td className="px-3 py-2 text-right">
+                                                <Link 
+                                                    //href={route('examRoom.destroy', examRoom.id)}
+                                                    className="font-medium text-blue-600 dark:text-red-500 hover:underline mx-1"    
+                                                >
+                                                    edit
+                                                </Link>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+
                         </div>
                     </div>
                 </div>
             </div>
+            
         </AuthenticatedLayout>
     );
 }

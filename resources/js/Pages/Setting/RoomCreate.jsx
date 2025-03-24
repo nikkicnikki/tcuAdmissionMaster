@@ -6,10 +6,10 @@ import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 
-export default function DateCreate({auth}) {
+export default function RoomCreate({auth}) {
 
     const { data , setData , post , errors , reset } = useForm({
-        exam_date: '',
+        exam_room: '',
         status: '1',
         des: '',
 
@@ -19,21 +19,22 @@ export default function DateCreate({auth}) {
         e.preventDefault();
 
         // Log the data before submitting
-        console.log("Form Data before submit:", data);
+        //console.log("Form Data before submit:", data);
 
-        post(route('date.add'));
+        post(route('room.add'));
     }
+
 
     return (
         <AuthenticatedLayout
             user={auth.user}
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                    Settings - Add Date
+                    Settings - Add Room
                 </h2>
             }
         >
-            <Head title="Add Schedule" /> 
+            <Head title="Add Room" /> 
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -44,19 +45,19 @@ export default function DateCreate({auth}) {
                         >
                             <div>
                                 <InputLabel 
-                                    htmlFor="set_date" 
-                                    value="Setting Date" 
+                                    htmlFor="set_room" 
+                                    value="Setting Room" 
                                 />
 
                                 <TextInput  
-                                    id="set_date"
-                                    type="date"
+                                    id="set_room"
                                     className="mt-2 block w-full"
-                                    name="exam_date"
+                                    name="exam_room"
                                     value={data.exam_date}
-                                    onChange={(e) => setData("exam_date", e.target.value)}
+                                    onChange={(e) => setData("exam_room", e.target.value)}
+                                    placeholder="Enter Room"
                                 />
-                                <InputError message={errors.set_date} className="mt-2" />
+                                <InputError message={errors.set_room} className="mt-2" />
                             </div>
                             <div className="mt-4">
                                 <InputLabel 
@@ -90,8 +91,8 @@ export default function DateCreate({auth}) {
                                     isFocused={true}
                                     placeholder="Enter other information"
                                 /> 
-                               
-                               <InputError message={errors.set_des} className="mt-2" />
+                            
+                            <InputError message={errors.set_des} className="mt-2" />
                             </div>
                             <div className="mt-4 text-right">
                                 <Link
@@ -107,7 +108,6 @@ export default function DateCreate({auth}) {
                     </div>
                 </div>
             </div>
-
         </AuthenticatedLayout>
         )
 }

@@ -28,7 +28,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     //setting
     Route::get('/setting', [SettingController::class,'index'])->name('setting.index');
-    Route::get('/setting/create_date', [SettingController::class,'examDateCreate'])->name('setting.examDateCreate');
+    // setting create
+    Route::get('/setting/examdate/create', [SettingController::class,'examDateCreate'])->name('setting.examDateCreate');
+    Route::get('/setting/examroom/create', [SettingController::class,'examRoomCreate'])->name('setting.examRoomCreate');
+    Route::get('/setting/program/create', [SettingController::class,'programCreate'])->name('setting.programCreate');
+    Route::get('/setting/barangay/create', [SettingController::class,'barangayCreate'])->name('setting.barangayCreate');
+
+    Route::post('/setting/add_date', [SettingController::class,'examDateStore'])->name('date.add');
+    Route::post('/setting/add_room', [SettingController::class,'examRoomStore'])->name('room.add');
+    Route::post('/setting/program', [SettingController::class,'programStore'])->name('program.add');
+    Route::post('/setting/barangay', [SettingController::class,'barangayStore'])->name('barangay.add');
     //Route::delete('/setting', [SettingController::class, 'destroy'])->name('profile.destroy');
 
 

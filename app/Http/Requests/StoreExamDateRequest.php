@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreBarangayRequest extends FormRequest
+class StoreExamDateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,9 @@ class StoreBarangayRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name"  => ['string', 'required'],
+            "exam_date" => ['date','required'],
+            "des"       => ['string'],
+            "status"    => ['required' , 'in:0,1'],
         ];
     }
 }
