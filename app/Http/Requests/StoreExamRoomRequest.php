@@ -24,7 +24,7 @@ class StoreExamRoomRequest extends FormRequest
         return [
             "exam_room" => ['required'] ,
             "des"       => ['string', 'nullable'] ,
-            "status"    => ['required' , 'in:0,1'] ,
+            "status"    => ['required' , 'in:1,2'] ,
         ];
     }
 }

@@ -52,7 +52,7 @@ export default function ProgramCreate({auth}) {
                                     onChange={(e) => setData("name", e.target.value)}
                                     placeholder="Enter Program name"
                                 />
-                                <InputError message={errors.set_name} className="mt-2" />
+                                <InputError message={errors.name} className="mt-2" />
                             </div>
                             <div className="mt-4">
                                 <InputLabel 
@@ -68,7 +68,7 @@ export default function ProgramCreate({auth}) {
                                     onChange={(e) => setData("acronym", e.target.value)}
                                     placeholder="e.g: MPA"
                                 />
-                                <InputError message={errors.set_acronym} className="mt-2" />
+                                <InputError message={errors.acronym} className="mt-2" />
                             </div>
                             <div className="mt-4 text-right">
                                 <Link

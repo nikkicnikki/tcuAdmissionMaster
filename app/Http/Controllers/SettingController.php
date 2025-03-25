@@ -86,7 +86,7 @@ class SettingController extends Controller
 
         return to_route('setting.index')->with([
             'success' => $data['exam_date'],
-            'sucType' => 'exam_date'
+            'sucType' => 'add'
         ]);
 
     }
@@ -99,7 +99,7 @@ class SettingController extends Controller
 
         return to_route('setting.index')->with([
             'success' => $data['exam_room'] , 
-            'sucType' => 'exam_room',
+            'sucType' => 'add',
         ]);
 
     }
@@ -112,7 +112,7 @@ class SettingController extends Controller
 
         return to_route('setting.index')->with([
             'success' => $data['name'] ,
-            'sucType' => 'program',
+            'sucType' => 'add',
         ]);
 
     }
@@ -126,7 +126,7 @@ class SettingController extends Controller
 
         return to_route('setting.index')->with([
             'success' => $data['name'],
-            'sucType' => 'barangay',
+            'sucType' => 'add',
         ]);
 
     }
@@ -135,34 +135,56 @@ class SettingController extends Controller
     public function examDateDestroy(ExamDate $examdate)
     {
         //dd($examdate);
+        $date = $examdate->exam_date;
+        $formattedDate = date("F j, Y", strtotime($date));
+        
         $examdate->delete();
 
-        return to_route('setting.index')->with('success', 'Schedule was deleted');
+        return to_route('setting.index')->with([
+            'success' => "Schedule \"$formattedDate\" was deleted" , 
+            'sucType' => 'delete',
+
+        ]);
     }
 
     public function examRoomDestroy(ExamRoom $examroom)
     {
         //dd($examdate);
+        $room = $examroom->exam_room;
         $examroom->delete();
 
-        return to_route('setting.index')->with('success', 'Room was deleted');
+        return to_route('setting.index')->with([
+            'success' => "Room \"$room\" was deleted" ,
+            'sucType' => 'delete',
+
+        ]);
     }
 
 
     public function programDestroy(Program $program)
     {
         //dd($examdate);
+        $prog = $program->name;
         $program->delete();
 
-        return to_route('setting.index')->with('success', 'Program was deleted');
+        return to_route('setting.index')->with([
+            'success' => "Program \"$prog\"was deleted" ,
+            'sucType' => 'delete',
+
+        ]);
     }
 
     public function barangayDestroy(Barangay $barangay)
     {
         //dd($examdate);
+        $brgy = $barangay->name;
         $barangay->delete();
 
-        return to_route('setting.index')->with('success', 'Barangay was deleted');
+        return to_route('setting.index')->with([
+            'success' => "Barangay \"$brgy\"was deleted" ,
+            'sucType' => 'delete',
+        
+        ]);
     }
 
 
@@ -198,15 +220,23 @@ class SettingController extends Controller
         $data = $request->validated();
         $examdate->update($data);
 
-        return to_route('setting.index')->with('success', "Schedule \"$examdate->exam_date\" was Updated");
+        return to_route('setting.index')->with([
+            'success' => "Schedule \"$examdate->exam_date\" was Updated" ,
+            'sucType' => 'edit',
+        
+        ]);
     }
-
+    
     public function examRoomUpdate(UpdateExamRoomRequest $request, ExamRoom $examroom)
     {
         $data = $request->validated();
         $examroom->update($data);
 
-        return to_route('setting.index')->with('success', "Room \"$examroom->exam_room\" was Updated");
+        return to_route('setting.index')->with([
+            'success' => "Room \"$examroom->exam_room\" was Updated" ,
+            'sucType' => 'edit',
+        
+        ]);
     }
  
 }

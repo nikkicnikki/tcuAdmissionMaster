@@ -10,10 +10,10 @@ export default function RoomCreate({auth , examroom }) {
 
     const { data , setData , put , errors , reset } = useForm({
         exam_room: examroom.data.exam_room || '',
-        status: examroom.data.status || '0',
+        status: examroom.data.status || '',
         des: examroom.data.des || '',
-
     })
+    //console.log(data.status);
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -57,7 +57,7 @@ export default function RoomCreate({auth , examroom }) {
                                     onChange={(e) => setData("exam_room", e.target.value)}
                                     placeholder="Enter Room"
                                 />
-                                <InputError message={errors.set_room} className="mt-2" />
+                                <InputError message={errors.exam_room} className="mt-2" />
                             </div>
                             <div className="mt-4">
                                 <InputLabel 
@@ -69,11 +69,16 @@ export default function RoomCreate({auth , examroom }) {
                                     id="set_status"
                                     className="mt-2 block w-full" 
                                     name="status"
-                                    onChange={ e => setData('status', e.target.value) }>
-                                    <option value="1">Active</option>
-                                    <option value="0">Inactive</option>
+                                    value={data.status}
+                                    onChange={ e => {
+                                        //console.log("Selected Value:", e.target.value);
+                                        setData('status', e.target.value);
+                                        } }>
+                                    <option value="">Select status</option>
+                                    <option value="2">Active</option>
+                                    <option value="1">Inactive</option>
                                 </SelectInput>
-                                <InputError message={errors.set_status} className="mt-2" />
+                                <InputError message={errors.status} className="mt-2" />
 
                             </div>
                             <div className="mt-4">
@@ -81,7 +86,6 @@ export default function RoomCreate({auth , examroom }) {
                                     htmlFor="set_des" 
                                     value="Setting Description" 
                                 />
-
                                 <TextAreaInput 
                                     id="set_des"
                                     className="mt-2 block w-full" 
@@ -91,8 +95,7 @@ export default function RoomCreate({auth , examroom }) {
                                     isFocused={true}
                                     placeholder="Enter other information"
                                 /> 
-                            
-                            <InputError message={errors.set_des} className="mt-2" />
+                                <InputError message={errors.des} className="mt-2" />
                             </div>
                             <div className="mt-4 text-right">
                                 <Link

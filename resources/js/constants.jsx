@@ -11,11 +11,11 @@ export const APPLICANT_STATUS_TEXT_MAP ={
 }
 
 export const EXAM_STATUS_CLASS_MAP = {
-    '1' : ' bg-green-500 ',
-    '0' : ' bg-gray-500 ',
+    '2' : ' bg-green-500 ',
+    '1' : ' bg-gray-500 ',
 }
 
 export const EXAM_STATUS_TEXT_MAP ={
-    '1' : 'Active',
-    '0' : 'Inactive',
+    '2' : 'Active',
+    '1' : 'Inactive',
 }

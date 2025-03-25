@@ -11,7 +11,7 @@ export default function DateCreate({ auth , examdate }) {
     const { data , setData , put , errors , reset } = useForm({
 
         exam_date: examdate.data.exam_date || '',
-        status: examdate.data.status || '0',
+        status: examdate.data.status || '2',
         des: examdate.data.des || '',
 
     });
@@ -63,23 +63,27 @@ export default function DateCreate({ auth , examdate }) {
                                     value={data.exam_date}
                                     onChange={(e) => setData("exam_date", e.target.value)}
                                 />
-                                <InputError message={errors.set_date} className="text-red-500 mt-2" />
+                                <InputError message={errors.exam_date} className="text-red-500 mt-2" />
                             </div>
                             <div className="mt-4">
                                 <InputLabel 
                                     htmlFor="set_status" 
                                     value="Setting Status" 
                                 />
-
                                 <SelectInput 
                                     id="set_status"
                                     className="mt-2 block w-full" 
                                     name="status"
-                                    onChange={ e => setData('status', e.target.value) }>
-                                    <option value="1">Active</option>
-                                    <option value="0">Inactive</option>
+                                    value={data.status}
+                                    onChange={ e => {
+                                        //console.log("Selected Value:", e.target.value);
+                                        setData('status', e.target.value);
+                                        } }>
+                                    <option value="">Select status</option>
+                                    <option value="2">Active</option>
+                                    <option value="1">Inactive</option>
                                 </SelectInput>
-                                <InputError message={errors.set_status} className="text-red-500 mt-2" />
+                                <InputError message={errors.status} className="text-red-500 mt-2" />
 
                             </div>
                             <div className="mt-4">
@@ -98,7 +102,7 @@ export default function DateCreate({ auth , examdate }) {
                                     placeholder="Enter other information"
                                 /> 
                                
-                               <InputError message={errors.set_des} className="text-red-500 mt-2" />
+                               <InputError message={errors.des} className="text-red-500 mt-2" />
                             </div>
                             <div className="mt-4 text-right">
                                 <Link

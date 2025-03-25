@@ -57,7 +57,7 @@ export default function RoomCreate({auth}) {
                                     onChange={(e) => setData("exam_room", e.target.value)}
                                     placeholder="Enter Room"
                                 />
-                                <InputError message={errors.set_room} className="mt-2" />
+                                <InputError message={errors.exam_room} className="mt-2" />
                             </div>
                             <div className="mt-4">
                                 <InputLabel 
@@ -73,7 +73,7 @@ export default function RoomCreate({auth}) {
                                     <option value="1">Active</option>
                                     <option value="0">Inactive</option>
                                 </SelectInput>
-                                <InputError message={errors.set_status} className="mt-2" />
+                                <InputError message={errors.status} className="mt-2" />
 
                             </div>
                             <div className="mt-4">
@@ -92,7 +92,7 @@ export default function RoomCreate({auth}) {
                                     placeholder="Enter other information"
                                 /> 
                             
-                            <InputError message={errors.set_des} className="mt-2" />
+                            <InputError message={errors.des} className="mt-2" />
                             </div>
                             <div className="mt-4 text-right">
                                 <Link

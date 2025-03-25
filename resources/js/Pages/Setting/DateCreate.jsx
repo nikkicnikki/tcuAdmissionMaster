@@ -10,7 +10,7 @@ export default function DateCreate({auth}) {
 
     const { data , setData , post , errors , reset } = useForm({
         exam_date: '',
-        status: '1',
+        status: '2',
         des: '',
 
     })
@@ -56,7 +56,7 @@ export default function DateCreate({auth}) {
                                     value={data.exam_date}
                                     onChange={(e) => setData("exam_date", e.target.value)}
                                 />
-                                <InputError message={errors.set_date} className="text-red-500 mt-2" />
+                                <InputError message={errors.exam_date} className="text-red-500 mt-2" />
                             </div>
                             <div className="mt-4">
                                 <InputLabel 
@@ -69,10 +69,10 @@ export default function DateCreate({auth}) {
                                     className="mt-2 block w-full" 
                                     name="status"
                                     onChange={ e => setData('status', e.target.value) }>
-                                    <option value="1">Active</option>
-                                    <option value="0">Inactive</option>
+                                    <option value="2">Active</option>
+                                    <option value="1">Inactive</option>
                                 </SelectInput>
-                                <InputError message={errors.set_status} className="text-red-500 mt-2" />
+                                <InputError message={errors.status} className="text-red-500 mt-2" />
 
                             </div>
                             <div className="mt-4">
@@ -91,7 +91,7 @@ export default function DateCreate({auth}) {
                                     placeholder="Enter other information"
                                 /> 
                                
-                               <InputError message={errors.set_des} className="text-red-500 mt-2" />
+                               <InputError message={errors.des} className="text-red-500 mt-2" />
                             </div>
                             <div className="mt-4 text-right">
                                 <Link

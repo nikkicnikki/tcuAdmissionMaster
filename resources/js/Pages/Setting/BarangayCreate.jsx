@@ -51,7 +51,7 @@ export default function BarangayCreate({auth}) {
                                     onChange={(e) => setData("name", e.target.value)}
                                     placeholder="Enter Barangays name"
                                 />
-                                <InputError message={errors.set_name} className="mt-2" />
+                                <InputError message={errors.name} className="mt-2" />
                             </div>
                             <div className="mt-4 text-right">
                                 <Link

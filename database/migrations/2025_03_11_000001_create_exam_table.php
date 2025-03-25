@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('exam_dates', function (Blueprint $table) {
             $table->id();
             $table->string('exam_date');
-            $table->string('status')->default('0');
-            $table->text('des');
+            $table->integer('status')->default(2);
+            $table->text('des')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
@@ -23,8 +23,8 @@ return new class extends Migration
         Schema::create('exam_rooms', function (Blueprint $table) {
             $table->id();
             $table->string('exam_room');
-            $table->string('status')->default('0');
-            $table->text('des');
+            $table->integer('status')->default(2);
+            $table->text('des')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

@@ -8,20 +8,29 @@ export default function Index({ auth , examDates , examRooms , programs , barang
 
     //console.log(success+' '+sucType)
 
-    const deleteExamDate = (id) => {
-        if (!window.confirm('Are you sure you want to delete this Schedule?')) {
+    const deleteExamDate = (examDate) => {
+
+        const date = new Date(examDate.exam_date).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+        });
+
+        if (!window.confirm(`Are you sure you want to delete "${date}" Schedule?`)) {
             return;
         }
         //console.log(route('date.delete', id ));
-        router.delete(route('date.delete', id ));
+        router.delete(route('date.delete', examDate.id ));
     }
 
-    const deleteExamRoom = (id) => {
-        if (!window.confirm('Are you sure you want to delete this Room?')) {
+    const deleteExamRoom = (examRoom) => {
+        const room = examRoom.exam_room;
+        
+        if (!window.confirm(`Are you sure you want to delete "${room}" Room?`)) {
             return;
         }
         //console.log(route('room.delete', id ));
-        router.delete(route('room.delete', id ));
+        router.delete(route('room.delete', examRoom.id ));
     }
 
     const deleteProgram = (id) => {
@@ -55,7 +64,8 @@ export default function Index({ auth , examDates , examRooms , programs , barang
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
-                        
+
+                    {/* EDIT THIS MADAPAKA @ MARCH 26, 2025 */}    
                     {success && sucType === 'exam_date' ? (<div className="bg-emerald-500 px-2 py-4 text-white rounded pl-5">
                             Successfully Add  <b className="text-gray-900">
                             {new Date(success).toLocaleDateString("en-US", {

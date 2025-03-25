@@ -23,7 +23,7 @@ class StoreExamDateRequest extends FormRequest
     {
         return [
             "exam_date" => ['date', 'required'],
-            "status"    => ['required' , 'in:0,1'],
+            "status"    => ['required' , 'in:1,2'],
             "des"       => ['string', 'nullable'],
         ];
     }
