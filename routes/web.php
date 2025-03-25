@@ -28,16 +28,34 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     //setting
     Route::get('/setting', [SettingController::class,'index'])->name('setting.index');
-    // setting create
+    // setting create - redirect to create page
     Route::get('/setting/examdate/create', [SettingController::class,'examDateCreate'])->name('setting.examDateCreate');
     Route::get('/setting/examroom/create', [SettingController::class,'examRoomCreate'])->name('setting.examRoomCreate');
     Route::get('/setting/program/create', [SettingController::class,'programCreate'])->name('setting.programCreate');
     Route::get('/setting/barangay/create', [SettingController::class,'barangayCreate'])->name('setting.barangayCreate');
-
+    // setting Add
     Route::post('/setting/add_date', [SettingController::class,'examDateStore'])->name('date.add');
     Route::post('/setting/add_room', [SettingController::class,'examRoomStore'])->name('room.add');
-    Route::post('/setting/program', [SettingController::class,'programStore'])->name('program.add');
-    Route::post('/setting/barangay', [SettingController::class,'barangayStore'])->name('barangay.add');
+    Route::post('/setting/add_program', [SettingController::class,'programStore'])->name('program.add');
+    Route::post('/setting/add_barangay', [SettingController::class,'barangayStore'])->name('barangay.add');
+    // setting Destroy or Delete
+    Route::delete('/setting/del_date/{examdate}', [SettingController::class, 'examDateDestroy'])->name('date.delete');
+    Route::delete('/setting/del_room/{examroom}', [SettingController::class, 'examRoomDestroy'])->name('room.delete');
+    Route::delete('/setting/del_program/{program}', [SettingController::class, 'programDestroy'])->name('program.delete');
+    Route::delete('/setting/del_barangay/{barangay}', [SettingController::class, 'barangayDestroy'])->name('barangay.delete');
+    // setting Edit - redirect you to edit page with your data as and array or object
+    Route::get('/settings/{examdate}/edit_date', [SettingController::class, 'examDateEdit'])->name('date.edit');
+    Route::get('/settings/{examroom}/edit_room', [SettingController::class, 'examRoomEdit'])->name('room.edit');
+    Route::get('/settings/{program}/edit_program', [SettingController::class, 'programEdit'])->name('program.edit');
+    Route::get('/settings/{barangay}/edit_barangay', [SettingController::class, 'barangayEdit'])->name('barangay.edit');
+    // setting Update
+    Route::put('/settings/update_date/{examdate}', [SettingController::class, 'examDateUpdate'])->name('date.update');
+    Route::put('/settings/update_room/{examroom}', [SettingController::class, 'examRoomUpdate'])->name('room.update');
+    Route::put('/settings/update_program/{program}', [SettingController::class, 'programUpdate'])->name('program.update');
+    Route::put('/settings/update_barangay/{barangay}', [SettingController::class, 'barangayUpdate'])->name('barangay.update');
+
+
+
     //Route::delete('/setting', [SettingController::class, 'destroy'])->name('profile.destroy');
 
 

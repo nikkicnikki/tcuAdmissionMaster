@@ -6,35 +6,41 @@ import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 
-export default function RoomCreate({auth}) {
+export default function DateCreate({ auth , examdate }) {
 
-    const { data , setData , post , errors , reset } = useForm({
-        exam_room: '',
-        status: '1',
-        des: '',
+    const { data , setData , put , errors , reset } = useForm({
 
-    })
+        exam_date: examdate.data.exam_date || '',
+        status: examdate.data.status || '0',
+        des: examdate.data.des || '',
 
+    });
+
+    //console.log(examdate);
     const onSubmit = (e) => {
         e.preventDefault();
 
         // Log the data before submitting
         //console.log("Form Data before submit:", data);
 
-        post(route('room.add'));
+        put(route('date.update',  examdate.data.id));
     }
-
 
     return (
         <AuthenticatedLayout
             user={auth.user}
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                    Settings - Add Room
+                    Settings - Edit Date {new Date(examdate.data.exam_date).toLocaleDateString("en-US", {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                            })
+                    }
                 </h2>
             }
         >
-            <Head title="Add Room" /> 
+            <Head title="Add Schedule" /> 
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -45,19 +51,19 @@ export default function RoomCreate({auth}) {
                         >
                             <div>
                                 <InputLabel 
-                                    htmlFor="set_room" 
-                                    value="Setting Room" 
+                                    htmlFor="set_date" 
+                                    value="Setting Date" 
                                 />
 
                                 <TextInput  
-                                    id="set_room"
+                                    id="set_date"
+                                    type="date"
                                     className="mt-2 block w-full"
-                                    name="exam_room"
-                                    value={data.exam_room}
-                                    onChange={(e) => setData("exam_room", e.target.value)}
-                                    placeholder="Enter Room"
+                                    name="exam_date"
+                                    value={data.exam_date}
+                                    onChange={(e) => setData("exam_date", e.target.value)}
                                 />
-                                <InputError message={errors.set_room} className="mt-2" />
+                                <InputError message={errors.set_date} className="text-red-500 mt-2" />
                             </div>
                             <div className="mt-4">
                                 <InputLabel 
@@ -73,7 +79,7 @@ export default function RoomCreate({auth}) {
                                     <option value="1">Active</option>
                                     <option value="0">Inactive</option>
                                 </SelectInput>
-                                <InputError message={errors.set_status} className="mt-2" />
+                                <InputError message={errors.set_status} className="text-red-500 mt-2" />
 
                             </div>
                             <div className="mt-4">
@@ -91,8 +97,8 @@ export default function RoomCreate({auth}) {
                                     isFocused={true}
                                     placeholder="Enter other information"
                                 /> 
-                            
-                            <InputError message={errors.set_des} className="mt-2" />
+                               
+                               <InputError message={errors.set_des} className="text-red-500 mt-2" />
                             </div>
                             <div className="mt-4 text-right">
                                 <Link
@@ -108,6 +114,7 @@ export default function RoomCreate({auth}) {
                     </div>
                 </div>
             </div>
+
         </AuthenticatedLayout>
         )
 }

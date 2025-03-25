@@ -1,24 +1,45 @@
-import TextInput from "@/Components/TextInput";
-import SelectInput from "@/Components/SelectInput";
+import Pagination from "@/Components/Pagination";
 import { EXAM_STATUS_CLASS_MAP, EXAM_STATUS_TEXT_MAP } from "@/constants";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link, useForm } from "@inertiajs/react";
-import TextAreaInput from "@/Components/TextAreaInput";
+import { Head, Link, router } from "@inertiajs/react";
 
 
-export default function Index({ auth , examDates , examRooms , programs , barangays , queryParams }) {
+export default function Index({ auth , examDates , examRooms , programs , barangays , success , sucType }) {
 
-    const { examDate_data , examDate_setData , post , error , reset } = useForm({
-        exam_date : '',
-        status : '',
-        description : '',
-    })
+    //console.log(success+' '+sucType)
 
-    const onSubmit = (e) => {
-        e.preventDefault();
-
-        post(route("setting/create_date"));
+    const deleteExamDate = (id) => {
+        if (!window.confirm('Are you sure you want to delete this Schedule?')) {
+            return;
+        }
+        //console.log(route('date.delete', id ));
+        router.delete(route('date.delete', id ));
     }
+
+    const deleteExamRoom = (id) => {
+        if (!window.confirm('Are you sure you want to delete this Room?')) {
+            return;
+        }
+        //console.log(route('room.delete', id ));
+        router.delete(route('room.delete', id ));
+    }
+
+    const deleteProgram = (id) => {
+        if (!window.confirm('Are you sure you want to delete this Program?')) {
+            return;
+        }
+        //console.log(route('room.delete', id ));
+        router.delete(route('program.delete', id ));
+    }
+
+    const deleteBarangay = (id) => {
+        if (!window.confirm('Are you sure you want to delete this Barangay?')) {
+            return;
+        }
+        //console.log(route('room.delete', id ));
+        router.delete(route('barangay.delete', id ));
+    }
+
 
     return (
         <AuthenticatedLayout
@@ -30,16 +51,44 @@ export default function Index({ auth , examDates , examRooms , programs , barang
             }
             >
             <Head title="Settings" /> 
-
+            
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
+                        
+                    {success && sucType === 'exam_date' ? (<div className="bg-emerald-500 px-2 py-4 text-white rounded pl-5">
+                            Successfully Add  <b className="text-gray-900">
+                            {new Date(success).toLocaleDateString("en-US", {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                            })}</b>  as a new <b className="text-gray-900">
+                                    {   sucType === 'barangay' ? 'BARANGAY' :
+                                        sucType === 'program' ? 'PROGRAM' :
+                                        sucType === 'exam_room' ? 'ROOM' :
+                                        sucType === 'exam_date' ? 'SCHEDULE' : 'Unknown Type'
+                                    }
+                                </b> option
+                            </div>
+                            ) : success && (<div className="bg-emerald-500 px-2 py-4 text-white rounded pl-5">
+                                Successfully Add  <b className="text-gray-900">
+                                {success.toUpperCase()}</b>  as a new <b className="text-gray-900">
+                                        {   sucType === 'barangay' ? 'BARANGAY' :
+                                            sucType === 'program' ? 'PROGRAM' :
+                                            sucType === 'exam_room' ? 'ROOM' :
+                                            sucType === 'exam_date' ? 'SCHEDULE' : 'Unknown Type'
+                                        }
+                                    </b> option
+                                </div>
+                            )
+                        }
+                        
                         <div className="p-6 text-gray-900 dark:text-gray-100 shadow-lg border border-gray-300">
                             
                             {/* DATES TABLE*/}
                             <div className="flex justify-between items-center p-2 text-xs text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
                                 <h2 className=" text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200 justify items-center">
-                                    Dates
+                                    Schedules
                                 </h2>
                                 <Link 
                                     href={route("setting.examDateCreate")}
@@ -89,11 +138,18 @@ export default function Index({ auth , examDates , examRooms , programs , barang
                                             </td>
                                             <td className="px-3 py-2 text-right">
                                                 <Link 
-                                                    //href={route('examDate.destroy', examDate.id)}
+                                                    href={route('date.edit', examDate.id)}
                                                     className="font-medium text-blue-600 dark:text-red-500 hover:underline mx-1"    
                                                 >
                                                     edit
                                                 </Link>
+                                                <button 
+                                                    onClick={ (e) => deleteExamDate(examDate) }
+                                                    //href={route('examRoom.destroy', examRoom.id)}
+                                                    className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"    
+                                                >
+                                                    delete
+                                                </button>
                                             </td>
                                         </tr>
                                     ))}
@@ -147,11 +203,17 @@ export default function Index({ auth , examDates , examRooms , programs , barang
                                             </td>
                                             <td className="px-3 py-2 text-right">
                                                 <Link 
-                                                    //href={route('examRoom.destroy', examRoom.id)}
+                                                    href={route('room.edit', examRoom.id)}
                                                     className="font-medium text-blue-600 dark:text-red-500 hover:underline mx-1"    
                                                 >
                                                     edit
                                                 </Link>
+                                                <button 
+                                                    onClick={ (e) => deleteExamRoom(examRoom) }
+                                                    className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"    
+                                                >
+                                                    delete
+                                                </button>
                                             </td>
                                         </tr>
                                     ))}
@@ -198,7 +260,7 @@ export default function Index({ auth , examDates , examRooms , programs , barang
                                     {programs.data.map(program => (
                                         <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={program.id}>
                                             <td className="px-3 py-2">
-                                                {program.name +" - "+ program.acronym}
+                                                {program.name.toUpperCase() +" - "+ program.acronym.toUpperCase()}
                                             </td>
                                             <td className="px-3 py-2">
                                                 {new Date(program.created_at).toLocaleDateString("en-US", {
@@ -214,6 +276,12 @@ export default function Index({ auth , examDates , examRooms , programs , barang
                                                 >
                                                     edit
                                                 </Link>
+                                                <button 
+                                                    onClick={ (e) => deleteProgram(program) }
+                                                    className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"    
+                                                >
+                                                    delete
+                                                </button>
                                             </td>
                                         </tr>
                                     ))}
@@ -249,7 +317,7 @@ export default function Index({ auth , examDates , examRooms , programs , barang
                                     {barangays.data.map(barangay => (
                                         <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={barangay.id}>
                                             <td className="px-3 py-2">
-                                                {barangay.name}
+                                                {barangay.name.toUpperCase()}
                                             </td>
                                             <td className="px-3 py-2">
                                                 {new Date(barangay.created_at).toLocaleDateString("en-US", {
@@ -265,12 +333,17 @@ export default function Index({ auth , examDates , examRooms , programs , barang
                                                 >
                                                     edit
                                                 </Link>
+                                                <button 
+                                                    onClick={ (e) => deleteBarangay(barangay) }
+                                                    className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"    
+                                                >
+                                                    delete
+                                                </button>
                                             </td>
                                         </tr>
                                     ))}
                                 </tbody>
                             </table>
-
                         </div>
                     </div>
                 </div>
@@ -279,3 +352,10 @@ export default function Index({ auth , examDates , examRooms , programs , barang
         </AuthenticatedLayout>
     );
 }
+/*
+
+create an individual pagination page selection
+
+<Pagination links={barangays.links}/>
+<pre>{JSON.stringify(barangays, undefined , 2)}</pre>
+*/

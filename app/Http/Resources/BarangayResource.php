@@ -16,6 +16,7 @@ class BarangayResource extends JsonResource
     public function toArray(Request $request): array
     {
        return [
+        'id'        => $this->id,
         'name'      => $this->name,
         'create_at' => (new Carbon($this->created_at))->format('Y-m-d'),
        ];

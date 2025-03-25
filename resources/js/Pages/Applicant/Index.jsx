@@ -202,3 +202,4 @@ export default function Index({ auth, applicants , queryParams = null }){
         </AuthenticatedLayout>
     )
 }
+//<pre>{JSON.stringify(applicants, undefined , 2)}</pre>

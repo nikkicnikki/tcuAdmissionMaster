@@ -22,9 +22,9 @@ class StoreExamDateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "exam_date" => ['date','required'],
-            "des"       => ['string'],
+            "exam_date" => ['date', 'required'],
             "status"    => ['required' , 'in:0,1'],
+            "des"       => ['string', 'nullable'],
         ];
     }
 }

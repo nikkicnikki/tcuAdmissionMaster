@@ -19,7 +19,7 @@ export default function DateCreate({auth}) {
         e.preventDefault();
 
         // Log the data before submitting
-        console.log("Form Data before submit:", data);
+        //console.log("Form Data before submit:", data);
 
         post(route('date.add'));
     }
@@ -29,7 +29,7 @@ export default function DateCreate({auth}) {
             user={auth.user}
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                    Settings - Add Date
+                    Settings - Add Schedule
                 </h2>
             }
         >
@@ -56,7 +56,7 @@ export default function DateCreate({auth}) {
                                     value={data.exam_date}
                                     onChange={(e) => setData("exam_date", e.target.value)}
                                 />
-                                <InputError message={errors.set_date} className="mt-2" />
+                                <InputError message={errors.set_date} className="text-red-500 mt-2" />
                             </div>
                             <div className="mt-4">
                                 <InputLabel 
@@ -72,7 +72,7 @@ export default function DateCreate({auth}) {
                                     <option value="1">Active</option>
                                     <option value="0">Inactive</option>
                                 </SelectInput>
-                                <InputError message={errors.set_status} className="mt-2" />
+                                <InputError message={errors.set_status} className="text-red-500 mt-2" />
 
                             </div>
                             <div className="mt-4">
@@ -91,7 +91,7 @@ export default function DateCreate({auth}) {
                                     placeholder="Enter other information"
                                 /> 
                                
-                               <InputError message={errors.set_des} className="mt-2" />
+                               <InputError message={errors.set_des} className="text-red-500 mt-2" />
                             </div>
                             <div className="mt-4 text-right">
                                 <Link

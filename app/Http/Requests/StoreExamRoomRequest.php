@@ -22,9 +22,9 @@ class StoreExamRoomRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "exam_room" => ['required'],
-            "des"       => ['string'],
-            "status"    => ['required' , 'in:0,1'],
+            "exam_room" => ['required'] ,
+            "des"       => ['string', 'nullable'] ,
+            "status"    => ['required' , 'in:0,1'] ,
         ];
     }
 }

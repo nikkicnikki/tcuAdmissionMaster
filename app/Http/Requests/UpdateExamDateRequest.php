@@ -11,7 +11,7 @@ class UpdateExamDateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class UpdateExamDateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "exam_date" => ['date', 'required'],
+            "status"    => ['required' , 'in:0,1'],
+            "des"       => ['string', 'nullable'],
         ];
     }
 }

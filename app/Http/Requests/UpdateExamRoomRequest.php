@@ -11,7 +11,7 @@ class UpdateExamRoomRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class UpdateExamRoomRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "exam_room" => ['required'] ,
+            "des"       => ['string', 'nullable'] ,
+            "status"    => ['required' , 'in:0,1'] ,
         ];
     }
 }

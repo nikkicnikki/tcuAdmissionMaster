@@ -6,12 +6,12 @@ import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 
-export default function RoomCreate({auth}) {
+export default function RoomCreate({auth , examroom }) {
 
-    const { data , setData , post , errors , reset } = useForm({
-        exam_room: '',
-        status: '1',
-        des: '',
+    const { data , setData , put , errors , reset } = useForm({
+        exam_room: examroom.data.exam_room || '',
+        status: examroom.data.status || '0',
+        des: examroom.data.des || '',
 
     })
 
@@ -21,7 +21,7 @@ export default function RoomCreate({auth}) {
         // Log the data before submitting
         //console.log("Form Data before submit:", data);
 
-        post(route('room.add'));
+        put(route('room.update', examroom.data.id));
     }
 
 
@@ -30,7 +30,7 @@ export default function RoomCreate({auth}) {
             user={auth.user}
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                    Settings - Add Room
+                    Settings - Edit Room {examroom.data.exam_room}
                 </h2>
             }
         >
