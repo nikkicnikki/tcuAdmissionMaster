@@ -32,10 +32,10 @@ export default function AuthenticatedLayout({ header, children }) {
                                 </NavLink>
                                 
                                 <NavLink
-                                    href={route('register')}
-                                    active={route().current('register')}
+                                    href={route('user.index')}
+                                    active={route().current('user.index')}
                                 >
-                                    REGISTRATION
+                                    USERS
                                 </NavLink>
                                 
                                 <NavLink

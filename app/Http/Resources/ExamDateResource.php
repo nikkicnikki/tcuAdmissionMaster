@@ -15,8 +15,8 @@ class ExamDateResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'        => $this->id,
             'exam_date' => $this->exam_date,
+            'id'        => $this->id,
             'status'    => $this->status,
             'des'       => $this->des,
            ];

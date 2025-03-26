@@ -1,19 +1,19 @@
-import { APPLICANT_STATUS_CLASS_MAP, APPLICANT_STATUS_TEXT_MAP } from "@/constants";
+import { USER_STATUS_CLASS_MAP, USER_STATUS_TEXT_MAP } from "@/constants";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
 
-export default function Show({ auth, applicant }) {
+export default function Show({ auth, user }) {
     
     return (
       <AuthenticatedLayout
         user={auth.user}
         header={
             <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                {`Applicant "${`${applicant.f_name} ${applicant.m_name} ${applicant.sr_name}`.toUpperCase()}"`}
+                {`User "${user.name.toUpperCase()}"`}
             </h2>
         }
       >
-        <Head title={`Applicant "${`${applicant.f_name} ${applicant.m_name} ${applicant.sr_name}`.toUpperCase()}"`} />
+        <Head title={`User "${user.name.toUpperCase()}"`} />
         
         <div className="py-12 ">
             <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -24,27 +24,27 @@ export default function Show({ auth, applicant }) {
                         {/* Left Section */}
                         <div>
                             <div>
-                                <p className="mt-1"><label className="font-bold text-lg">ID : </label> {applicant.id}</p>
+                                <p className="mt-1"><label className="font-bold text-lg">ID : </label> {user.id}</p>
                             </div>
 
                             <div className="mt-1">
-                                <p className="mt-1"><label className="font-bold text-lg">Name : </label> {`${applicant.f_name} ${applicant.m_name} ${applicant.sr_name}`.toUpperCase()}</p>
+                                <p className="mt-1"><label className="font-bold text-lg">Name : </label> {`${user.f_name} ${user.m_name} ${user.sr_name}`.toUpperCase()}</p>
                             </div>
 
                             <div className="mt-1">
                                 <p className="mt-1">
                                     <label className="font-bold text-lg">Program : </label> 
-                                    {applicant.prog.name.toUpperCase() +" - "+applicant.prog.acronym.toUpperCase()}
+                                    {user.prog.name.toUpperCase() +" - "+user.prog.acronym.toUpperCase()}
                                 </p>
                             </div>
 
                             <div className="mt-5">
-                                <p className="mt-1"><label className="font-bold text-lg">Bachelor's Degree : </label> {applicant.bs_degree}</p>
+                                <p className="mt-1"><label className="font-bold text-lg">Bachelor's Degree : </label> {user.bs_degree}</p>
                             </div>
                             <div>
                                 <p className="mt-1">
                                     <label className="font-bold text-lg">Year Graduate : </label> 
-                                    {new Date(applicant.yr_grad).toLocaleDateString("en-US", {
+                                    {new Date(user.yr_grad).toLocaleDateString("en-US", {
                                         year: "numeric",
                                         month: "long",
                                         day: "numeric",
@@ -52,17 +52,17 @@ export default function Show({ auth, applicant }) {
                                 </p>
                             </div>
                             <div>
-                                <p className="mt-1"><label className="font-bold text-lg">Last school attend : </label> {applicant.l_schl_att}</p>
+                                <p className="mt-1"><label className="font-bold text-lg">Last school attend : </label> {user.l_schl_att}</p>
                             </div>
                             <div>
                                 <label className="font-bold text-lg">Transcript of Record : </label>
-                                {applicant.tor ? (
+                                {user.tor ? (
                                     <Link 
                                         to="#"  // Prevents navigation within the app
                                         className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1"
                                         onClick={(e) => {
                                             e.preventDefault(); // Prevent React Router from handling the link
-                                            window.open(applicant.tor, "_blank");
+                                            window.open(user.tor, "_blank");
                                         }}
                                     >
                                         Click here
@@ -74,54 +74,54 @@ export default function Show({ auth, applicant }) {
                             <div className="mt-5">
                                 <p className="mt-1">
                                     <label className="font-bold text-lg">Employed : </label> 
-                                     {applicant.curr_emp}
+                                     {user.curr_emp}
                                 </p>
                             </div>
                             <div className="mt-1">
                                 <p className="mt-1">
                                     <label className="font-bold text-lg"> Occupation : </label> 
-                                    {applicant.curr_occ}
+                                    {user.curr_occ}
                                 </p>
                             </div>
                             <div className="mt-1">
                                 <p className="mt-1">
                                     <label className="font-bold text-lg"> Length of Service : </label> 
-                                    {applicant.l_serv ? applicant.l_serv+" Year/'s " : "" }
+                                    {user.l_serv ? user.l_serv+" Year/'s " : "" }
                                 </p>
                             </div>
                             <div className="mt-1">
                                 <p className="mt-1">
                                     <label className="font-bold text-lg"> Government Worker? : </label> 
-                                    {applicant.gov_vald}
+                                    {user.gov_vald}
                                 </p>
                             </div>
                             <div className="mt-1">
                                 <p className="mt-1">
                                     <label className="font-bold text-lg"> Gov. issued ID : </label> 
-                                    {applicant.gov_id}
+                                    {user.gov_id}
                                 </p>
                             </div>
                             <div className="mt-1">
                                 <p className="mt-1">
                                     <label className="font-bold text-lg"> Voters ID : </label> 
-                                    {applicant.voter_id}
+                                    {user.voter_id}
                                 </p>
                             </div>    
                             <div className="mt-1">
                                 <label className="font-bold text-lg"> Company/Institution Currently Connected : </label> 
-                                <p className="mt-1">{applicant.conn_com_ins}</p>
+                                <p className="mt-1">{user.conn_com_ins}</p>
                             </div>
                             
                             <div className="mt-5">
                                 <p className="mt-1">
                                     <label className="font-bold text-lg">Gender : </label> 
-                                     {applicant.sex}
+                                     {user.sex}
                                 </p>
                             </div>
                             <div className="mt-1">
                                 <p className="mt-1">
                                     <label className="font-bold text-lg">Birth Day : </label> 
-                                     {new Date(applicant.bday).toLocaleDateString("en-US", {
+                                     {new Date(user.bday).toLocaleDateString("en-US", {
                                         year: "numeric",
                                         month: "long",
                                         day: "numeric",
@@ -131,51 +131,51 @@ export default function Show({ auth, applicant }) {
                             <div className="mt-1">
                                 <p className="mt-1">
                                     <label className="font-bold text-lg">Birth Place : </label> 
-                                     {applicant.bplace}
+                                     {user.bplace}
                                 </p>
                             </div>
                             <div className="mt-1">
                                 <p className="mt-1">
                                     <label className="font-bold text-lg">Contact No. : </label> 
-                                     {applicant.cont}
+                                     {user.cont}
                                 </p>
                             </div>
                             <div className="mt-1">
                                 <p className="mt-1">
                                     <label className="font-bold text-lg">Email : </label> 
-                                     {applicant.email}
+                                     {user.email}
                                 </p>
                             </div>
                             <div className="mt-1">
                                 <p className="mt-1">
                                     <label className="font-bold text-lg">Taguig Resident? : </label> 
-                                     {applicant.tag_res}
+                                     {user.tag_res}
                                 </p>
                             </div>
                             <div className="mt-1">
                                 <p className="mt-1">
                                     <label className="font-bold text-lg">Barangay (if from Taguig) : </label> 
-                                     {applicant.brgy.name}
+                                     {user.brgy.name}
                                 </p>
                             </div>
                             <div className="mt-1">
                                 <p className="mt-1">
                                     <label className="font-bold text-lg">Address : </label> 
-                                     {applicant.curr_add}
+                                     {user.curr_add}
                                 </p>
                             </div>
                             <div className="mt-1">
                                 <p className="mt-1">
                                     <label className="font-bold text-lg">Facebook Account : </label> 
-                                     {applicant.fb_acc} 
+                                     {user.fb_acc} 
                                      {
-                                        applicant.fb_acc_link ? (
+                                        user.fb_acc_link ? (
                                             <Link 
                                                 to="#"  // Prevents navigation within the app
                                                 className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1"
                                                 onClick={(e) => {
                                                     e.preventDefault(); // Prevent React Router from handling the link
-                                                    window.open(applicant.fb_acc_link, "_blank");
+                                                    window.open(user.fb_acc_link, "_blank");
                                                 }}
                                             >
                                                 Click here
@@ -186,15 +186,15 @@ export default function Show({ auth, applicant }) {
                             </div>
                             <div className="mt-1">
                                 <p className="mt-1">
-                                    <label className="font-bold text-lg">Applicant Profile : </label> 
+                                    <label className="font-bold text-lg">User Profile : </label> 
                                      {
-                                        applicant.app_pic ? (
+                                        user.app_pic ? (
                                             <Link 
                                                 to="#"  // Prevents navigation within the app
                                                 className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1"
                                                 onClick={(e) => {
                                                     e.preventDefault(); // Prevent React Router from handling the link
-                                                    window.open(applicant.app_pic, "_blank");
+                                                    window.open(user.app_pic, "_blank");
                                                 }}
                                             >
                                                 Click here
@@ -216,33 +216,33 @@ export default function Show({ auth, applicant }) {
                                     <span
                                         className={
                                             "px-2 py-1 rounded text-white " +
-                                            APPLICANT_STATUS_CLASS_MAP[applicant.status]
+                                            USER_STATUS_CLASS_MAP[user.status]
                                         }
                                     >
-                                        {APPLICANT_STATUS_TEXT_MAP[applicant.status]}
+                                        {USER_STATUS_TEXT_MAP[user.status]}
                                     </span>
                                 </p>
                             </div>
 
                             <div>
                                 <p className="mt-1">
-                                    <label className="font-bold text-lg">Exam Date : </label> {applicant?.exam_date.exam_date}   
-                                    <label className="font-bold text-lg"> Time : </label> {applicant?.exam_room.exam_room}
+                                    <label className="font-bold text-lg">Exam Date : </label> {user?.user.user}   
+                                    <label className="font-bold text-lg"> Time : </label> {user?.exam_room.exam_room}
                                 </p>
                             </div>
 
                             <div>
-                                <p className="mt-5"><label className="font-bold text-lg">Validate By : </label> {applicant.validate_by?.name?.toUpperCase()}</p>
+                                <p className="mt-5"><label className="font-bold text-lg">Validate By : </label> {user.validate_by?.name?.toUpperCase()}</p>
                             </div>
                             <div className="mt-1">
-                                <p className="mt-1"><label className="font-bold text-lg">Printed By : </label> {applicant.printed_by?.name?.toUpperCase()}</p>
+                                <p className="mt-1"><label className="font-bold text-lg">Printed By : </label> {user.printed_by?.name?.toUpperCase()}</p>
                             </div>
                             
                             <div className="mt-1">
                                 <p className="mt-1">
                                 <label className="font-bold text-lg">Printed Date : </label> 
                                 {
-                                    applicant.printed_date ? new Date(applicant.printed_date).toLocaleDateString("en-US", {
+                                    user.printed_date ? new Date(user.printed_date).toLocaleDateString("en-US", {
                                         year: "numeric",
                                         month: "long",
                                         day: "numeric",
@@ -252,33 +252,33 @@ export default function Show({ auth, applicant }) {
                             </div>
                             
                             <div className="mt-5">
-                                <p className="mt-1"><label className="font-bold text-lg">Profile : </label> {applicant.image_capture}</p>
+                                <p className="mt-1"><label className="font-bold text-lg">Profile : </label> {user.image_capture}</p>
                                 {/* MAKE IT AT THE ICON ON TOP OR SHOW IMAGE */}
                             </div>
                             
                             <div>
                                 <label className="font-bold text-lg">REMARKS :</label>
                                 
-                                {applicant.remarks && (
-                                    applicant.status !== 3 ? 
-                                            <p className="mt-1 bg-gray-200 p-4">{applicant.remarks}</p>
+                                {user.remarks && (
+                                    user.status !== 3 ? 
+                                            <p className="mt-1 bg-gray-200 p-4">{user.remarks}</p>
                                         : 
-                                            <p className="mt-1 p-4">{applicant.remarks}</p>
+                                            <p className="mt-1 p-4">{user.remarks}</p>
                                 )}  
                             </div>
                             
 
                             <div className="mt-5">
-                                <p className="mt-1"><label className="font-bold text-lg">Score By : </label> {applicant.score_by?.name?.toUpperCase()}</p>
+                                <p className="mt-1"><label className="font-bold text-lg">Score By : </label> {user.score_by?.name?.toUpperCase()}</p>
                             </div>
                             <div className="mt-1">
-                                <p className="mt-1"><label className="font-bold text-lg">Score : </label> {applicant?.score}</p>
+                                <p className="mt-1"><label className="font-bold text-lg">Score : </label> {user?.score}</p>
                             </div>
 
                             <div className="mt-5">
                                 <p className="mt-1">
                                     <label className="font-bold text-lg">Create Date : </label> 
-                                    {new Date(applicant.created_at).toLocaleDateString("en-US", {
+                                    {new Date(user.created_at).toLocaleDateString("en-US", {
                                         year: "numeric",
                                         month: "long",
                                         day: "numeric",
@@ -288,7 +288,7 @@ export default function Show({ auth, applicant }) {
                             <div className="mt-1">
                                 <p className="mt-1">
                                     <label className="font-bold text-lg">Update Date : </label> 
-                                    {new Date(applicant.updated_at).toLocaleDateString("en-US", {
+                                    {new Date(user.updated_at).toLocaleDateString("en-US", {
                                         year: "numeric",
                                         month: "long",
                                         day: "numeric",

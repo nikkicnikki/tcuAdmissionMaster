@@ -30,7 +30,7 @@ export default function RoomCreate({auth , examroom }) {
             user={auth.user}
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                    Settings - Edit Room {examroom.data.exam_room}
+                    Settings - Edit Room "{examroom.data.exam_room}"
                 </h2>
             }
         >

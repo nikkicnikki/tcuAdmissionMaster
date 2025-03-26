@@ -10,7 +10,7 @@ export default function DateCreate({auth}) {
 
     const { data , setData , post , errors , reset } = useForm({
         exam_date: '',
-        status: '2',
+        status: '',
         des: '',
 
     })
@@ -69,6 +69,7 @@ export default function DateCreate({auth}) {
                                     className="mt-2 block w-full" 
                                     name="status"
                                     onChange={ e => setData('status', e.target.value) }>
+                                    <option value="">Select Status</option>
                                     <option value="2">Active</option>
                                     <option value="1">Inactive</option>
                                 </SelectInput>

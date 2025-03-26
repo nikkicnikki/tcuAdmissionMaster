@@ -6,12 +6,12 @@ use Illuminate\Http\Request;
 use App\Models\Program;
 use App\Http\Requests\StoreProgramRequest;
 use App\Http\Requests\UpdateProgramRequest;
-use App\Http\Requests\ProgramResource;
+use App\Http\Resources\ProgramResource;
 
 use App\Models\Barangay;
 use App\Http\Requests\StoreBarangayRequest;
 use App\Http\Requests\UpdateBarangayRequest;
-use App\Http\Requests\BarangayResource;
+use App\Http\Resources\BarangayResource;
 
 use App\Models\ExamDate;
 use App\Http\Requests\StoreExamDateRequest;
@@ -83,9 +83,13 @@ class SettingController extends Controller
         $data = $request->validated();
         //dd($data);
         ExamDate::create($data);
+        
+
+        $date = $data['exam_date'];
+        $formattedDate = date("F j, Y", strtotime($date));
 
         return to_route('setting.index')->with([
-            'success' => $data['exam_date'],
+            'success' => "Successful Add Schedule \"{$formattedDate}\" ",
             'sucType' => 'add'
         ]);
 
@@ -98,7 +102,7 @@ class SettingController extends Controller
         ExamRoom::create($data);
 
         return to_route('setting.index')->with([
-            'success' => $data['exam_room'] , 
+            'success' => "Successful Add Room \"{$data['exam_room']}\" " , 
             'sucType' => 'add',
         ]);
 
@@ -111,7 +115,7 @@ class SettingController extends Controller
         Program::create($data);
 
         return to_route('setting.index')->with([
-            'success' => $data['name'] ,
+            'success' => "Successful Add Program \"{$data['name']}\" " ,
             'sucType' => 'add',
         ]);
 
@@ -125,7 +129,7 @@ class SettingController extends Controller
         Barangay::create($data);
 
         return to_route('setting.index')->with([
-            'success' => $data['name'],
+            'success' => "Successful Add Barangay \"{$data['name']}\" " ,
             'sucType' => 'add',
         ]);
 
@@ -168,7 +172,7 @@ class SettingController extends Controller
         $program->delete();
 
         return to_route('setting.index')->with([
-            'success' => "Program \"$prog\"was deleted" ,
+            'success' => "Program \"$prog\" was deleted" ,
             'sucType' => 'delete',
 
         ]);
@@ -181,7 +185,7 @@ class SettingController extends Controller
         $barangay->delete();
 
         return to_route('setting.index')->with([
-            'success' => "Barangay \"$brgy\"was deleted" ,
+            'success' => "Barangay \"$brgy\" was deleted" ,
             'sucType' => 'delete',
         
         ]);
@@ -205,12 +209,16 @@ class SettingController extends Controller
 
     public function programEdit(Program $program)
     {
-        //
+        return inertia('Setting/ProgramEdit', [
+            'program' => new ProgramResource($program) ,
+        ]);
     }
 
     public function barangayEdit(Barangay $barangay)
     {
-        //
+        return inertia('Setting/BarangayEdit', [
+            'barangay' => new BarangayResource($barangay) ,
+        ]);
     }
 
 
@@ -220,8 +228,11 @@ class SettingController extends Controller
         $data = $request->validated();
         $examdate->update($data);
 
+        $date = $examdate->exam_date;
+        $formattedDate = date("F j, Y", strtotime($date));
+
         return to_route('setting.index')->with([
-            'success' => "Schedule \"$examdate->exam_date\" was Updated" ,
+            'success' => "Schedule \"$formattedDate\" was Updated" ,
             'sucType' => 'edit',
         
         ]);
@@ -234,6 +245,30 @@ class SettingController extends Controller
 
         return to_route('setting.index')->with([
             'success' => "Room \"$examroom->exam_room\" was Updated" ,
+            'sucType' => 'edit',
+        
+        ]);
+    }
+
+    public function programUpdate(UpdateProgramRequest $request, Program $program)
+    {
+        $data = $request->validated();
+        $program->update($data);
+
+        return to_route('setting.index')->with([
+            'success' => "Program \"$program->name\" was Updated" ,
+            'sucType' => 'edit',
+        
+        ]);
+    }
+
+    public function barangayUpdate(UpdateBarangayRequest $request, Barangay $barangay)
+    {
+        $data = $request->validated();
+        $barangay->update($data);
+
+        return to_route('setting.index')->with([
+            'success' => "Barangay \"$barangay->name\" was Updated" ,
             'sucType' => 'edit',
         
         ]);

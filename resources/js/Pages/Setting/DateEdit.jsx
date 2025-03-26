@@ -11,7 +11,7 @@ export default function DateCreate({ auth , examdate }) {
     const { data , setData , put , errors , reset } = useForm({
 
         exam_date: examdate.data.exam_date || '',
-        status: examdate.data.status || '2',
+        status: examdate.data.status || '',
         des: examdate.data.des || '',
 
     });
@@ -31,12 +31,12 @@ export default function DateCreate({ auth , examdate }) {
             user={auth.user}
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                    Settings - Edit Date {new Date(examdate.data.exam_date).toLocaleDateString("en-US", {
+                    Settings - Edit Date "{new Date(examdate.data.exam_date).toLocaleDateString("en-US", {
                                 year: "numeric",
                                 month: "long",
                                 day: "numeric",
                             })
-                    }
+                    }"
                 </h2>
             }
         >

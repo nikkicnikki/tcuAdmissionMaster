@@ -10,7 +10,7 @@ export default function RoomCreate({auth}) {
 
     const { data , setData , post , errors , reset } = useForm({
         exam_room: '',
-        status: '1',
+        status: '',
         des: '',
 
     })
@@ -70,8 +70,9 @@ export default function RoomCreate({auth}) {
                                     className="mt-2 block w-full" 
                                     name="status"
                                     onChange={ e => setData('status', e.target.value) }>
-                                    <option value="1">Active</option>
-                                    <option value="0">Inactive</option>
+                                    <option value="">Select Status</option>
+                                    <option value="2">Active</option>
+                                    <option value="1">Inactive</option>
                                 </SelectInput>
                                 <InputError message={errors.status} className="mt-2" />
 
