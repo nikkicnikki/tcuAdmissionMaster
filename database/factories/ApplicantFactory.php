@@ -44,7 +44,7 @@ class ApplicantFactory extends Factory
             'email'     => fake()->unique()->safeEmail(),
             'tag_res'   => $yesno,
             'curr_add'  => fake()->address(),
-            'brgy'      => fake()->numberBetween(1,39),
+            //'brgy'      => fake()->numberBetween(1,39),
             'fb_acc'    => $username,
             'fb_acc_link' => 'https://www.facebook.com/'. $username,
 
@@ -94,18 +94,12 @@ class ApplicantFactory extends Factory
 
             'curr_occ'      => fake()->jobTitle(),
             'l_serv'        => fake()->numberBetween(1,15),
-            'gov_id'        => fake()->randomElement([
-                'Passport',
-                'Driver’s License',
-                'Social Security Card',
-                'National ID',
-                'Voter’s ID',
-                'Taxpayer Identification Number (TIN)',
-            ]),
+            'gov_id'        => "https://drive.google.com/uc?id={$fakeGoogleDrive}" ,
 
-            'voter_id'      => fake()->numerify('##########') ,
+            'voter_id'      => "https://drive.google.com/uc?id={$fakeGoogleDrive}" ,
             'tor'           => "https://drive.google.com/uc?id={$fakeGoogleDrive}" ,
-            'app_pic'       => "https://drive.google.com/uc?id={$fakeGoogleDrive}" ,
+            'reason'        => fake()->sentence(),
+
             'status'        => $status ,
             'exam_date'     => $status === 3 ? fake()->numberBetween(1,3) : null ,
             'exam_room'     => $status === 3 ? fake()->numberBetween(1,3) : null ,

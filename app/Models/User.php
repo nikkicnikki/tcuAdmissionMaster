@@ -23,6 +23,7 @@ class User extends Authenticatable //implements MustVerifyEmail
         'email',
         'password',
         'role',
+        // 'email_verified_at', if colum email_verified_at is available (happens @ creation of user)
     ];
 
     /**

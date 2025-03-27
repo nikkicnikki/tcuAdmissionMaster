@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('tag_res'); 
             $table->string('curr_add'); 
-            $table->foreignId('brgy')->nullable(); 
+            //$table->foreignId('brgy')->nullable(); 
             $table->string('fb_acc');   
             $table->string('fb_acc_link');  
             $table->string('bs_degree');
@@ -40,8 +40,8 @@ return new class extends Migration
             $table->string('gov_id');
             $table->string('voter_id');
             $table->string('tor');
+            $table->longText('reason');
             
-            $table->string('app_pic');
             
             $table->smallinteger('exam_date')->nullable();
             $table->smallinteger('exam_room')->nullable();

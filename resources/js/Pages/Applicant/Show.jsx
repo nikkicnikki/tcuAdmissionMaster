@@ -34,7 +34,13 @@ export default function Show({ auth, applicant }) {
                             <div className="mt-1">
                                 <p className="mt-1">
                                     <label className="font-bold text-lg">Program : </label> 
-                                    {applicant.prog.name.toUpperCase() +" - "+applicant.prog.acronym.toUpperCase()}
+                                    {applicant.prog.acronym.toUpperCase() +" - "+ applicant.prog.name.toUpperCase()}
+                                </p>
+                            </div>
+                            <div className="mt-1">
+                                <label className="font-bold text-lg">Why do you want to take this program? : </label> 
+                                <p className="mt-1 p-2">
+                                    {applicant.reason}
                                 </p>
                             </div>
 
@@ -65,7 +71,7 @@ export default function Show({ auth, applicant }) {
                                             window.open(applicant.tor, "_blank");
                                         }}
                                     >
-                                        Click here
+                                        view here
                                     </Link>
                                 ) : "none"}
                             </div>
@@ -98,13 +104,35 @@ export default function Show({ auth, applicant }) {
                             <div className="mt-1">
                                 <p className="mt-1">
                                     <label className="font-bold text-lg"> Gov. issued ID : </label> 
-                                    {applicant.gov_id}
+                                    {applicant.gov_id ? (
+                                        <Link 
+                                            to="#"  // Prevents navigation within the app
+                                            className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1"
+                                            onClick={(e) => {
+                                                e.preventDefault(); // Prevent React Router from handling the link
+                                                window.open(applicant.gov_id, "_blank");
+                                            }}
+                                        >
+                                            view here
+                                        </Link>
+                                    ) : "none"}
                                 </p>
                             </div>
                             <div className="mt-1">
                                 <p className="mt-1">
                                     <label className="font-bold text-lg"> Voters ID : </label> 
-                                    {applicant.voter_id}
+                                    {applicant.voter_id ? (
+                                        <Link 
+                                            to="#"  // Prevents navigation within the app
+                                            className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1"
+                                            onClick={(e) => {
+                                                e.preventDefault(); // Prevent React Router from handling the link
+                                                window.open(applicant.voter_id, "_blank");
+                                            }}
+                                        >
+                                            view here
+                                        </Link>
+                                    ) : "none"}
                                 </p>
                             </div>    
                             <div className="mt-1">
@@ -154,12 +182,6 @@ export default function Show({ auth, applicant }) {
                             </div>
                             <div className="mt-1">
                                 <p className="mt-1">
-                                    <label className="font-bold text-lg">Barangay (if from Taguig) : </label> 
-                                     {applicant.brgy.name}
-                                </p>
-                            </div>
-                            <div className="mt-1">
-                                <p className="mt-1">
                                     <label className="font-bold text-lg">Address : </label> 
                                      {applicant.curr_add}
                                 </p>
@@ -178,33 +200,12 @@ export default function Show({ auth, applicant }) {
                                                     window.open(applicant.fb_acc_link, "_blank");
                                                 }}
                                             >
-                                                Click here
+                                                view here
                                             </Link>
                                         ) : "none"
                                     }
                                 </p>
                             </div>
-                            <div className="mt-1">
-                                <p className="mt-1">
-                                    <label className="font-bold text-lg">Applicant Profile : </label> 
-                                     {
-                                        applicant.app_pic ? (
-                                            <Link 
-                                                to="#"  // Prevents navigation within the app
-                                                className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1"
-                                                onClick={(e) => {
-                                                    e.preventDefault(); // Prevent React Router from handling the link
-                                                    window.open(applicant.app_pic, "_blank");
-                                                }}
-                                            >
-                                                Click here
-                                            </Link>
-                                        ) : "none"
-                                    }
-                                </p>
-                            </div>
-                                             
-
                             
                         </div>
                                 
@@ -226,8 +227,16 @@ export default function Show({ auth, applicant }) {
 
                             <div>
                                 <p className="mt-1">
-                                    <label className="font-bold text-lg">Exam Date : </label> {applicant?.exam_date.exam_date}   
-                                    <label className="font-bold text-lg"> Time : </label> {applicant?.exam_room.exam_room}
+                                    <label className="font-bold text-lg">Exam Date : </label> 
+                                        {applicant.exam_date?.exam_date ?
+                                            new Date(applicant.exam_date.exam_date).toLocaleDateString("en-US", {
+                                                year: "numeric",
+                                                month: "long",
+                                                day: "numeric",
+                                            }) : "none"
+                                        }   
+                                    <label className="font-bold text-lg"> Time : </label> 
+                                        {applicant.exam_room?.exam_room ? applicant.exam_room.exam_room : "none" }
                                 </p>
                             </div>
 
@@ -260,11 +269,17 @@ export default function Show({ auth, applicant }) {
                                 <label className="font-bold text-lg">REMARKS :</label>
                                 
                                 {applicant.remarks && (
-                                    applicant.status !== 3 ? 
+                                    applicant.status != 3 ? (
+                                        <>
                                             <p className="mt-1 bg-gray-200 p-4">{applicant.remarks}</p>
-                                        : 
+                                        </>
+                                    ) : (
+                                        <>
                                             <p className="mt-1 p-4">{applicant.remarks}</p>
-                                )}  
+                                        </>
+                                        
+                                    )
+                                )}
                             </div>
                             
 

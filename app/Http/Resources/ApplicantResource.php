@@ -36,7 +36,7 @@ class ApplicantResource extends JsonResource
             'email'         => $this->email,
             'tag_res'       => $this->tag_res,
             'curr_add'      => $this->curr_add,
-            'brgy'          => new BarangayResource($this->barangay),
+            //'brgy'          => new BarangayResource($this->barangay),
             'fb_acc'        => $this->fb_acc,
             'fb_acc_link'   => $this->fb_acc_link,
             'bs_degree'     => $this->bs_degree,
@@ -50,7 +50,8 @@ class ApplicantResource extends JsonResource
             'gov_id'        => $this->gov_id,
             'voter_id'      => $this->voter_id,
             'tor'           => $this->tor,
-            'app_pic'       => $this->app_pic,
+            'reason'        => $this->reason,
+            //'app_pic'       => $this->app_pic,
 
             'status'        => $this->status,
             'remarks'       => $this->remarks,

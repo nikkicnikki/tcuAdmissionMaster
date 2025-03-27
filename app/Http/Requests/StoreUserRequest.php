@@ -25,12 +25,12 @@ class StoreUserRequest extends FormRequest
     {
         return [
             "name"  => ["required","string","max:255"],
-            "email" => ["required","string","email","lowercase","unique:users"],
+            "email" => ["required","email","unique:users,email"],
             "role"  => ["required","integer","in:1,2,3,4"],
             "password" => [
                 "required", 
                 "confirmed", 
-                Rules\Password::min(8)->letters()
+                Rules\Password::min(8)->letters(),
             ],
 
         ];

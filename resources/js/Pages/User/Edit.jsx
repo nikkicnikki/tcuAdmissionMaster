@@ -42,7 +42,7 @@ export default function DateCreate({ auth , User }) {
                 </h2>
             }
         >
-            <Head title="Add Schedule" /> 
+            <Head title="Edit User" /> 
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -88,7 +88,7 @@ export default function DateCreate({ auth , User }) {
                                     placeholder="enter email"
                                     required
                                 />
-                                <InputError message={errors.name} className="text-red-500 mt-2" />
+                                <InputError message={errors.email} className="text-red-500 mt-2" />
                             </div>
 
                             <div className="mt-4">
@@ -130,7 +130,6 @@ export default function DateCreate({ auth , User }) {
                                     onChange={(e) => setData("password", e.target.value)}
                                     placeholder="enter password"
                                     
-                                    required
                                 />
                                
                                <InputError message={errors.password} className="text-red-500 mt-2" />
@@ -151,7 +150,6 @@ export default function DateCreate({ auth , User }) {
                                     value={data.password_confirmation}
                                     onChange={(e) => setData("password_confirmation", e.target.value)}
                                     placeholder="enter password confirmation"
-                                    required
                                 />
                                
                                <InputError message={errors.password_confirmation} className="text-red-500 mt-2" />

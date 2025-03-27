@@ -179,13 +179,13 @@ export default function Index({ auth, applicants , queryParams = null }){
                                                         href={route('applicant.edit', applicant.id)}
                                                         className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1"    
                                                     >
-                                                        Edit
+                                                        Validate
                                                     </Link>
                                                     <Link 
-                                                        href={route('applicant.destroy', applicant.id)}
-                                                        className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"    
+                                                        //href={route('applicant.destroy', applicant.id)}
+                                                        className="font-medium text-green-600 dark:text-red-500 hover:underline mx-1"    
                                                     >
-                                                        Delete
+                                                        Print
                                                     </Link>
                                                 </td>
                                             </tr>

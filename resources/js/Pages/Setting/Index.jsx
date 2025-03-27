@@ -44,17 +44,6 @@ export default function Index({ auth , examDates , examRooms , programs , barang
         router.delete(route('program.delete', program.id ));
     }
 
-    const deleteBarangay = (barangay) => {
-        const brgy = barangay.name.toUpperCase();
-
-        if (!window.confirm(`Are you sure you want to delete "${brgy}" Barangay?`)) {
-            return;
-        }
-        //console.log(route('room.delete', id ));
-        router.delete(route('barangay.delete', barangay.id ));
-    }
-
-
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -287,60 +276,6 @@ export default function Index({ auth , examDates , examRooms , programs , barang
                             
                             <br /> <br />
 
-                            {/* BARANGAY TABLE */}
-                            <div className="flex justify-between items-center p-2 text-xs text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
-                                <h2 className=" text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200 justify items-center">
-                                    Barangay
-                                </h2>
-                                <Link 
-                                    href={route("setting.barangayCreate")}
-                                    className="bg-emerald-500 p-4 mx-4 text-white rounded shadow transition-all hover:bg-emerald-600"
-                                >
-                                    Add new
-                                </Link>
-                            </div>
-                            
-                            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 border border-gray-300">
-                                
-                                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
-                                    <tr className="text-nowrap">
-                                        <th className="px-3 py-3">BARANGAY</th>
-                                        <th className="px-3 py-3">CREATE</th>
-                                        <th className="px-3 py-3">ACTION</th>
-                                    </tr>
-                                </thead>
-                                
-                                <tbody>
-                                    {barangays.data.map(barangay => (
-                                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={barangay.id}>
-                                            <td className="px-3 py-2">
-                                                {barangay.name.toUpperCase()}
-                                            </td>
-                                            <td className="px-3 py-2">
-                                                {new Date(barangay.created_at).toLocaleDateString("en-US", {
-                                                    year: "numeric",
-                                                    month: "long",
-                                                    day: "numeric",
-                                                })} 
-                                            </td>
-                                            <td className="px-3 py-2 text-right">
-                                                <Link 
-                                                    href={route('barangay.edit', barangay.id)}
-                                                    className="font-medium text-blue-600 dark:text-red-500 hover:underline mx-1"    
-                                                >
-                                                    edit
-                                                </Link>
-                                                <button 
-                                                    onClick={ (e) => deleteBarangay(barangay) }
-                                                    className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"    
-                                                >
-                                                    delete
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Applicant;
+use App\Models\Program;
 use App\Http\Requests\StoreApplicantRequest;
 use App\Http\Requests\UpdateApplicantRequest;
 use App\Http\Resources\ApplicantResource;
@@ -74,13 +75,16 @@ class ApplicantController extends Controller
             'applicant' => new ApplicantResource($applicant) , 
         ]);
     }
-
+    
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Applicant $applicant)
     {
-        //
+        return inertia('Applicant/Edit', [
+            'applicants' => new ApplicantResource($applicant),
+            'programs'    => Program::all() , // Fetch all programs
+        ]);
     }
 
     /**

@@ -43,6 +43,16 @@ export default function Index({ auth, users , queryParams = null , success , suc
         router.get(route('user.index'), queryParams);
     }
 
+
+    const deleteUser = (userdata) => {
+
+        if (!window.confirm(`Are you sure you want to delete USER "${userdata.name}" ?`)) {
+            return;
+        }
+        //console.log(route('date.delete', id ));
+        router.delete(route('user.destroy', userdata.id ));
+    }
+
     return(
         
         <AuthenticatedLayout
@@ -223,19 +233,20 @@ export default function Index({ auth, users , queryParams = null , success , suc
                                                         hour12: true, // Set to false for 24-hour format
                                                     })}
                                                 </td>
-                                                <td className="px-3 py-2 text-right">
+                                                <td className="px-3 py-2 text-right text-nowrap">
                                                     <Link 
                                                         href={route('user.edit', user.id)}
                                                         className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1"    
                                                     >
                                                         Edit
                                                     </Link>
-                                                    <Link 
-                                                       // href={route('user.destroy', user.id)}
+                                                    <button 
+                                                        onClick={ (e) => deleteUser(user) }
+                                                        //href={route('examRoom.destroy', examRoom.id)}
                                                         className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"    
                                                     >
-                                                        Delete
-                                                    </Link>
+                                                    delete
+                                                </button>
                                                 </td>
                                             </tr>
                                         ))}
