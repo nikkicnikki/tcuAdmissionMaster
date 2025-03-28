@@ -40,7 +40,7 @@ return new class extends Migration
             $table->string('gov_id');
             $table->string('voter_id');
             $table->string('tor');
-            $table->longText('reason');
+            $table->longText('reason')->nullable();
             
             
             $table->smallinteger('exam_date')->nullable();

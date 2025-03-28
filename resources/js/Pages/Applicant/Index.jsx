@@ -7,7 +7,7 @@ import { Head, Link, router } from "@inertiajs/react";
 //import { ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/16/solid";
 import TableHeading from "@/Components/TableHeading";
 
-export default function Index({ auth, applicants , queryParams = null }){
+export default function Index({ auth, applicants , queryParams = null , success, sucType}){
     
     queryParams = queryParams || {}
     //<pre>{JSON.stringify(applicants, undefined , 2)}</pre>
@@ -58,6 +58,17 @@ export default function Index({ auth, applicants , queryParams = null }){
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
+
+                    {
+                        (success && sucType) && sucType === 'add' ? 
+                            (<div className="bg-emerald-500 px-2 py-4 text-white rounded pl-5">{success}</div>)
+                        : (success && sucType) && sucType === 'edit' ?
+                            (<div className="bg-blue-500 px-2 py-4 text-white rounded pl-5">{success}</div>)
+                        : (success && sucType) && sucType === 'delete' ?
+                            (<div className="bg-red-500 px-2 py-4 text-white rounded pl-5">{success}</div>)
+                        : ""
+                    }
+
                         <div className="p-6 text-gray-900 dark:text-gray-100 shadow-lg border border-gray-300">
                             
                             <div className="overflow-auto ">
@@ -139,7 +150,8 @@ export default function Index({ auth, applicants , queryParams = null }){
                                                     <option value="">Select Status</option>
                                                     <option value="1">Pending</option>
                                                     <option value="2">Incomplete</option>
-                                                    <option value="3">Complete</option>
+                                                    <option value="3">Valid</option>
+                                                    <option value="4">Has Permit</option>
                                                 </SelectInput>
                                             </th>
                                             <th className="px-3 py-3"></th>
@@ -163,7 +175,7 @@ export default function Index({ auth, applicants , queryParams = null }){
                                                 </td>
                                                 <td className="px-3 py-2">
                                                     <span className={
-                                                        "px-2 py-1 rounded text-white " +
+                                                        "px-2 py-1 rounded  " +
                                                         APPLICANT_STATUS_CLASS_MAP[applicant.status]
                                                     }>
                                                         {APPLICANT_STATUS_TEXT_MAP[applicant.status]}

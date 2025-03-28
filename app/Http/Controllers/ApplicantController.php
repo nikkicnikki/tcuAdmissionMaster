@@ -7,6 +7,8 @@ use App\Models\Program;
 use App\Http\Requests\StoreApplicantRequest;
 use App\Http\Requests\UpdateApplicantRequest;
 use App\Http\Resources\ApplicantResource;
+use App\Http\Resources\ApplicantEditResource;
+
 use App\Http\Resources\ExamDateResource;
 use App\Http\Resources\ExamRoomResource;
 
@@ -47,6 +49,9 @@ class ApplicantController extends Controller
         return inertia('Applicant/Index', [
             'applicants' => ApplicantResource::collection($applicants),
             'queryParams' => request()->query() ?: null,
+            'success' => session('success'),
+            'sucType' => session('sucType'),
+            
         ]); 
     }
 
@@ -82,8 +87,8 @@ class ApplicantController extends Controller
     public function edit(Applicant $applicant)
     {
         return inertia('Applicant/Edit', [
-            'applicants' => new ApplicantResource($applicant),
-            'programs'    => Program::all() , // Fetch all programs
+            'applicants' => new ApplicantEditResource($applicant) ,
+            'programs'   => Program::all() , // Fetch all programs
         ]);
     }
 
@@ -92,7 +97,15 @@ class ApplicantController extends Controller
      */
     public function update(UpdateApplicantRequest $request, Applicant $applicant)
     {
-        //
+        $data = $request->validated();
+        $applicant->update($data);
+        $name = ($data['f_name'] ?? '') . ' ' . ($data['m_name'] ?? '') . ' ' . ($data['sr_name'] ?? '');
+
+        return to_route('applicant.index')->with([
+            'success' => "Applicant \"$name\" was Updated" ,
+            'sucType' => 'edit',
+        
+        ]);
     }
 
     /**

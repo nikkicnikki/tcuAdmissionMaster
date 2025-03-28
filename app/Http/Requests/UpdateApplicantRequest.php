@@ -11,7 +11,7 @@ class UpdateApplicantRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,37 @@ class UpdateApplicantRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+
+            "sr_name"       => ['string','required'],
+            "f_name"        => ['string','required'],
+            "m_name"        => ['string'],
+            "prog"          => ['integer','required'],
+            "sex"           => ['string', 'in:male,female'],
+            "bday"          => ['date','required'],
+            "bplace"        => ['string'],
+            "cont"          => ['string'],
+            "email"         => ['email'],
+            "tag_res"       => ['string','in:yes,no'],
+            "curr_add"      => ['string'],
+
+            "fb_acc"        => ['string'],
+            "fb_acc_link"   => ['string'],
+            "bs_degree"     => ['string','required'],
+            "l_schl_att"    => ['string'],
+            "yr_grad"       => ['string'],
+            "curr_emp"      => ['string','in:yes,no'],
+            "gov_vald"      => ['string','in:yes,no'],
+            "conn_com_ins"  => ['string'],
+            "curr_occ"      => ['string'],
+            "l_serv"        => ['string'],
+            "gov_id"        => ['string'],
+            "voter_id"      => ['string'],
+            "tor"           => ['string'],
+            "reason"        => ['string','nullable'],
+            "status"        => ['string','in:1,2,3,4'],
+            "remarks"       => ['string','nullable'],
+            "validate_by"   => ['required','integer'],
+            
         ];
     }
 }
