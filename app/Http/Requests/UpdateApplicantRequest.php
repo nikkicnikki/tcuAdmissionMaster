@@ -49,7 +49,7 @@ class UpdateApplicantRequest extends FormRequest
             "voter_id"      => ['string'],
             "tor"           => ['string'],
             "reason"        => ['string','nullable'],
-            "status"        => ['string','in:1,2,3,4'],
+            "status"        => ['integer','in:1,2,3,4,5'],
             "remarks"       => ['string','nullable'],
             "validate_by"   => ['required','integer'],
             

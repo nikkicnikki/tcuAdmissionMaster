@@ -3,6 +3,7 @@ export const APPLICANT_STATUS_CLASS_MAP = {
     '2' : ' text-gray-800 bg-[rgb(153,217,234)] ',
     '3' : ' text-white bg-green-500 ',
     '4' : ' text-gray-800 bg-[rgb(239,228,176)] ',
+    '5' : ' text-yellow-500 bg-[rgb(136,0,21)] ', 
 }
 
 export const APPLICANT_STATUS_TEXT_MAP ={
@@ -10,6 +11,7 @@ export const APPLICANT_STATUS_TEXT_MAP ={
     '2' : 'Incomplete',
     '3' : 'Valid',
     '4' : 'Has Permit',
+    '5' : 'Scored',
 
 }
 

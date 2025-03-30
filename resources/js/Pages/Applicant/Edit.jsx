@@ -9,15 +9,14 @@ import { Head, Link, useForm } from "@inertiajs/react";
 
 export default function Edit({ auth, applicants, programs }) {
 
-    // const progid = applicants.prog && typeof applicants.prog === 'object' ? applicants.prog.id : '';
-    //const progid = applicants?.prog?.id || '';
-
+    const curr_user = auth.user.id;
+    
     const { data, setData, put, errors, reset } = useForm({
 
         status: applicants.status || '',
         created_at: applicants.created_at || '',
         updated_at: applicants.updated_at || '',
-        validate_by: auth.user.id || '',
+        validate_by: applicants.validate_by || curr_user,
         validator_name: auth.user.name || '',
         created_at: applicants.created_at || '',
         updated_at: applicants.updated_at || '',
@@ -54,10 +53,12 @@ export default function Edit({ auth, applicants, programs }) {
         fb_acc_link: applicants.fb_acc_link || '',
         remarks: applicants.remarks || '',
 
-        //validate_by     : applicants.data.validate_by ,
     });
 
-    //console.log(data.applicant_id);
+    if (auth.user.role == 3 && (data.status == 1 || data.status == 2)) {
+        data.status = 2;
+    }
+
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -65,6 +66,7 @@ export default function Edit({ auth, applicants, programs }) {
 
         // Log the data before submitting
         //console.log("Form Data before submit:", data);
+
 
         put(route('applicant.update', data.applicant_id));
     }
@@ -79,6 +81,7 @@ export default function Edit({ auth, applicants, programs }) {
             }
         >
             <Head title={`Applicant "${`${data.f_name} ${data.m_name} ${data.sr_name}`.toUpperCase()}"`} />
+
             {/* APPLICANT STATUS */}
             <div className="pt-8 pb-2">
                 <div className="mx-auto max-w-7xl sm:px- lg:px-8">
@@ -98,32 +101,37 @@ export default function Edit({ auth, applicants, programs }) {
                                 </span>
                                 <br />
                                 <label className="font-bold text-lg ml-2">ID: </label> {applicants.id}
-                                <br />
-                                <label className="font-bold text-lg ml-2 text-[15px]">CREATE : </label>
-                                {new Date(data.created_at).toLocaleDateString("en-US", {
-                                    year: "numeric",
-                                    month: "long",
-                                    day: "numeric",
-                                })}
 
-                                <label className="font-bold text-lg ml-2 text-[15px]">UPDATE : </label>
-                                {new Date(data.updated_at).toLocaleDateString("en-US", {
-                                    year: "numeric",
-                                    month: "long",
-                                    day: "numeric",
-                                })}
                             </div>
 
                             <div className="mt-1 flex-1 text-right ">
-                                <label className="font-bold text-lg">Currently VALIDATING By : </label> {data.validator_name.toUpperCase()}
-                                <span
-                                    className={
-                                        "px-1 py-1 ml-3 rounded text-white text-[10px]" +
-                                        USER_STATUS_CLASS_MAP[auth.user.role]
-                                    }
-                                >
-                                    {USER_STATUS_TEXT_MAP[auth.user.role]}
-                                </span>
+                                <p className="text-[11px]">
+                                    <label className="font-bold ml-2 ">CREATE : </label>
+                                    {new Date(data.created_at).toLocaleDateString("en-US", {
+                                        year: "numeric",
+                                        month: "long",
+                                        day: "numeric",
+                                    })}
+
+                                    <label className="font-bold ml-2 ">UPDATE : </label>
+                                    {new Date(data.updated_at).toLocaleDateString("en-US", {
+                                        year: "numeric",
+                                        month: "long",
+                                        day: "numeric",
+                                    })}
+                                </p>
+                                <p className="text-[11px]">
+                                    <label className="font-bold ">UPDATING By : </label> {data.validator_name.toUpperCase()}
+                                    <span
+                                        className={
+                                            "px-1 py-1 ml-3 rounded text-white text-[10px]" +
+                                            USER_STATUS_CLASS_MAP[auth.user.role]
+                                        }
+                                    >
+                                        {USER_STATUS_TEXT_MAP[auth.user.role]}
+                                    </span>
+                                </p>
+
                             </div>
 
                         </div>
@@ -138,12 +146,12 @@ export default function Edit({ auth, applicants, programs }) {
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
                         <form
                             onSubmit={onSubmit}
-                            
                             className="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg"
                         >
-                            <TextInput type="hidden" value={data.validator_id} name="validator_id" />
-                            <InputError message={errors.validator_id} className="text-red-500 mt-2" />
-
+                            <TextInput type="hidden" value={data.validated_by} name="validated_by" />
+                            <InputError message={errors.validated_by} className="text-red-500 mt-2" />
+                            <TextInput type="hidden" value={data.status} name="status" />
+                            <InputError message={errors.status} className="text-red-500 mt-2" />
                             <div className="flex flex-nowrap" key={applicants.id} >
                                 {/* name of applicant */}
                                 <div className="flex-1 pl-2">
@@ -585,12 +593,7 @@ export default function Edit({ auth, applicants, programs }) {
 
                             </div>
                             <div className="mt-4 text-right">
-                                <Link
-                                    //href={route("applicant.index")}
-                                    className="bg-green-500 py-2 px-3 text-white rounded shadow transition-all hover:bg-green-800 "
-                                >
-                                    VALID
-                                </Link>
+
                                 <button className="bg-blue-500 ml-2 py-1 px-3 text-white rounded shadow transition-all hover:bg-blue-600 ">UPDATE</button>
                                 <Link
                                     href={route("applicant.index")}

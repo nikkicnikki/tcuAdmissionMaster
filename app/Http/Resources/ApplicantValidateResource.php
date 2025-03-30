@@ -11,7 +11,7 @@ use App\Http\Resources\BarangayResource;
 use App\Http\Resources\ExamDateResource;
 use App\Http\Resources\ExamRoomResource;
 
-class ApplicantEditResource extends JsonResource
+class ApplicantValidateResource extends JsonResource
 {
     
     public static $wrap = false;
@@ -28,7 +28,7 @@ class ApplicantEditResource extends JsonResource
             'sr_name'       => $this->sr_name,
             'f_name'        => $this->f_name,
             'm_name'        => $this->m_name,
-            'prog'          => $this->prog,
+            'prog'          => new ProgramResource($this->program),
             'sex'           => $this->sex,
             'bday'          => (new Carbon($this->bday))->format('Y-m-d'),
             'bplace'        => $this->bplace,

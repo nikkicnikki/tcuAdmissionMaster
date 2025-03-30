@@ -54,8 +54,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/settings/update_program/{program}', [SettingController::class, 'programUpdate'])->name('program.update');
     Route::put('/settings/update_barangay/{barangay}', [SettingController::class, 'barangayUpdate'])->name('barangay.update');
 
-
-
+    // Validation
+    Route::get('/applicant/{applicant}/validate', [ApplicantController::class, 'validate'])->name('applicant.validate');
+    // Validation Valid
+    Route::put('/applicant/valid/{applicant}', [ApplicantController::class, 'valid'])->name('applicant.valid');
+    
     //Route::delete('/setting', [SettingController::class, 'destroy'])->name('profile.destroy');
 
 

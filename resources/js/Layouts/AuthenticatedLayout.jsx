@@ -22,7 +22,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                     <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
                                 </Link>
                             </div>
-                            
+
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink
                                     href={route('dashboard')}
@@ -30,14 +30,17 @@ export default function AuthenticatedLayout({ header, children }) {
                                 >
                                     Dashboard
                                 </NavLink>
-                                
-                                <NavLink
-                                    href={route('user.index')}
-                                    active={route().current('user.index')}
-                                >
-                                    USERS
-                                </NavLink>
-                                
+
+                                {(user.role == 1 || user.role == 2) && (
+                                    <NavLink
+                                        href={route('user.index')}
+                                        active={route().current('user.index')}
+                                    >
+                                        USERS
+                                    </NavLink>
+                                )}
+
+
                                 <NavLink
                                     href={route('applicant.index')}
                                     active={route().current('applicant.index')}
@@ -45,15 +48,17 @@ export default function AuthenticatedLayout({ header, children }) {
                                     APPLICANTS
                                 </NavLink>
 
+                                {user.role == 1 && (
+                                    <NavLink
+                                        href={route('setting.index')}
+                                        active={route().current('setting.index')}
+                                    >
+                                        SETTINGS
+                                    </NavLink>
+                                )}
 
-                                <NavLink
-                                    href={route('setting.index')}
-                                    active={route().current('setting.index')}
-                                >
-                                    SETTINGS
-                                </NavLink>
 
-                                
+
                                 {/*
                                 <NavLink
                                     href={route('barangay.index')}
@@ -77,8 +82,8 @@ export default function AuthenticatedLayout({ header, children }) {
                                 </NavLink>
                                                                 
                                 */}
-                                
-                                
+
+
                             </div>
                         </div>
 

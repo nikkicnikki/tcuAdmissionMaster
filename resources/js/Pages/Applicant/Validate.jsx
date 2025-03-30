@@ -1,8 +1,28 @@
-import { APPLICANT_STATUS_CLASS_MAP, APPLICANT_STATUS_TEXT_MAP } from "@/constants";
+import InputError from "@/Components/InputError";
+import TextInput from "@/Components/TextInput";
+import { APPLICANT_STATUS_CLASS_MAP, APPLICANT_STATUS_TEXT_MAP, USER_STATUS_CLASS_MAP, USER_STATUS_TEXT_MAP } from "@/constants";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link } from "@inertiajs/react";
+import { CheckIcon } from "@heroicons/react/24/outline";
+import { Head, Link, useForm } from "@inertiajs/react";
 
-export default function Show({ auth, applicant }) {
+export default function Validate({ auth, applicant }) {
+
+    const { data, setData, errors, put } = useForm({
+        id: applicant.id,
+        f_name: applicant.f_name || '',
+        m_name: applicant.m_name || '',
+        sr_name: applicant.sr_name || '',
+        status: applicant.status || '',
+        validate_by: auth.user.id || '',
+    });
+    
+    data.status = 3;
+    console.log(applicant);
+    const onSubmit = (e) => {
+        e.preventDefault();
+        
+        put(route('applicant.valid', data.id));
+    }
 
     return (
         <AuthenticatedLayout
@@ -15,7 +35,47 @@ export default function Show({ auth, applicant }) {
         >
             <Head title={`Applicant "${`${applicant.f_name} ${applicant.m_name} ${applicant.sr_name}`.toUpperCase()}"`} />
 
-            <div className="pt-12 ">
+            <div className="pt-8 pb-2">
+                <div className="mx-auto max-w-7xl sm:px- lg:px-8">
+                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
+
+                        <form
+                            onSubmit={onSubmit}
+                            className="p-2 sm:p-2 bg-white dark:bg-gray-800 shadow sm:rounded-lg text-right"
+                        >
+                            <TextInput name="status" value={data.status} type="hidden" />
+                            <InputError message={errors.status} className="text-red-500 mt-2" />
+
+                            <TextInput name="f_name" value={data.f_name} type="hidden" />
+                            <InputError message={errors.f_name} className="text-red-500 mt-2" />
+
+                            <TextInput name="m_name" value={data.m_name} type="hidden" />
+                            <InputError message={errors.m_name} className="text-red-500 mt-2" />
+
+                            <TextInput name="sr_name" value={data.sr_name} type="hidden" />
+                            <InputError message={errors.sr_name} className="text-red-500 mt-2" />
+
+                            <button className="bg-emerald-500 py-1 px-3 text-white rounded shadow transition-all hover:bg-emerald-600">
+                                <CheckIcon className="" />VALID
+                            </button>
+
+                            <p className="text-[11px] mt-2">
+                                <label className="font-bold">VALIDATED By : </label> {auth.user.name.toUpperCase()}
+                                <span
+                                    className={
+                                        "px-1 py-1 ml-3 rounded text-white text-[10px]" +
+                                        USER_STATUS_CLASS_MAP[auth.user.role]
+                                    }
+                                >
+                                    {USER_STATUS_TEXT_MAP[auth.user.role]}
+                                </span>
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div className="pt-2 ">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
                         <div className="p-6 text-gray-900 dark:text-gray-100 shadow-lg ">
@@ -36,20 +96,7 @@ export default function Show({ auth, applicant }) {
                                     </p>
 
                                 </div>
-                                <div className="flex-1">
-                                    <p className="mt-1 ">
-                                        <label className="font-bold text-lg">Schedule : </label>
-                                        {applicant.exam_date?.exam_date ?
-                                            new Date(applicant.exam_date.exam_date).toLocaleDateString("en-US", {
-                                                year: "numeric",
-                                                month: "long",
-                                                day: "numeric",
-                                            }) : "none"
-                                        }
-                                        <label className="font-bold text-lg"> - </label>
-                                        {applicant.exam_room?.exam_room ? applicant.exam_room.exam_room : "none"}
-                                    </p>
-                                </div>
+
                                 <div className="flex-1 text-right">
                                     <div className="mt-1 ">
                                         <p className="mt-1 text-[11px]">
@@ -72,38 +119,12 @@ export default function Show({ auth, applicant }) {
                                 </div>
                             </div>
 
-
-                            <div className="flex flex-nowrap">
-                                <div className="flex-1">
-                                    <p className=""><label className="font-bold text-lg">Score : </label> {applicant?.score}</p>
-                                </div>
-                                <div className="flex-1">
-                                    <p className="">
-                                        <label className="font-bold">Print permit : </label>
-                                        {
-                                            applicant.printed_date ? new Date(applicant.printed_date).toLocaleDateString("en-US", {
-                                                year: "numeric",
-                                                month: "long",
-                                                day: "numeric",
-                                            }) : ''
-                                        }
-                                    </p>
-                                </div>
-                                <div className="flex-1 text-right">
-                                    <p className=" text-[11px]">
-                                        <label className="font-bold "> Validate By :_</label>{applicant.validate_by?.name?.toUpperCase()}
-                                        <label className="font-bold ">_ Printed By :_</label>{applicant.printed_by?.name?.toUpperCase()}
-                                        <label className="font-bold ">_ Score By :_</label>{applicant.score_by?.name?.toUpperCase()}
-                                    </p>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
                 </div>
             </div>
 
-            
+
 
             <div className="py-2 ">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
