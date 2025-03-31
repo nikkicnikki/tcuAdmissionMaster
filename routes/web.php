@@ -6,6 +6,8 @@ use App\Http\Controllers\BarangayController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\ImportApplicantController;
+
 //use App\Http\Controllers\Auth\RegisteredUserController; //
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -59,7 +61,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Validation Valid
     Route::put('/applicant/valid/{applicant}', [ApplicantController::class, 'valid'])->name('applicant.valid');
     
-    //Route::delete('/setting', [SettingController::class, 'destroy'])->name('profile.destroy');
+
+    // Import Applicant data from Excel file
+    Route::get('/excel', [ImportApplicantController::class, 'import' ])->name('import.applicant');
+    Route::post('/excel', [ImportApplicantController::class, 'importing' ])->name('importing.applicant');
+    //Route::get('/applicant/import', [ApplicantController::class, 'import']);
+
 
 
 });
