@@ -41,7 +41,6 @@ class UpdateApplicantRequest extends FormRequest
             "l_schl_att"    => ['string'],
             "yr_grad"       => ['string'],
             "curr_emp"      => ['string','in:yes,no'],
-            "gov_vald"      => ['string','in:yes,no'],
             "conn_com_ins"  => ['string'],
             "curr_occ"      => ['string'],
             "l_serv"        => ['string'],

@@ -206,12 +206,7 @@ export default function Validate({ auth, applicant }) {
                                             {applicant.l_serv ? applicant.l_serv + " Year/'s " : ""}
                                         </p>
                                     </div>
-                                    <div className="mt-1">
-                                        <p className="mt-1">
-                                            <label className="font-bold text-lg"> Government Worker? : </label>
-                                            {applicant.gov_vald}
-                                        </p>
-                                    </div>
+                                    
                                     <div className="mt-1">
                                         <p className="mt-1">
                                             <label className="font-bold text-lg"> Gov. issued ID : </label>

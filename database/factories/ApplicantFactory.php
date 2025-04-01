@@ -76,7 +76,6 @@ class ApplicantFactory extends Factory
 
             'yr_grad'   => fake()->dateTimeBetween('2015-01-01', '2024-12-31')->format('Y-m-d'),
             'curr_emp'  => fake()->randomElement(['yes','no']),
-            'gov_vald'  => fake()->randomElement(['yes','no']),
 
             'conn_com_ins'  => fake()->randomElement([
                 'N/A',

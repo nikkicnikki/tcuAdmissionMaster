@@ -43,7 +43,6 @@ class ApplicantValidateResource extends JsonResource
             'l_schl_att'    => $this->l_schl_att,
             'yr_grad'       => $this->yr_grad,
             'curr_emp'      => $this->curr_emp,
-            'gov_vald'      => $this->gov_vald,
             'conn_com_ins'  => $this->conn_com_ins,
             'curr_occ'      => $this->curr_occ,
             'l_serv'        => $this->l_serv,

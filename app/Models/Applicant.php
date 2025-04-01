@@ -28,7 +28,6 @@ class Applicant extends Model
                 "l_schl_att"    ,
                 "yr_grad"       ,
                 "curr_emp"      ,
-                "gov_vald"      ,
                 "conn_com_ins"  ,
                 "curr_occ"      ,
                 "l_serv"        ,
@@ -38,7 +37,14 @@ class Applicant extends Model
                 "reason"        ,
                 "status"        ,
                 "remarks"       ,
+                
                 "validate_by"   ,
+                "printed_by"    ,
+                "score_by"      ,
+                
+                "image_capture" ,
+                "printed_date"  ,
+                
                 "created_at"    ,
                 
     ];

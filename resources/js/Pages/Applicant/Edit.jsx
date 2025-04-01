@@ -37,7 +37,6 @@ export default function Edit({ auth, applicants, programs }) {
         curr_emp: applicants.curr_emp.toLowerCase() || '',
         curr_occ: applicants.curr_occ || '',
         l_serv: applicants.l_serv || '',
-        gov_vald: applicants.gov_vald.toLowerCase() || '',
         gov_id: applicants?.gov_id || '',
         voter_id: applicants?.voter_id || '',
         conn_com_ins: applicants.conn_com_ins || '',
@@ -359,22 +358,7 @@ export default function Edit({ auth, applicants, programs }) {
                             </div>
 
                             <div className="mt-4 flex flex-nowrap">
-                                <div className="flex-1 ">
-                                    <InputLabel
-                                        htmlFor="app_gov_vald"
-                                        value="Government Worker?"
-                                    />
-                                    <SelectInput
-                                        id="app_gov_vald"
-                                        className="mt-2 block w-full"
-                                        name="gov_vald"
-                                        value={data.gov_vald}
-                                        onChange={e => setData('gov_vald', e.target.value.toLowerCase())}>
-                                        <option value="yes">Yes</option>
-                                        <option value="no">No</option>
-                                    </SelectInput>
-                                    <InputError message={errors.gov_vald} className="text-red-500 mt-2" />
-                                </div>
+                                
                                 <div className="flex-1 pl-2">
                                     <InputLabel
                                         htmlFor="app_gov_id"

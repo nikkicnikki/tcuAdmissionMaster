@@ -32,7 +32,6 @@ return new class extends Migration
             $table->string('l_schl_att');
             $table->string('yr_grad');
             $table->string('curr_emp');
-            $table->string('gov_vald');
 
             $table->string('conn_com_ins');
             $table->string('curr_occ');

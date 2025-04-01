@@ -89,12 +89,7 @@ export default function Show({ auth, user }) {
                                     {user.l_serv ? user.l_serv+" Year/'s " : "" }
                                 </p>
                             </div>
-                            <div className="mt-1">
-                                <p className="mt-1">
-                                    <label className="font-bold text-lg"> Government Worker? : </label> 
-                                    {user.gov_vald}
-                                </p>
-                            </div>
+                            
                             <div className="mt-1">
                                 <p className="mt-1">
                                     <label className="font-bold text-lg"> Gov. issued ID : </label> 

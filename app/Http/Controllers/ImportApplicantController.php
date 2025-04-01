@@ -15,6 +15,16 @@ class ImportApplicantController extends Controller
 
     public function importing(Request $request)
     {
+        
+        $request->validate([
+            'excel_applicant_data' => [
+                'required',
+                'file',
+            ],
+        ]);
+        
         Excel::import(new ImportApplicant, $request->file('excel_applicant_data') );
+
+        return redirect()->back()->with('success','Imported Successfully');
     }
 }

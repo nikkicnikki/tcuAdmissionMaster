@@ -58,21 +58,28 @@ export default function Index({ auth, applicants, queryParams = null, success, s
             }
         >
             <Head title="Applicant form" />
+            {auth.user.role == 1 && (
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
 
-                        <Link href={route('import.applicant')}>
+                        
+                        <button className="text-white bg-blue-500 p-2 hover:bg-blue-700" 
+                            onClick={() => window.open('/excel', '_blank')}>
                             Import Applicant
-                        </Link> 
+                        </button>
+                        
+                        {" << Add NEW Applicant here"}
                         
 
                     </div>
                 </div>
             </div>
+            
+            )}
 
-            <div className="py-2">
+            <div className="py-2 pt-10">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
 
