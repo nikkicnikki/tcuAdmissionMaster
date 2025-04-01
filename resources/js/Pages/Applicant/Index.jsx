@@ -44,6 +44,9 @@ export default function Index({ auth, applicants, queryParams = null, success, s
         router.get(route('applicant.index'), queryParams);
     }
 
+
+    
+
     return (
 
         <AuthenticatedLayout
@@ -57,7 +60,20 @@ export default function Index({ auth, applicants, queryParams = null, success, s
             <Head title="Applicant form" />
 
             <div className="py-12">
-                <div className="mx-auto max-w-8xl sm:px-6 lg:px-8">
+                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
+
+                        <Link href={route('import.applicant')}>
+                            Import Applicant
+                        </Link> 
+                        
+
+                    </div>
+                </div>
+            </div>
+
+            <div className="py-2">
+                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
 
                         {
@@ -170,20 +186,20 @@ export default function Index({ auth, applicants, queryParams = null, success, s
                                         {applicants.data.map(applicant => (
                                             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={applicant.id}>
                                                 <th className="px-3 py-2">{applicant.id}</th>
-                                                
+
 
                                                 {auth.user.role == 3 && (applicant.status == 1 || applicant.status == 2) ? (
                                                     <td className="px-3 py-2 uppercase text-nowrap  text-gray-600">
                                                         {applicant.f_name + " " + applicant.m_name + " " + applicant.sr_name}
                                                     </td>
-                                                ) : 
+                                                ) :
                                                     <td className="px-3 py-2 uppercase text-nowrap hover:underline text-blue-600">
                                                         <Link href={route('applicant.show', applicant.id)}>
                                                             {applicant.f_name + " " + applicant.m_name + " " + applicant.sr_name}
                                                         </Link>
                                                     </td>
                                                 }
-                                                
+
                                                 <td className="px-3 py-2">
                                                     <span className={
                                                         "px-2 py-1 rounded  " +

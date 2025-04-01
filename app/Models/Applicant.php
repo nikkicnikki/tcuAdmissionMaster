@@ -10,6 +10,7 @@ class Applicant extends Model
     //
 
     protected $fillable = [
+
                 "sr_name"       ,
                 "f_name"        ,
                 "m_name"        ,
@@ -38,6 +39,8 @@ class Applicant extends Model
                 "status"        ,
                 "remarks"       ,
                 "validate_by"   ,
+                "created_at"    ,
+                
     ];
 
     use HasFactory;

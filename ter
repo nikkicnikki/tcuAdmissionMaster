@@ -1,0 +1,18 @@
+[33m0241094[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{0}: reset: moving to HEAD
+[33m0241094[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{1}: checkout: moving from master to main
+[33me40e801[m[33m ([m[1;31morigin/master[m[33m, [m[1;32mmaster[m[33m)[m HEAD@{2}: commit: #SUMMIT
+[33mb65bc96[m HEAD@{3}: commit: #WAG KA MAAWA SA IYONG SARILI
+[33m79a0000[m HEAD@{4}: commit: #UserController update in password
+[33mf29eabd[m HEAD@{5}: pull --tags origin master: Fast-forward
+[33m47b6764[m HEAD@{6}: commit: # status not didnt update
+[33mf242d18[m HEAD@{7}: commit: #can add program, barangay, exam date and exam room
+[33m5d52ea1[m HEAD@{8}: pull --tags origin master: Fast-forward
+[33m9879037[m HEAD@{9}: commit: # add settings module
+[33m608bc8c[m HEAD@{10}: commit: # can view applicant info
+[33m500dfdb[m HEAD@{11}: commit: #create applicant/show.php
+[33m42dadd5[m HEAD@{12}: commit: #updated
+[33m00233d9[m HEAD@{13}: commit: # create ApplicantFatory @ factories/ApplicantFactory.php factory(500)->create()
+[33m4b1565b[m HEAD@{14}: commit: update
+[33md27319d[m HEAD@{15}: commit: # Please enter the commit message for your changes. Lines starting
+[33mb1283e2[m HEAD@{16}: commit: # submit lupit commit
+[33m1cf409d[m HEAD@{17}: commit (initial): initail commit
