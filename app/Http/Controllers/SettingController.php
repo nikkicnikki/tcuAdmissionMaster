@@ -23,7 +23,7 @@ use App\Http\Requests\StoreExamRoomRequest;
 use App\Http\Requests\UpdateExamRoomRequest;
 use App\Http\Resources\ExamRoomResource;
 
-
+use App\Models\User;
 
 use Carbon\Carbon;
 
@@ -31,25 +31,22 @@ class SettingController extends Controller
 {
     public function index()
     {
-        $examDateQuery = ExamDate::query(); 
+        $examDateQuery = ExamDate::query();
         $examRoomQuery = ExamRoom::query();
-        $programQuery  = Program::query(); 
-        $barangayQuery  = Barangay::query(); 
+        $programQuery = Program::query();
 
 
         $examDates = $examDateQuery->paginate(20)->onEachSide(1);
         $examRooms = $examRoomQuery->paginate(20)->onEachSide(1);
         $programs = $programQuery->paginate(20)->onEachSide(1);
-        $barangays = $barangayQuery->paginate(50)->onEachSide(1); //need a to set an individual pagination
 
 
-        return inertia('Setting/Index',[
+        return inertia('Setting/Index', [
             'examDates' => $examDates,
             'examRooms' => $examRooms,
-            'programs'  => $programs,
-            'barangays' => $barangays,
-            'success'   => session('success'),
-            'sucType'   => session('sucType'),
+            'programs' => $programs,
+            'success' => session('success'),
+            'sucType' => session('sucType'),
 
         ]);
     }
@@ -83,7 +80,7 @@ class SettingController extends Controller
         $data = $request->validated();
         //dd($data);
         ExamDate::create($data);
-        
+
 
         $date = $data['exam_date'];
         $formattedDate = date("F j, Y", strtotime($date));
@@ -102,7 +99,7 @@ class SettingController extends Controller
         ExamRoom::create($data);
 
         return to_route('setting.index')->with([
-            'success' => "Successful Add Room \"{$data['exam_room']}\" " , 
+            'success' => "Successful Add Room \"{$data['exam_room']}\" ",
             'sucType' => 'add',
         ]);
 
@@ -115,7 +112,7 @@ class SettingController extends Controller
         Program::create($data);
 
         return to_route('setting.index')->with([
-            'success' => "Successful Add Program \"{$data['name']}\" " ,
+            'success' => "Successful Add Program \"{$data['name']}\" ",
             'sucType' => 'add',
         ]);
 
@@ -129,7 +126,7 @@ class SettingController extends Controller
         Barangay::create($data);
 
         return to_route('setting.index')->with([
-            'success' => "Successful Add Barangay \"{$data['name']}\" " ,
+            'success' => "Successful Add Barangay \"{$data['name']}\" ",
             'sucType' => 'add',
         ]);
 
@@ -141,11 +138,11 @@ class SettingController extends Controller
         //dd($examdate);
         $date = $examdate->exam_date;
         $formattedDate = date("F j, Y", strtotime($date));
-        
+
         $examdate->delete();
 
         return to_route('setting.index')->with([
-            'success' => "Schedule \"$formattedDate\" was deleted" , 
+            'success' => "Schedule \"$formattedDate\" was deleted",
             'sucType' => 'delete',
 
         ]);
@@ -158,7 +155,7 @@ class SettingController extends Controller
         $examroom->delete();
 
         return to_route('setting.index')->with([
-            'success' => "Room \"$room\" was deleted" ,
+            'success' => "Room \"$room\" was deleted",
             'sucType' => 'delete',
 
         ]);
@@ -172,7 +169,7 @@ class SettingController extends Controller
         $program->delete();
 
         return to_route('setting.index')->with([
-            'success' => "Program \"$prog\" was deleted" ,
+            'success' => "Program \"$prog\" was deleted",
             'sucType' => 'delete',
 
         ]);
@@ -185,9 +182,9 @@ class SettingController extends Controller
         $barangay->delete();
 
         return to_route('setting.index')->with([
-            'success' => "Barangay \"$brgy\" was deleted" ,
+            'success' => "Barangay \"$brgy\" was deleted",
             'sucType' => 'delete',
-        
+
         ]);
     }
 
@@ -204,20 +201,21 @@ class SettingController extends Controller
     {
         return inertia('Setting/RoomEdit', [
             'examroom' => new ExamRoomResource($examroom),
+            'users'     => User::all() ,
         ]);
     }
 
     public function programEdit(Program $program)
     {
         return inertia('Setting/ProgramEdit', [
-            'program' => new ProgramResource($program) ,
+            'program' => new ProgramResource($program),
         ]);
     }
 
     public function barangayEdit(Barangay $barangay)
     {
         return inertia('Setting/BarangayEdit', [
-            'barangay' => new BarangayResource($barangay) ,
+            'barangay' => new BarangayResource($barangay),
         ]);
     }
 
@@ -226,27 +224,35 @@ class SettingController extends Controller
     public function examDateUpdate(UpdateExamDateRequest $request, ExamDate $examdate)
     {
         $data = $request->validated();
+
+        // Check if the updated status is 2
+        if ($data['status'] == 2) {
+            // Set all other ExamDate statuses to 1
+            ExamDate::where('id', '!=', $examdate->id)->update(['status' => 1]);
+        }
+
+        // Update the current exam date record
         $examdate->update($data);
 
         $date = $examdate->exam_date;
         $formattedDate = date("F j, Y", strtotime($date));
 
         return to_route('setting.index')->with([
-            'success' => "Schedule \"$formattedDate\" was Updated" ,
+            'success' => "Schedule \"$formattedDate\" was Updated",
             'sucType' => 'edit',
-        
         ]);
     }
-    
+
+
     public function examRoomUpdate(UpdateExamRoomRequest $request, ExamRoom $examroom)
     {
         $data = $request->validated();
         $examroom->update($data);
 
         return to_route('setting.index')->with([
-            'success' => "Room \"$examroom->exam_room\" was Updated" ,
+            'success' => "Room \"$examroom->exam_room\" was Updated",
             'sucType' => 'edit',
-        
+
         ]);
     }
 
@@ -256,9 +262,9 @@ class SettingController extends Controller
         $program->update($data);
 
         return to_route('setting.index')->with([
-            'success' => "Program \"$program->name\" was Updated" ,
+            'success' => "Program \"$program->name\" was Updated",
             'sucType' => 'edit',
-        
+
         ]);
     }
 
@@ -268,10 +274,11 @@ class SettingController extends Controller
         $barangay->update($data);
 
         return to_route('setting.index')->with([
-            'success' => "Barangay \"$barangay->name\" was Updated" ,
+            'success' => "Barangay \"$barangay->name\" was Updated",
             'sucType' => 'edit',
-        
+
         ]);
     }
- 
+
+
 }

@@ -4,7 +4,7 @@ import { Link } from "@inertiajs/react";
 export default function ApplicantFormAction({
     role,
     status,
-    applicantId,
+    applicantId
 }) {
     return (
         <>
@@ -41,7 +41,7 @@ export default function ApplicantFormAction({
                         <ArrowPathIcon className="w-5 h-3" />
                     </Link>
                     <Link
-                        //href={route('applicant.print', applicantId)}
+                        href={route("applicant.permit", applicantId)}
                         className="font-medium rounded flex-1 px-2 py-2 text-gray-400 bg-[rgb(239,228,176)] dark:text-red-500 hover:bg-yellow-500 mx-1 flex flex-nowrap items-center justify-center"
                         title="PRINT"
                     >
@@ -99,7 +99,7 @@ export default function ApplicantFormAction({
                 </td>
             )}
 
-
+            
         </>
 
     )

@@ -16,7 +16,7 @@
                 @endif
                 <div class="card">
                     <div class="card-header">
-                        <h4>Import Applicant Data</h4>            
+                        <h4 class="">Import Applicant Data</h4>            
                     </div>
                     <div class="card-body">
                         <form action="{{ url("/excel") }}" method="post" enctype="multipart/form-data" >
@@ -24,10 +24,13 @@
                             <div class="input-group">
                                 <input type="file" name="excel_applicant_data" class="form-control" >
                                 <button type="submit" class="btn btn-primary">Import</button>
-            
+                                
                             </div>
                         </form>
                     </div>
+                    <a class="btn btn-secondary " data-bs-toggle="offcanvas" href="{{ url("/applicant")}}" role="button" title="BACK TO APPLICANT FORM">
+                        << BACK
+                    </a>
                 </div>
                 
             </div>

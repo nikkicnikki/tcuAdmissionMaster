@@ -10,7 +10,7 @@ export default function DateCreate({auth}) {
 
     const { data , setData , post , errors , reset } = useForm({
         exam_date: '',
-        status: '',
+        status: 1,
         des: '',
 
     })
@@ -58,24 +58,7 @@ export default function DateCreate({auth}) {
                                 />
                                 <InputError message={errors.exam_date} className="text-red-500 mt-2" />
                             </div>
-                            <div className="mt-4">
-                                <InputLabel 
-                                    htmlFor="set_status" 
-                                    value="Setting Status" 
-                                />
-
-                                <SelectInput 
-                                    id="set_status"
-                                    className="mt-2 block w-full" 
-                                    name="status"
-                                    onChange={ e => setData('status', e.target.value) }>
-                                    <option value="">Select Status</option>
-                                    <option value="2">Active</option>
-                                    <option value="1">Inactive</option>
-                                </SelectInput>
-                                <InputError message={errors.status} className="text-red-500 mt-2" />
-
-                            </div>
+                            
                             <div className="mt-4">
                                 <InputLabel 
                                     htmlFor="set_des" 

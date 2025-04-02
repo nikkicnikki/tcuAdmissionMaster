@@ -33,9 +33,9 @@ export const USER_STATUS_CLASS_MAP = {
 }
 
 export const USER_STATUS_TEXT_MAP ={
-    '1' : 'ADMIN' ,
-    '2' : 'MIS' ,
-    '3' : 'VALIDATOR' ,
-    '4' : 'SCORING STAFF' ,
+    '1' : ' ADMIN ' ,
+    '2' : ' MIS ' ,
+    '3' : ' VALIDATOR ' ,
+    '4' : ' SCORING STAFF ' ,
 
 }

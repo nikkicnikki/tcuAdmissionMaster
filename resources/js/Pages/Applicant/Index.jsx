@@ -8,6 +8,7 @@ import { Head, Link, router } from "@inertiajs/react";
 import TableHeading from "@/Components/TableHeading";
 import ApplicantFormAction from "@/Components/ApplicantFormAction";
 
+
 export default function Index({ auth, applicants, queryParams = null, success, sucType }) {
 
     queryParams = queryParams || {}
@@ -45,8 +46,7 @@ export default function Index({ auth, applicants, queryParams = null, success, s
     }
 
 
-    
-
+  
     return (
 
         <AuthenticatedLayout
@@ -60,26 +60,30 @@ export default function Index({ auth, applicants, queryParams = null, success, s
             <Head title="Applicant form" />
             {auth.user.role == 1 && (
 
-            <div className="py-12">
-                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
+                <div className="py-12">
+                    <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                        <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 p-4">
 
-                        
-                        <button className="text-white bg-blue-500 p-2 hover:bg-blue-700" 
-                            onClick={() => window.open('/excel', '_blank')}>
-                            Import Applicant
-                        </button>
-                        
-                        {" << Add NEW Applicant here"}
-                        
+                            <a
+                                className="text-white bg-blue-500 p-5 hover:bg-blue-700 "
+                                href="/excel"
+                            >
+                                Import Applicant
+                            </a>
 
+                            {" << Add NEW Applicant here"}
+
+
+                        </div>
                     </div>
                 </div>
-            </div>
-            
+
             )}
 
-            <div className="py-2 pt-10">
+            <div className={
+                auth.user.role == 1 ? (" pt-1 ") : " py-2 pt-10 "
+            }
+            >
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
 
@@ -146,7 +150,7 @@ export default function Index({ auth, applicants, queryParams = null, success, s
                                                 sort_direction={queryParams.sort_direction}
                                                 sortChanged={sortChanged}
                                             >
-                                                CREATED
+                                                APPLIED
                                             </TableHeading>
                                             <th className="px-3 py-3">VALIDATOR</th>
                                             <th className="px-3 py-3">PRINT BY</th>
@@ -215,9 +219,27 @@ export default function Index({ auth, applicants, queryParams = null, success, s
                                                         {APPLICANT_STATUS_TEXT_MAP[applicant.status]}
                                                     </span>
                                                 </td>
-                                                <td className="px-3 py-2">{applicant.exam_date?.exam_date}</td>
-                                                <td className="px-3 py-2">{applicant.exam_room?.exam_room}</td>
-                                                <td className="px-3 py-2 text-nowrap">{applicant.created_at}</td>
+                                                <td className="px-3 py-2">
+                                                    { }
+                                                    {applicant.exam_date?.exam_date ?
+                                                        new Date(applicant.exam_date?.exam_date).toLocaleDateString("en-US", {
+                                                            year: "numeric",
+                                                            month: "long",
+                                                            day: "numeric",
+                                                        }) : " - "
+                                                    }
+                                                </td>
+                                                <td className="px-3 py-2">{applicant.exam_room?.exam_room ? applicant.exam_room?.exam_room : " - "}</td>
+                                                <td className="px-3 py-2 text-nowrap">
+
+                                                    {applicant.created_at ?
+                                                        new Date(applicant.created_at).toLocaleDateString("en-US", {
+                                                            year: "numeric",
+                                                            month: "long",
+                                                            day: "numeric",
+                                                        }) : "none"
+                                                    }
+                                                </td>
                                                 <td className="px-3 py-2">{applicant.validate_by?.name}</td>
                                                 <td className="px-3 py-2">{applicant.printed_by?.name}</td>
                                                 <ApplicantFormAction
@@ -235,6 +257,9 @@ export default function Index({ auth, applicants, queryParams = null, success, s
                     </div>
                 </div>
             </div>
+
+
+
 
         </AuthenticatedLayout>
     )

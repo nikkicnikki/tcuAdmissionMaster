@@ -141,5 +141,13 @@ class ApplicantController extends Controller
     }
 
 
+    public function permit(Applicant $applicant)
+    {
+        return inertia('Applicant/Permit', [
+            'applicants' => new ApplicantEditResource($applicant) ,
+            'programs'   => Program::all() , // Fetch all programs
+        ]);
+    }
+
 
 }

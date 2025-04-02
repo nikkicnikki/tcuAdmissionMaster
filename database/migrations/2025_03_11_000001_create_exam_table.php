@@ -24,6 +24,9 @@ return new class extends Migration
             $table->id();
             $table->string('exam_room');
             $table->integer('status')->default(2);
+            $table->integer('set_user')->nullable();
+            $table->integer('capacity')->nullable();
+            $table->integer('capacity_status')->nullable();
             $table->text('des')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

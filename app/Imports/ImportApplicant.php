@@ -34,7 +34,7 @@ class ImportApplicant implements ToCollection, ToModel
                     'f_name'      => $row[5],
                     'm_name'      => $row[6],
                     'sex'         => $row[7],
-                    'bday'        => $bday,
+                    'bday'        => $bday ,
                     'bplace'      => $row[9],
                     'cont'        => $row[10],
                     'tag_res'     => $row[11],

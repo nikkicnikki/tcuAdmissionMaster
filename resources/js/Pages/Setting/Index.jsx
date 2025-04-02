@@ -4,9 +4,11 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, router } from "@inertiajs/react";
 
 
-export default function Index({ auth , examDates , examRooms , programs , barangays , success , sucType }) {
+export default function Index({ auth, examDates, examRooms, programs, success, sucType }) {
 
-    //console.log(success+' '+sucType)
+    //console.log(examRooms);
+
+    const hasStatusActive = examDates.data?.some(examDate => examDate.status === 2);
 
     const deleteExamDate = (examDate) => {
 
@@ -20,17 +22,17 @@ export default function Index({ auth , examDates , examRooms , programs , barang
             return;
         }
         //console.log(route('date.delete', id ));
-        router.delete(route('date.delete', examDate.id ));
+        router.delete(route('date.delete', examDate.id));
     }
 
     const deleteExamRoom = (examRoom) => {
         const room = examRoom.exam_room;
-        
+
         if (!window.confirm(`Are you sure you want to delete "${room}" Room?`)) {
             return;
         }
         //console.log(route('room.delete', id ));
-        router.delete(route('room.delete', examRoom.id ));
+        router.delete(route('room.delete', examRoom.id));
     }
 
     const deleteProgram = (program) => {
@@ -41,7 +43,7 @@ export default function Index({ auth , examDates , examRooms , programs , barang
         }
 
         //console.log(route('room.delete', id ));
-        router.delete(route('program.delete', program.id ));
+        router.delete(route('program.delete', program.id));
     }
 
     return (
@@ -52,46 +54,46 @@ export default function Index({ auth , examDates , examRooms , programs , barang
                     Settings form
                 </h2>
             }
-            >
-            <Head title="Settings" /> 
-            
+        >
+            <Head title="Settings" />
+
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
 
-                    {
-                        (success && sucType) && sucType === 'add' ? 
-                            (<div className="bg-emerald-500 px-2 py-4 text-white rounded pl-5">{success}</div>)
-                        : (success && sucType) && sucType === 'edit' ?
-                            (<div className="bg-blue-500 px-2 py-4 text-white rounded pl-5">{success}</div>)
-                        : (success && sucType) && sucType === 'delete' ?
-                            (<div className="bg-red-500 px-2 py-4 text-white rounded pl-5">{success}</div>)
-                        : ""
-                    }  
-                        
+                        {
+                            (success && sucType) && sucType === 'add' ?
+                                (<div className="bg-emerald-500 px-2 py-4 text-white rounded pl-5">{success}</div>)
+                                : (success && sucType) && sucType === 'edit' ?
+                                    (<div className="bg-blue-500 px-2 py-4 text-white rounded pl-5">{success}</div>)
+                                    : (success && sucType) && sucType === 'delete' ?
+                                        (<div className="bg-red-500 px-2 py-4 text-white rounded pl-5">{success}</div>)
+                                        : ""
+                        }
+
                         <div className="p-6 text-gray-900 dark:text-gray-100 shadow-lg border border-gray-300">
-                            
+                            # To Delete any data  there must no Active Schedule
                             {/* DATES TABLE*/}
                             <div className="flex justify-between items-center p-2 text-xs text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
                                 <h2 className=" text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200 justify items-center">
-                                    Schedules
+                                    Schedules  
                                 </h2>
-                                <Link 
+                                <Link
                                     href={route("setting.examDateCreate")}
                                     className="bg-emerald-500 p-4 mx-4 text-white rounded shadow transition-all hover:bg-emerald-600"
                                 >
                                     Add new
                                 </Link>
                             </div>
-                            
+
 
                             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 border border-gray-300">
-                                
-                                    
+
+
                                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
                                     <tr className="text-nowrap">
                                         <th className="px-3 py-3">DATE</th>
-                                        <th className="px-3 py-3">STATUS</th>
+                                        <th className="px-3 py-3">STATE</th>
                                         <th className="px-3 py-3">DESCRIPTION</th>
                                         <th className="px-3 py-3">CREATE</th>
                                         <th className="px-3 py-3">ACTION</th>
@@ -123,32 +125,34 @@ export default function Index({ auth , examDates , examRooms , programs , barang
                                                 })}
                                             </td>
                                             <td className="px-3 py-2 text-right">
-                                                <Link 
+                                                <Link
                                                     href={route('date.edit', examDate.id)}
-                                                    className="font-medium text-blue-600 dark:text-red-500 hover:underline mx-1"    
+                                                    className="font-medium text-blue-600 dark:text-red-500 hover:underline mx-1"
                                                 >
                                                     edit
                                                 </Link>
-                                                <button 
-                                                    onClick={ (e) => deleteExamDate(examDate) }
-                                                    //href={route('examRoom.destroy', examRoom.id)}
-                                                    className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"    
-                                                >
-                                                    delete
-                                                </button>
+                                                {!hasStatusActive &&
+                                                    <button
+                                                        onClick={(e) => deleteExamDate(examDate)}
+                                                        //href={route('examRoom.destroy', examRoom.id)}
+                                                        className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"
+                                                    >
+                                                        delete
+                                                    </button>
+                                                }
                                             </td>
                                         </tr>
                                     ))}
                                 </tbody>
                             </table>
                             <br /><br />
-                            
+
                             {/* ROOMS TABLE */}
                             <div className="flex justify-between items-center p-2 text-xs text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
                                 <h2 className=" text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200 justify items-center">
                                     Rooms
                                 </h2>
-                                <Link 
+                                <Link
                                     href={route("setting.examRoomCreate")}
                                     className="bg-emerald-500 p-4 mx-4 text-white rounded shadow transition-all hover:bg-emerald-600"
                                 >
@@ -159,13 +163,16 @@ export default function Index({ auth , examDates , examRooms , programs , barang
                                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
                                     <tr className="text-nowrap">
                                         <th className="px-3 py-3">ROOM</th>
+                                        <th className="px-3 py-3">STATE</th>
+                                        <th className="px-3 py-3">USER-PERMIT</th>
+                                        <th className="px-3 py-3">OCCUPANT</th>
                                         <th className="px-3 py-3">STATUS</th>
                                         <th className="px-3 py-3">DESCRIPTION</th>
                                         <th className="px-3 py-3">CREATE</th>
                                         <th className="px-3 py-3">ACTION</th>
                                     </tr>
                                 </thead>
-                                
+
                                 <tbody>
                                     {examRooms.data.map(examRoom => (
                                         <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={examRoom.id}>
@@ -177,6 +184,17 @@ export default function Index({ auth , examDates , examRooms , programs , barang
                                                     {EXAM_STATUS_TEXT_MAP[examRoom.status]}
                                                 </span>
                                             </td>
+                                            
+                                            <td className="px-3 py-2">
+                                                {examRoom.set_user}
+                                            </td>
+                                            <td className="px-3 py-2">
+                                                {examRoom.capacity}
+                                            </td>
+                                            <td className="px-3 py-2">
+                                                {examRoom.capacity_status}
+                                            </td>
+
                                             <td className="px-3 py-2">
                                                 {examRoom.des}
                                             </td>
@@ -185,21 +203,23 @@ export default function Index({ auth , examDates , examRooms , programs , barang
                                                     year: "numeric",
                                                     month: "long",
                                                     day: "numeric",
-                                                })} 
+                                                })}
                                             </td>
                                             <td className="px-3 py-2 text-right">
-                                                <Link 
+                                                <Link
                                                     href={route('room.edit', examRoom.id)}
-                                                    className="font-medium text-blue-600 dark:text-red-500 hover:underline mx-1"    
+                                                    className="font-medium text-blue-600 dark:text-red-500 hover:underline mx-1"
                                                 >
                                                     edit
                                                 </Link>
-                                                <button 
-                                                    onClick={ (e) => deleteExamRoom(examRoom) }
-                                                    className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"    
-                                                >
-                                                    delete
-                                                </button>
+                                                {!hasStatusActive &&
+                                                    <button
+                                                        onClick={(e) => deleteExamRoom(examRoom)}
+                                                        className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"
+                                                    >
+                                                        delete
+                                                    </button>
+                                                }
                                             </td>
                                         </tr>
                                     ))}
@@ -207,7 +227,7 @@ export default function Index({ auth , examDates , examRooms , programs , barang
                             </table>
 
 
-                           
+
 
                         </div>
                     </div>
@@ -218,13 +238,13 @@ export default function Index({ auth , examDates , examRooms , programs , barang
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
                         <div className="p-6 text-gray-900 dark:text-gray-100 shadow-lg border border-gray-300">
-                            
+
                             {/* PROGRAM TABLE */}
                             <div className="flex justify-between items-center p-2 text-xs text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
                                 <h2 className=" text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200 justify items-center">
                                     Program
                                 </h2>
-                                <Link 
+                                <Link
                                     href={route("setting.programCreate")}
                                     className="bg-emerald-500 p-4 mx-4 text-white rounded shadow transition-all hover:bg-emerald-600"
                                 >
@@ -241,46 +261,48 @@ export default function Index({ auth , examDates , examRooms , programs , barang
                                         <th className="px-3 py-3">ACTION</th>
                                     </tr>
                                 </thead>
-                                
+
                                 <tbody>
                                     {programs.data.map(program => (
                                         <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={program.id}>
                                             <td className="px-3 py-2">
-                                                {program.name.toUpperCase() +" - "+ program.acronym.toUpperCase()}
+                                                {program.name.toUpperCase() + " - " + program.acronym.toUpperCase()}
                                             </td>
                                             <td className="px-3 py-2">
                                                 {new Date(program.created_at).toLocaleDateString("en-US", {
                                                     year: "numeric",
                                                     month: "long",
                                                     day: "numeric",
-                                                })} 
+                                                })}
                                             </td>
                                             <td className="px-3 py-2 text-right">
-                                                <Link 
+                                                <Link
                                                     href={route('program.edit', program.id)}
-                                                    className="font-medium text-blue-600 dark:text-red-500 hover:underline mx-1"    
+                                                    className="font-medium text-blue-600 dark:text-red-500 hover:underline mx-1"
                                                 >
                                                     edit
                                                 </Link>
-                                                <button 
-                                                    onClick={ (e) => deleteProgram(program) }
-                                                    className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"    
-                                                >
-                                                    delete
-                                                </button>
+                                                {!hasStatusActive &&
+                                                    <button
+                                                        onClick={(e) => deleteProgram(program)}
+                                                        className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"
+                                                    >
+                                                        delete
+                                                    </button>
+                                                }
                                             </td>
                                         </tr>
                                     ))}
                                 </tbody>
                             </table>
-                            
+
                             <br /> <br />
 
                         </div>
                     </div>
                 </div>
             </div>
-            
+
         </AuthenticatedLayout>
     );
 }

@@ -55,6 +55,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/settings/update_room/{examroom}', [SettingController::class, 'examRoomUpdate'])->name('room.update');
     Route::put('/settings/update_program/{program}', [SettingController::class, 'programUpdate'])->name('program.update');
     Route::put('/settings/update_barangay/{barangay}', [SettingController::class, 'barangayUpdate'])->name('barangay.update');
+    
 
     // Validation
     Route::get('/applicant/{applicant}/validate', [ApplicantController::class, 'validate'])->name('applicant.validate');
@@ -66,6 +67,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/excel', [ImportApplicantController::class, 'import' ])->name('import.applicant');
     Route::post('/excel', [ImportApplicantController::class, 'importing' ])->name('importing.applicant');
     //Route::get('/applicant/import', [ApplicantController::class, 'import']);
+
+    // Print Applicant Permit
+    Route::get('/applicant/{applicant}/permit', [ApplicantController::class, 'permit'])->name('applicant.permit');
 
 
 
