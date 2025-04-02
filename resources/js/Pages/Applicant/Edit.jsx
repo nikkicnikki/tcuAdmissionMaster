@@ -54,8 +54,9 @@ export default function Edit({ auth, applicants, programs }) {
 
     });
 
-    if (auth.user.role == 3 && (data.status == 1 || data.status == 2)) {
+    if ((auth.user.role == 3 || auth.user.role == 1) && (data.status == 1 || data.status == 2)) {
         data.status = 2;
+        data.validate_by = curr_user;
     }
 
 
@@ -258,7 +259,6 @@ export default function Edit({ auth, applicants, programs }) {
                                         id="app_yr_grad"
                                         className="mt-2 block w-full"
                                         name="yr_grad"
-                                        type="date"
                                         value={data.yr_grad}
                                         onChange={(e) => setData("yr_grad", e.target.value)}
                                     />
@@ -540,7 +540,7 @@ export default function Edit({ auth, applicants, programs }) {
                                     <InputError message={errors.fb_acc} className="text-red-500 mt-2" />
                                 </div>
                                 <div className="flex-1 pl-2">
-                                    <InputLabel htmlFor="app_fb_acc_link" value="Current Address" />
+                                    <InputLabel htmlFor="app_fb_acc_link" value="Facebook Link" />
                                     <TextInput
                                         id="app_fb_acc"
                                         name="fb_acc_link"

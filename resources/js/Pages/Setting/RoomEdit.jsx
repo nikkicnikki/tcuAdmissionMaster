@@ -9,6 +9,7 @@ import { Head, Link, useForm } from "@inertiajs/react";
 
 export default function RoomCreate({ auth, examroom, users }) {
 
+    console.log(examroom);
     const { data, setData, put, errors, reset } = useForm({
         exam_room: examroom.data.exam_room || '',
         status: examroom.data.status || '',
@@ -82,11 +83,8 @@ export default function RoomCreate({ auth, examroom, users }) {
                                     <option value="">Select User</option>
                                     {users.map(user => (
                                         (user.role == 1 || user.role == 2) &&(
-                                            <option className="text-white bg-gray-500" value={user.id}>
-                                                {user.name} - 
-                                                <span className={"px-2 py-1 rounded text-white " + USER_STATUS_CLASS_MAP[user.role] } > 
-                                                    {USER_STATUS_TEXT_MAP[user.role]}
-                                                </span>
+                                            <option className="text-white bg-gray-500" key={user.id}  value={user.id}>
+                                                {`${user.name} - ${USER_STATUS_TEXT_MAP[user.role]}`}
                                             </option>
                                         )
                                     ))}

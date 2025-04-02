@@ -14,4 +14,5 @@ class ExamRoom extends Model
         'capacity' ,
         'capacity_status' ,  
     ];
+
 }

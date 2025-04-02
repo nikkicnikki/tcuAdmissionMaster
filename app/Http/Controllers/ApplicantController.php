@@ -109,6 +109,10 @@ class ApplicantController extends Controller
     public function update(UpdateApplicantRequest $request, Applicant $applicant)
     {
         $data = $request->validated();
+        if ($data['status'] == 1 || $data['status'] == 2) {
+            $data['status'] = 2;
+        }
+
         $applicant->update($data);
         $name = ($data['f_name'] ?? '') . ' ' . ($data['m_name'] ?? '') . ' ' . ($data['sr_name'] ?? '');
 

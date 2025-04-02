@@ -21,7 +21,10 @@ use App\Http\Resources\ExamDateResource;
 use App\Models\ExamRoom;
 use App\Http\Requests\StoreExamRoomRequest;
 use App\Http\Requests\UpdateExamRoomRequest;
-use App\Http\Resources\ExamRoomResource;
+//use App\Http\Resources\ExamRoomResource;
+
+use App\Http\Resources\ExamRoomEditResource;
+
 
 use App\Models\User;
 
@@ -39,12 +42,13 @@ class SettingController extends Controller
         $examDates = $examDateQuery->paginate(20)->onEachSide(1);
         $examRooms = $examRoomQuery->paginate(20)->onEachSide(1);
         $programs = $programQuery->paginate(20)->onEachSide(1);
-
+        $users = User::all();
 
         return inertia('Setting/Index', [
             'examDates' => $examDates,
             'examRooms' => $examRooms,
             'programs' => $programs,
+            'users' => $users,
             'success' => session('success'),
             'sucType' => session('sucType'),
 
@@ -200,7 +204,7 @@ class SettingController extends Controller
     public function examRoomEdit(ExamRoom $examroom)
     {
         return inertia('Setting/RoomEdit', [
-            'examroom' => new ExamRoomResource($examroom),
+            'examroom' => new ExamRoomEditResource($examroom),
             'users'     => User::all() ,
         ]);
     }

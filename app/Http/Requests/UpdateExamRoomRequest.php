@@ -25,6 +25,9 @@ class UpdateExamRoomRequest extends FormRequest
             "exam_room" => ['required'] ,
             "des"       => ['string', 'nullable'] ,
             "status"    => ['required' , 'in:1,2'] ,
+            'set_user'  => ['nullable'] ,
+            'capacity'  => ['nullable'] ,
+            'capacity_status' => ['nullable'] ,
         ];
     }
 }

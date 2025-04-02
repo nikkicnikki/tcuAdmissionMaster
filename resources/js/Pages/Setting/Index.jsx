@@ -4,9 +4,9 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, router } from "@inertiajs/react";
 
 
-export default function Index({ auth, examDates, examRooms, programs, success, sucType }) {
+export default function Index({ auth, examDates, examRooms, programs, users, success, sucType }) {
 
-    //console.log(examRooms);
+    //console.log(users);
 
     const hasStatusActive = examDates.data?.some(examDate => examDate.status === 2);
 
@@ -186,19 +186,21 @@ export default function Index({ auth, examDates, examRooms, programs, success, s
                                             </td>
                                             
                                             <td className="px-3 py-2">
-                                                {examRoom.set_user}
+                                                {examRoom.set_user ? 
+                                                    users.find(user => user.id === examRoom.set_user)?.name || "Unknown User" 
+                                                    : " - " }
                                             </td>
                                             <td className="px-3 py-2">
-                                                {examRoom.capacity}
+                                                {examRoom.capacity  ? examRoom.capacity : " - " }
                                             </td>
                                             <td className="px-3 py-2">
-                                                {examRoom.capacity_status}
+                                                {examRoom.capacity_status ? examRoom.capacity_status : " - " }
                                             </td>
 
                                             <td className="px-3 py-2">
                                                 {examRoom.des}
                                             </td>
-                                            <td className="px-3 py-2">
+                                            <td className="px-3 py-2 text-nowrap">
                                                 {new Date(examRoom.created_at).toLocaleDateString("en-US", {
                                                     year: "numeric",
                                                     month: "long",
