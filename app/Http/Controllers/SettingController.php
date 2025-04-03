@@ -205,7 +205,7 @@ class SettingController extends Controller
     {
         return inertia('Setting/RoomEdit', [
             'examroom' => new ExamRoomEditResource($examroom),
-            'users'     => User::all() ,
+            'users' => User::all(),
         ]);
     }
 
@@ -251,14 +251,26 @@ class SettingController extends Controller
     public function examRoomUpdate(UpdateExamRoomRequest $request, ExamRoom $examroom)
     {
         $data = $request->validated();
+
+        // Update the current exam room with validated data
         $examroom->update($data);
 
-        return to_route('setting.index')->with([
-            'success' => "Room \"$examroom->exam_room\" was Updated",
-            'sucType' => 'edit',
+        // Store the original set_user before updating
+        $originalSetUser = $examroom->set_user;
 
+        // Check if the original set_user is assigned to another ExamRoom and reset it
+        if (!is_null($originalSetUser)) {
+            ExamRoom::where('set_user', '=' ,$originalSetUser)
+            ->where('id', '!=', $examroom->id) // Avoid updating the current exam room
+            ->update(['set_user' => null]);
+        }
+
+        return to_route('setting.index')->with([
+            'success' => "Room \"$examroom->exam_room\" was updated",
+            'sucType' => 'edit',
         ]);
     }
+
 
     public function programUpdate(UpdateProgramRequest $request, Program $program)
     {

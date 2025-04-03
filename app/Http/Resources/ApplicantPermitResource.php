@@ -53,6 +53,8 @@ class ApplicantPermitResource extends JsonResource
             'status'        => $this->status,
             'remarks'       => $this->remarks,
 
+            'image_capture' => $this->image_capture,
+
             'validate_by'   => $this->validate_by,            
             'printed_by'    => $this->printed_by,            
             'score_by'      => $this->score_by,            

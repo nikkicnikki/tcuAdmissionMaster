@@ -4,12 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Applicant;
 use App\Models\Program;
+use App\Models\User;
+use App\Models\ExamDate;
+use App\Models\ExamRoom;
 use App\Http\Requests\StoreApplicantRequest;
 use App\Http\Requests\UpdateApplicantRequest;
 use App\Http\Requests\UpdateApplicantVALIDRequest;
 use App\Http\Resources\ApplicantResource;
 use App\Http\Resources\ApplicantEditResource;
 use App\Http\Resources\ApplicantValidateResource;
+use App\Http\Resources\ApplicantPermitResource;
+
 
 use App\Http\Resources\ExamDateResource;
 use App\Http\Resources\ExamRoomResource;
@@ -48,13 +53,14 @@ class ApplicantController extends Controller
         }
 
         $applicants = $query->paginate(20)->onEachSide(1);
-        
+
         return inertia('Applicant/Index', [
             'applicants' => ApplicantResource::collection($applicants),
             'queryParams' => request()->query() ?: null,
             'success' => session('success'),
             'sucType' => session('sucType'),
-            
+            'examdate' => ExamDate::all() ,
+            'examrooms' =>  ExamRoom::all() ,
         ]); 
     }
 
@@ -148,8 +154,10 @@ class ApplicantController extends Controller
     public function permit(Applicant $applicant)
     {
         return inertia('Applicant/Permit', [
-            'applicants' => new ApplicantEditResource($applicant) ,
-            'programs'   => Program::all() , // Fetch all programs
+            'applicants' => new ApplicantPermitResource($applicant) ,
+            'users'      => User::all() ,    
+            'examdates'  => ExamDate::all() ,
+            'examrooms'  => ExamRoom::all() ,
         ]);
     }
 

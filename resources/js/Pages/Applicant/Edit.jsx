@@ -121,7 +121,7 @@ export default function Edit({ auth, applicants, programs }) {
                                     })}
                                 </p>
                                 <p className="text-[11px]">
-                                    <label className="font-bold ">UPDATING By : </label> {data.validator_name.toUpperCase()}
+                                    <label className="font-bold ">UPDATING BY : </label> {data.validator_name.toUpperCase()}
                                     <span
                                         className={
                                             "px-1 py-1 ml-3 rounded text-white text-[10px]" +

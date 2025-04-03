@@ -1,4 +1,4 @@
-import { ArrowPathIcon, CheckIcon, PercentBadgeIcon, PrinterIcon, ReceiptPercentIcon } from "@heroicons/react/24/outline";
+import { ArrowPathIcon, CheckIcon, PercentBadgeIcon, PrinterIcon } from "@heroicons/react/24/outline";
 import { Link } from "@inertiajs/react";
 
 export default function ApplicantFormAction({

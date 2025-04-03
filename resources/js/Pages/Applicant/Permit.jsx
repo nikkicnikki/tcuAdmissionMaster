@@ -5,21 +5,32 @@ import TextAreaInput from "@/Components/TextAreaInput";
 import TextInput from "@/Components/TextInput";
 import { APPLICANT_STATUS_CLASS_MAP, APPLICANT_STATUS_TEXT_MAP, USER_STATUS_CLASS_MAP, USER_STATUS_TEXT_MAP } from "@/constants";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import { BackspaceIcon, CameraIcon, PrinterIcon } from "@heroicons/react/24/outline";
 import { Head, Link, useForm } from "@inertiajs/react";
 
-export default function Edit({ auth, applicants, programs }) {
+export default function Edit({ auth, applicants, users, examdates, examrooms }) {
 
     const curr_user = auth.user.id;
-    
-    const { data, setData, put, errors, reset } = useForm({
+    const vald_user_id = applicants.validate_by;
+    const vald_user_name = users.find(user => user.id === vald_user_id)?.name;
+    const vald_user_role = users.find(user => user.id === vald_user_id)?.role;
+    const schedule_date_id = examdates.find(examdate => examdate.status === 2)?.id;
+    const schedule_exam_date = examdates.find(examdate => examdate.status === 2)?.exam_date;
+    const room_id = examrooms.find(examroom => examroom.set_user === curr_user)?.id;
+    const room_exam = examrooms.find(examroom => examroom.set_user === curr_user)?.exam_room;
+    //console.log(applicants);
 
+    const { data, setData, put, errors, reset } = useForm({
+        //header
         status: applicants.status || '',
         created_at: applicants.created_at || '',
         updated_at: applicants.updated_at || '',
-        validate_by: applicants.validate_by || curr_user,
-        validator_name: auth.user.name || '',
-        created_at: applicants.created_at || '',
-        updated_at: applicants.updated_at || '',
+
+        validate_by: vald_user_id || '',
+        validate_name: vald_user_name || '',
+
+        printed_by: auth.user.id || curr_user,
+        printed_name: auth.user.name || '',
 
         applicant_id: applicants.id || '',
 
@@ -27,33 +38,15 @@ export default function Edit({ auth, applicants, programs }) {
         m_name: applicants.m_name || '',
         sr_name: applicants.sr_name || '',
         prog: applicants.prog || '',
-        reason: applicants.reason || '',
-
-        bs_degree: applicants.bs_degree || '',
-        yr_grad: applicants.yr_grad || '',
-        l_schl_att: applicants.l_schl_att || '',
-        tor: applicants?.tor || '',
-
-        curr_emp: applicants.curr_emp.toLowerCase() || '',
-        curr_occ: applicants.curr_occ || '',
-        l_serv: applicants.l_serv || '',
-        gov_id: applicants?.gov_id || '',
-        voter_id: applicants?.voter_id || '',
-        conn_com_ins: applicants.conn_com_ins || '',
 
         sex: applicants.sex.toLowerCase() || '',
-        bday: applicants.bday || '',
-        bplace: applicants.bplace || '',
         cont: applicants.cont || '',
-        email: applicants.email || '',
-        tag_res: applicants.tag_res.toLowerCase() || '',
         curr_add: applicants.curr_add || '',
-        fb_acc: applicants.fb_acc || '',
-        fb_acc_link: applicants.fb_acc_link || '',
-        remarks: applicants.remarks || '',
+
+        image_capture: applicants.image_capture || '',
 
     });
-
+    console.log(applicants);
     if (auth.user.role == 3 && (data.status == 1 || data.status == 2)) {
         data.status = 2;
     }
@@ -61,12 +54,6 @@ export default function Edit({ auth, applicants, programs }) {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        //console.log("Form Data before submit:", data.applicant_id);
-
-        // Log the data before submitting
-        //console.log("Form Data before submit:", data);
-
-
         put(route('applicant.update', data.applicant_id));
     }
 
@@ -99,13 +86,13 @@ export default function Edit({ auth, applicants, programs }) {
                                     {APPLICANT_STATUS_TEXT_MAP[data.status]}
                                 </span>
                                 <br />
-                                <label className="font-bold text-lg ml-2">ID: </label> {applicants.id}
+
 
                             </div>
 
                             <div className="mt-1 flex-1 text-right ">
                                 <p className="text-[11px]">
-                                    <label className="font-bold ml-2 ">CREATE : </label>
+                                    <label className="font-bold ml-2 ">APPLIED : </label>
                                     {new Date(data.created_at).toLocaleDateString("en-US", {
                                         year: "numeric",
                                         month: "long",
@@ -119,8 +106,8 @@ export default function Edit({ auth, applicants, programs }) {
                                         day: "numeric",
                                     })}
                                 </p>
-                                <p className="text-[11px]">
-                                    <label className="font-bold ">UPDATING By : </label> {data.validator_name.toUpperCase()}
+                                <p className="text-[11px] ">
+                                    <label className="font-bold ">PRINTED BY : </label> {data.printed_name.toUpperCase()}
                                     <span
                                         className={
                                             "px-1 py-1 ml-3 rounded text-white text-[10px]" +
@@ -128,6 +115,16 @@ export default function Edit({ auth, applicants, programs }) {
                                         }
                                     >
                                         {USER_STATUS_TEXT_MAP[auth.user.role]}
+                                    </span>
+
+                                    <label className="font-bold "> VALIDATED BY : </label> {data.validate_name.toUpperCase()}
+                                    <span
+                                        className={
+                                            "px-1 py-1 ml-3 rounded text-white text-[10px]" +
+                                            USER_STATUS_CLASS_MAP[vald_user_role]
+                                        }
+                                    >
+                                        {USER_STATUS_TEXT_MAP[vald_user_role]}
                                     </span>
                                 </p>
 
@@ -139,455 +136,97 @@ export default function Edit({ auth, applicants, programs }) {
             </div>
 
 
-            {/* EDITABLE APPLICANT INFO */}
+            {/* PRINTABLE APPLICANT INFO */}
             <div className="py-2">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
+
+                        <div className="mt-2 p-10 flex">
+                            <div className="w-8/12" >
+                                <table className="text-left">
+                                    <tbody>
+                                        <tr className="pb-20">
+                                            <th className="text-gray-500">APPLICANT NO. : </th>
+                                            <td className="border-b border-black px-3">{applicants.id}</td>
+                                        </tr>
+                                        <tr>
+                                            <th className="text-gray-500">DATE OF EXAMINATION : </th>
+                                            <td className="border-b border-black px-3">
+                                                {new Date(schedule_exam_date).toLocaleDateString("en-US", {
+                                                    year: "numeric",
+                                                    month: "long",
+                                                    day: "numeric",
+                                                })}
+                                            </td>
+                                            <th className="text-right text-gray-500"> ROOM NO. : </th>
+                                            <td className="border-b border-black px-3">{room_exam}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th className="text-gray-500">NAME : </th>
+                                            <td className="border-b border-black px-3 " colSpan="3">
+                                                {data.sr_name.toUpperCase() + ", " + data.f_name.toUpperCase() + " " + data.m_name.toUpperCase()}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th className="text-gray-500">PROGRAM : </th>
+                                            <td className="border-b border-black px-3" colSpan="3">
+                                                {
+                                                    data.prog.acronym + " - " +
+                                                    data.prog.name
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th className="text-gray-500">GENDER : </th>
+                                            <td className="border-b border-black px-3" colSpan="3">{data.sex}</td>
+                                        </tr>
+                                        <tr>
+                                            <th className="text-gray-500">CONTACT No. : </th>
+                                            <td className="border-b border-black px-3" colSpan="3">{data.cont}</td>
+                                        </tr>
+                                        <tr>
+                                            <th className="text-gray-500">ADDRESS : </th>
+                                            <td className="border-b border-black px-3" colSpan="3">{data.curr_add}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div className="w-4/12 text-right " >
+                                {data.image_capture ?
+                                    (<img src="" alt="N/A" className="w-full h-5/6" />) :
+                                    <div className="w-full h-5/6 bg-gray-200 flex items-center justify-center m-3">Capture applicant image</div>
+                                }
+
+                                <button className="ml-2 py-1 px-2 text-white bg-blue-500 rounded shadow shadow-lg transition-all hover:bg-blue-600 ">
+                                    <CameraIcon className="h-[30px] " />
+                                </button>
+                            </div>
+                        </div>
+
                         <form
                             onSubmit={onSubmit}
-                            className="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg"
+                            className="p-2 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg"
                         >
-                            <TextInput type="hidden" value={data.validated_by} name="validated_by" />
-                            <InputError message={errors.validated_by} className="text-red-500 mt-2" />
-                            <TextInput type="hidden" value={data.status} name="status" />
-                            <InputError message={errors.status} className="text-red-500 mt-2" />
-                            <div className="flex flex-nowrap" key={applicants.id} >
-                                {/* name of applicant */}
-                                <div className="flex-1 pl-2">
-                                    <InputLabel
-                                        htmlFor="app_f_name"
-                                        value="firstname"
-                                    />
+                            <div className="mt-2 flex justify-end">
 
-                                    <TextInput
-                                        id="app_f_name"
-                                        className="mt-2 block w-full"
-                                        name="f_name"
-                                        value={data.f_name}
-                                        onChange={(e) => setData("f_name", e.target.value)}
-                                    />
-                                    <InputError message={errors.f_name} className="text-red-500 mt-2" />
-                                </div>
-                                <div className="flex-1 pl-2">
-                                    <InputLabel
-                                        htmlFor="app_m_name"
-                                        value="middlename"
-                                    />
-                                    <TextInput
-                                        id="app_m_name"
-                                        className="mt-2 block w-full"
-                                        name="m_name"
-                                        value={data.m_name}
-                                        onChange={(e) => setData("m_name", e.target.value)}
-                                    />
-                                    <InputError message={errors.m_name} className="text-red-500 mt-2" />
-                                </div>
-                                <div className="flex-1 pl-2">
-                                    <InputLabel
-                                        htmlFor="app_sr_name"
-                                        value="Surname"
-                                    />
-                                    <TextInput
-                                        id="app_sr_name"
-                                        className="mt-2 block w-full"
-                                        name="sr_name"
-                                        value={data.sr_name}
-                                        onChange={(e) => setData("sr_name", e.target.value)}
-                                    />
-                                    <InputError message={errors.sr_name} className="text-red-500 mt-2" />
-                                </div>
-                            </div>
-                            <div className="mt-4">
-                                <InputLabel
-                                    htmlFor="app_prog"
-                                    value="Program"
-                                />
-                                <SelectInput
-                                    id="app_prog"
-                                    className="mt-2 block w-full"
-                                    name="prog"
-                                    value={data.prog}
-                                    onChange={e => {
-                                        console.log("Selected Value:", e.target.value);
-                                        setData('prog', e.target.value);
-                                    }}>
-                                    {programs.map(program => (
-                                        <option key={program.id} value={program.id}>{program.acronym + " - " + program.name}</option>
-                                    ))}
-                                </SelectInput>
-                                <InputError message={errors.prog} className="text-red-500 mt-2" />
-
-                            </div>
-
-                            <div className="mt-4">
-                                <InputLabel
-                                    htmlFor="app_reason"
-                                    value="Why do you want to take this program?"
-                                />
-                                <TextAreaInput
-                                    name="reason"
-                                    value={data.reason}
-                                    className="mt-4 block w-full"
-                                    onChange={(e) => setData("reason", e.target.value)}
-                                    readOnly
-                                />
-                                <InputError message={errors.reason} className="text-red-500 mt-2" />
-                            </div>
-
-                            <div className="mt-4 flex flex-nowrap">
-                                <div className="flex-1">
-                                    <InputLabel
-                                        htmlFor="app_bs_degree"
-                                        value="Bachelor's Degree"
-                                    />
-                                    <TextInput
-                                        id="app_bs_degree"
-                                        className="mt-2 block w-full"
-                                        name="bs_degree"
-                                        value={data.bs_degree}
-                                        onChange={(e) => setData("bs_degree", e.target.value)}
-                                    />
-                                    <InputError message={errors.bs_degree} className="text-red-500 mt-2" />
-                                </div>
-                                <div className="flex-1 pl-2">
-                                    <InputLabel
-                                        htmlFor="app_yr_grad"
-                                        value="Year Graduate"
-                                    />
-                                    <TextInput
-                                        id="app_yr_grad"
-                                        className="mt-2 block w-full"
-                                        name="yr_grad"
-                                        type="date"
-                                        value={data.yr_grad}
-                                        onChange={(e) => setData("yr_grad", e.target.value)}
-                                    />
-                                    <InputError message={errors.yr_grad} className="text-red-500 mt-2" />
-                                </div>
-
-                            </div>
-
-                            <div className="mt-4 flex flex-nowrap">
-                                <div className="flex-1">
-                                    <InputLabel
-                                        htmlFor="app_l_schl_att"
-                                        value="Last school attend"
-                                    />
-                                    <TextInput
-                                        id="app_l_schl_att"
-                                        className="mt-2 block w-full"
-                                        name="l_schl_att"
-                                        value={data.l_schl_att}
-                                        onChange={(e) => setData("l_schl_att", e.target.value)}
-                                    />
-                                    <InputError message={errors.l_schl_att} className="text-red-500 mt-2" />
-                                </div>
-                                <div className="flex-1 pl-2">
-                                    <InputLabel
-                                        htmlFor="app_tor"
-                                        value="Transcript of Record"
-                                    />
-                                    <TextInput
-                                        id="app_tor"
-                                        className="mt-2 block w-full"
-                                        name="tor"
-                                        value={data.tor}
-                                        onChange={(e) => setData("tor", e.target.value)}
-                                    />
-                                    <Link
-                                        to="#"  // Prevents navigation within the app
-                                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1"
-                                        onClick={(e) => {
-                                            e.preventDefault(); // Prevent React Router from handling the link
-                                            window.open(data.tor, "_blank");
-                                        }}
-                                    >
-                                        view here
-                                    </Link>
-                                    <InputError message={errors.tor} className="text-red-500 mt-2" />
-                                </div>
-
-                            </div>
-
-                            <div className="mt-4  flex flex-nowrap">
-                                <div className="flex-1">
-                                    <InputLabel
-                                        htmlFor="app_curr_emp"
-                                        value="Employed"
-                                    />
-                                    <SelectInput
-                                        id="app_curr_emp"
-                                        className="mt-2 block w-full"
-                                        name="curr_emp"
-                                        value={data.curr_emp}
-                                        onChange={e => setData('curr_emp', e.target.value.toLowerCase())}>
-                                        <option value="yes">Yes</option>
-                                        <option value="no">No</option>
-                                    </SelectInput>
-                                    <InputError message={errors.curr_emp} className="text-red-500 mt-2" />
-                                </div>
-                                <div className="flex-1 pl-2">
-                                    <InputLabel
-                                        htmlFor="app_curr_occ"
-                                        value="Occupation "
-                                    />
-                                    <TextInput
-                                        id="app_curr_occ"
-                                        className="mt-2 block w-full"
-                                        name="curr_occ"
-                                        value={data.curr_occ}
-                                        onChange={(e) => setData("curr_occ", e.target.value)}
-                                    />
-                                    <InputError message={errors.curr_occ} className="text-red-500 mt-2" />
-                                </div>
-                                <div className="flex-1 pl-2">
-                                    <InputLabel
-                                        htmlFor="app_l_serv"
-                                        value="Length of Service"
-                                    />
-                                    <TextInput
-                                        id="app_l_serv"
-                                        className="mt-2 block w-full"
-                                        name="l_serv"
-                                        value={data.l_serv}
-                                        onChange={(e) => setData("l_serv", e.target.value)}
-                                    />
-                                    <InputError message={errors.l_serv} className="text-red-500 mt-2" />
-                                </div>
-
-                            </div>
-
-                            <div className="mt-4 flex flex-nowrap">
-                                
-                                <div className="flex-1 pl-2">
-                                    <InputLabel
-                                        htmlFor="app_gov_id"
-                                        value="Gov. issued ID "
-                                    />
-                                    <TextInput
-                                        id="app_gov_id"
-                                        className="mt-2 block w-full"
-                                        name="gov_id"
-                                        value={data.gov_id}
-                                        onChange={(e) => setData("gov_id", e.target.value)}
-                                    />
-                                    <Link
-                                        to="#"  // Prevents navigation within the app
-                                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1"
-                                        onClick={(e) => {
-                                            e.preventDefault(); // Prevent React Router from handling the link
-                                            window.open(data.gov_id, "_blank");
-                                        }}
-                                    >
-                                        view here
-                                    </Link>
-                                    <InputError message={errors.gov_id} className="text-red-500 mt-2" />
-                                </div>
-                                <div className="flex-1 pl-2">
-                                    <InputLabel
-                                        htmlFor="app_voter_id"
-                                        value="Voters ID "
-                                    />
-                                    <TextInput
-                                        id="app_voter_id"
-                                        className="mt-2 block w-full"
-                                        name="voter_id"
-                                        value={data.voter_id}
-                                        onChange={(e) => setData("voter_id", e.target.value)}
-                                    />
-                                    <Link
-                                        to="#"  // Prevents navigation within the app
-                                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1"
-                                        onClick={(e) => {
-                                            e.preventDefault(); // Prevent React Router from handling the link
-                                            window.open(data.voter_id, "_blank");
-                                        }}
-                                    >
-                                        view here
-                                    </Link>
-                                    <InputError message={errors.voter_id} className="text-red-500 mt-2" />
-                                </div>
-
-                            </div>
-
-                            <div className="mt-2">
-                                <InputLabel
-                                    htmlFor="app_conn_com_ins"
-                                    value="Company/Institution Currently Connected "
-                                />
-                                <TextInput
-                                    id="app_conn_com_ins"
-                                    className="mt-2 block w-full"
-                                    name="conn_com_ins"
-                                    value={data.conn_com_ins}
-                                    onChange={(e) => setData("conn_com_ins", e.target.value)}
-                                />
-                                <InputError message={errors.conn_com_ins} className="text-red-500 mt-2" />
-                            </div>
-
-                            <div className="mt-20 flex flex-nowrap">
-                                <div className="flex-1">
-                                    <InputLabel
-                                        htmlFor="app_sex"
-                                        value="Gender"
-                                    />
-                                    <SelectInput
-                                        id="app_sex"
-                                        className="mt-2 block w-full"
-                                        name="sex"
-                                        value={data.sex}
-                                        onChange={e => {
-                                            //console.log("Selected Value:", e.target.value);
-                                            setData('sex', e.target.value.toLowerCase())
-                                        }
-                                        }>
-                                        <option value="male">Male</option>
-                                        <option value="female">Female</option>
-                                    </SelectInput>
-                                    <InputError message={errors.sex} className="text-red-500 mt-2" />
-                                </div>
-                                <div className="flex-1 pl-1">
-                                    <InputLabel htmlFor="app_bday" value="Birth Day" />
-                                    <TextInput
-                                        id="app_bday"
-                                        className="mt-2 block w-full"
-                                        name="bday"
-                                        type="date"
-                                        value={data.bday}
-                                        onChange={(e) => setData('bday', e.target.value)}
-                                    />
-                                    <InputError message={errors.bday} className="text-red-500 mt-2" />
-                                </div>
-                                <div className="flex-1 pl-1">
-                                    <InputLabel htmlFor="app_bplace" value="Birth Place" />
-                                    <TextInput
-                                        id="app_bplace"
-                                        name="bplace"
-                                        value={data.bplace}
-                                        className="mt-2 block w-full"
-                                        onChange={(e) => setData('bplace', e.target.value)}
-                                    />
-                                    <InputError message={errors.bplace} className="text-red-500 mt-2" />
-                                </div>
-
-                            </div>
-
-                            <div className="mt-4 flex flex-nowrap">
-                                <div className="flex-1">
-                                    <InputLabel htmlFor="app_cont" value="Contact" />
-                                    <TextInput
-                                        id="app_cont"
-                                        name="cont"
-                                        value={data.cont}
-                                        className="mt-2 block w-full"
-                                        onChange={(e) => setData('cont', e.target.value)}
-                                    />
-                                    <InputError message={errors.cont} className="text-red-500 mt-2" />
-                                </div>
-                                <div className="flex-1 pl-2">
-                                    <InputLabel htmlFor="app_email" value="Email" />
-                                    <TextInput
-                                        type="email"
-                                        id="app_email"
-                                        name="email"
-                                        value={data.email}
-                                        className="mt-2 block w-full"
-                                        onChange={(e) => setData('email', e.target.value)}
-                                    />
-                                    <InputError message={errors.email} className="text-red-500 mt-2" />
-                                </div>
-                            </div>
-
-                            <div className="mt-4 flex flex-nowrap">
-                                <div className="flex-1">
-                                    <InputLabel htmlFor="app_tag_res" value="Taguig Resident?" />
-                                    <SelectInput
-                                        id="app_tag_res"
-                                        className="mt-2 block w-full"
-                                        name="tag_res"
-                                        value={data.tag_res}
-                                        onChange={(e) => setData('tag_res', e.target.value.toLowerCase())}
-                                    >
-                                        <option value="yes">Yes</option>
-                                        <option value="no">No</option>
-                                    </SelectInput>
-                                    <InputError message={errors.tag_res} className="text-red-500 mt-2" />
-                                </div>
-                                <div className="flex-1 pl-2">
-                                    <InputLabel htmlFor="app_curr_add" value="Current Address" />
-                                    <TextInput
-                                        id="app_curr_add"
-                                        name="curr_add"
-                                        className="mt-2 block w-full"
-                                        value={data.curr_add}
-                                        onChange={(e) => setData('curr_add', e.target.value)}
-                                    />
-                                    <InputError message={errors.curr_add} className="text-red-500 mt-2" />
-                                </div>
-
-                            </div>
-
-                            <div className="mt-4 flex flex-nowrap">
-                                <div className="flex-1">
-                                    <InputLabel htmlFor="app_fb_acc" value="Facebook Account" />
-                                    <TextInput
-                                        id="app_fb_acc"
-                                        name="fb_acc"
-                                        className="mt-2 block w-full"
-                                        value={data.fb_acc}
-                                        onChange={(e) => setData('fb_acc', e.target.value)}
-                                    />
-                                    <InputError message={errors.fb_acc} className="text-red-500 mt-2" />
-                                </div>
-                                <div className="flex-1 pl-2">
-                                    <InputLabel htmlFor="app_fb_acc_link" value="Current Address" />
-                                    <TextInput
-                                        id="app_fb_acc"
-                                        name="fb_acc_link"
-                                        className="mt-2 block w-full"
-                                        value={data.fb_acc_link}
-                                        onChange={(e) => setData('fb_acc_link', e.target.value)}
-                                    />
-                                    <Link
-                                        to="#"  // Prevents navigation within the app
-                                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1"
-                                        onClick={(e) => {
-                                            e.preventDefault(); // Prevent React Router from handling the link
-                                            window.open(data.fb_acc_link, "_blank");
-                                        }}
-                                    >
-                                        view here
-                                    </Link>
-                                    <InputError message={errors.fb_acc_link} className="text-red-500 mt-2" />
-                                </div>
-
-                            </div>
-
-                            <div className="mt-4">
-                                <InputLabel htmlFor="app_remarks" value="Remaks" />
-                                <TextAreaInput
-                                    id="app_remarks"
-                                    className="mt-2 block w-full h-[180px]"
-                                    name="remarks"
-                                    value={data.remarks}
-                                    onChange={e => setData('remarks', e.target.value)}
-                                    placeholder="Enter other information / Remarks / Notes"
-                                />
-                                <InputError message={errors.remarks} className="text-red-500 mt-2" />
-
-                            </div>
-                            <div className="mt-4 text-right">
-
-                                <button className="bg-blue-500 ml-2 py-1 px-3 text-white rounded shadow transition-all hover:bg-blue-600 ">UPDATE</button>
-                                <Link
-                                    href={route("applicant.index")}
-                                    className="bg-gray-500 ml-2 py-2 px-3 text-white rounded shadow transition-all hover:bg-gray-800 mr-2"
+                                {data.image_capture ?
+                                    (<button className="ml-2 py-1 px-3 text-gray-800 bg-[rgb(239,228,176)] rounded shadow shadow-lg transition-all hover:bg-yellow-600 ">
+                                        <PrinterIcon className="h-[30px] mt-2" />
+                                    </button>) :
+                                    <div className="ml-2 py-1 px-3 text-white bg-gray-300 rounded shadow shadow-lg transition-all">
+                                        <PrinterIcon className="h-[30px] mt-2" />
+                                    </div>
+                                }
+                                <Link href={route("applicant.index")}
+                                    className=" bg-gray-500 ml-2 py-1 px-3 text-white rounded shadow  hover:bg-gray-800 mr-2"
                                 >
-                                    Cancel
+                                    <BackspaceIcon className="h-[30px] mt-1" />
                                 </Link>
-                            </div>
 
+                            </div>
                         </form>
+
                     </div>
                 </div>
             </div>

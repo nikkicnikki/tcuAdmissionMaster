@@ -9,7 +9,10 @@ import TableHeading from "@/Components/TableHeading";
 import ApplicantFormAction from "@/Components/ApplicantFormAction";
 
 
-export default function Index({ auth, applicants, queryParams = null, success, sucType }) {
+export default function Index({ auth, applicants, queryParams = null, success, sucType, examdate, examrooms }) {
+
+    const active_schedule = examdate.find(examd => examd.status == 2)?.exam_date;
+    const assign_room = examrooms.find(examroom => examroom.set_user == auth.user.id)?.exam_room;
 
     queryParams = queryParams || {}
     //<pre>{JSON.stringify(applicants, undefined , 2)}</pre>
@@ -46,7 +49,7 @@ export default function Index({ auth, applicants, queryParams = null, success, s
     }
 
 
-  
+
     return (
 
         <AuthenticatedLayout
@@ -58,9 +61,32 @@ export default function Index({ auth, applicants, queryParams = null, success, s
             }
         >
             <Head title="Applicant form" />
+
+            <div className="pt-10">
+                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 p-4 flex justify-between">
+
+                        <div className="flex justify-between gap-4">
+                            <div>
+                                <label className="font-bold">ACTIVE SCHEDULE: </label>
+                                <label className="bg-[rgb(250,245,226)] shadow-inner p-5">{active_schedule ? new Date(active_schedule).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }) : "no schedule"}</label>
+                            </div>
+                            {(auth.user.role == 1 || auth.user.role == 2) ?
+                                <div>
+                                    <label className="font-bold">YOUR ASSIGN ROOM: </label>
+                                    <label className="bg-[rgb(250,245,226)] shadow-inner p-5">{assign_room ? assign_room : "no assign room"}</label>
+                                </div> : ""
+                            
+                            }
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
             {auth.user.role == 1 && (
 
-                <div className="py-12">
+                <div className="pt-5 pb-5">
                     <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                         <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 p-4">
 

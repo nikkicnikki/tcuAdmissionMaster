@@ -9,7 +9,6 @@ import { Head, Link, useForm } from "@inertiajs/react";
 
 export default function RoomCreate({ auth, examroom, users }) {
 
-    console.log(examroom);
     const { data, setData, put, errors, reset } = useForm({
         exam_room: examroom.data.exam_room || '',
         status: examroom.data.status || '',
@@ -18,15 +17,15 @@ export default function RoomCreate({ auth, examroom, users }) {
         capacity: examroom.data.capacity || '',
         capacity_status: examroom.data.capacity_status || '',
     })
-    //console.log(data.status);
 
     const onSubmit = (e) => {
         e.preventDefault();
 
-        // Log the data before submitting
-        //console.log("Form Data before submit:", data);
-
-        put(route('room.update', examroom.data.id));
+        if(data.set_user && data.status == 2 ){
+            put(route('room.update', examroom.data.id));
+        } else {
+            alert("Room State must set to Active to Assign a User to Permit ");
+        }
     }
 
 
@@ -68,7 +67,7 @@ export default function RoomCreate({ auth, examroom, users }) {
                             <div className="mt-4">
                                 <InputLabel
                                     htmlFor="set_set_user"
-                                    value="Rooms Permit Distributor"
+                                    value="Permit - Assign User"
                                 />
 
                                 <SelectInput
