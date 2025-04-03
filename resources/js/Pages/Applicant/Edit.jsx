@@ -228,7 +228,7 @@ export default function Edit({ auth, applicants, programs }) {
                                 <TextAreaInput
                                     name="reason"
                                     value={data.reason}
-                                    className="mt-4 block w-full"
+                                    className="mt-4 block w-full h-[200px]"
                                     onChange={(e) => setData("reason", e.target.value)}
                                     readOnly
                                 />

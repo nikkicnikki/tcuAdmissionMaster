@@ -142,35 +142,35 @@ export default function Edit({ auth, applicants, users, examdates, examrooms }) 
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
 
                         <div className="mt-2 p-10 flex">
-                            <div className="w-8/12" >
+                            <div className="w-9/12 bg-[rgb(250,245,226)] shadow-inner p-5 m-3" >
                                 <table className="text-left">
                                     <tbody>
                                         <tr className="pb-20">
-                                            <th className="text-gray-500">APPLICANT NO. : </th>
-                                            <td className="border-b border-black px-3">{applicants.id}</td>
+                                            <th className="text-gray-500 text-xs">APPLICANT NO. : </th>
+                                            <td className="border-b border-black px-3 text-xs">{applicants.id}</td>
                                         </tr>
                                         <tr>
-                                            <th className="text-gray-500">DATE OF EXAMINATION : </th>
-                                            <td className="border-b border-black px-3">
+                                            <th className="text-gray-500 text-xs">DATE OF EXAMINATION : </th>
+                                            <td className="border-b border-black px-3 text-xs">
                                                 {new Date(schedule_exam_date).toLocaleDateString("en-US", {
                                                     year: "numeric",
                                                     month: "long",
                                                     day: "numeric",
                                                 })}
                                             </td>
-                                            <th className="text-right text-gray-500"> ROOM NO. : </th>
-                                            <td className="border-b border-black px-3">{room_exam}</td>
+                                            <th className="text-right text-gray-500 text-xs"> ROOM NO. : </th>
+                                            <td className="border-b border-black px-3 text-xs">{room_exam}</td>
                                         </tr>
 
                                         <tr>
-                                            <th className="text-gray-500">NAME : </th>
-                                            <td className="border-b border-black px-3 " colSpan="3">
+                                            <th className="text-gray-500 text-xs">NAME : </th>
+                                            <td className="border-b border-black px-3 text-xs" colSpan="3">
                                                 {data.sr_name.toUpperCase() + ", " + data.f_name.toUpperCase() + " " + data.m_name.toUpperCase()}
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th className="text-gray-500">PROGRAM : </th>
-                                            <td className="border-b border-black px-3" colSpan="3">
+                                            <th className="text-gray-500 text-xs">PROGRAM : </th>
+                                            <td className="border-b border-black px-3 text-xs" colSpan="3">
                                                 {
                                                     data.prog.acronym + " - " +
                                                     data.prog.name
@@ -178,27 +178,27 @@ export default function Edit({ auth, applicants, users, examdates, examrooms }) 
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th className="text-gray-500">GENDER : </th>
-                                            <td className="border-b border-black px-3" colSpan="3">{data.sex}</td>
+                                            <th className="text-gray-500 text-xs">GENDER : </th>
+                                            <td className="border-b border-black px-3 text-xs" colSpan="3">{data.sex}</td>
                                         </tr>
                                         <tr>
-                                            <th className="text-gray-500">CONTACT No. : </th>
-                                            <td className="border-b border-black px-3" colSpan="3">{data.cont}</td>
+                                            <th className="text-gray-500 text-xs">CONTACT No. : </th>
+                                            <td className="border-b border-black px-3 text-xs" colSpan="3">{data.cont}</td>
                                         </tr>
                                         <tr>
-                                            <th className="text-gray-500">ADDRESS : </th>
-                                            <td className="border-b border-black px-3" colSpan="3">{data.curr_add}</td>
+                                            <th className="text-gray-500 text-xs">ADDRESS : </th>
+                                            <td className="border-b border-black px-3 text-xs" colSpan="3">{data.curr_add}</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <div className="w-4/12 text-right " >
+                            <div className="w-3/12 text-right " >
                                 {data.image_capture ?
                                     (<img src="" alt="N/A" className="w-full h-5/6" />) :
-                                    <div className="w-full h-5/6 bg-gray-200 flex items-center justify-center m-3">Capture applicant image</div>
+                                    <div className="w-full h-5/6 bg-gray-200 shadow-inner flex items-center justify-center">Capture applicant image</div>
                                 }
 
-                                <button className="ml-2 py-1 px-2 text-white bg-blue-500 rounded shadow shadow-lg transition-all hover:bg-blue-600 ">
+                                <button className="ml-2 mt-2 py-1 px-2 text-white bg-blue-500 rounded border transition-all hover:bg-blue-600 ">
                                     <CameraIcon className="h-[30px] " />
                                 </button>
                             </div>
@@ -214,7 +214,7 @@ export default function Edit({ auth, applicants, users, examdates, examrooms }) 
                                     (<button className="ml-2 py-1 px-3 text-gray-800 bg-[rgb(239,228,176)] rounded shadow shadow-lg transition-all hover:bg-yellow-600 ">
                                         <PrinterIcon className="h-[30px] mt-2" />
                                     </button>) :
-                                    <div className="ml-2 py-1 px-3 text-white bg-gray-300 rounded shadow shadow-lg transition-all">
+                                    <div className="ml-2 py-1 px-3 text-white bg-gray-300 rounded shadow shadow-lg transition-all" title="CAPTURE IMAGE FIRST">
                                         <PrinterIcon className="h-[30px] mt-2" />
                                     </div>
                                 }
