@@ -211,13 +211,20 @@ export default function Edit({ auth, applicants, users, examdates, examrooms }) 
                             <div className="mt-2 flex justify-end">
 
                                 {data.image_capture ?
-                                    (<button className="ml-2 py-1 px-3 text-gray-800 bg-[rgb(239,228,176)] rounded shadow shadow-lg transition-all hover:bg-yellow-600 ">
+                                    (<Link
+                                        //href={route('permit.pdf', applicant_id )}
+                                        className="ml-2 py-1 px-3 text-gray-800 bg-[rgb(239,228,176)] rounded shadow shadow-lg transition-all hover:bg-yellow-600 ">
                                         <PrinterIcon className="h-[30px] mt-2" />
-                                    </button>) :
+                                    </Link>) :
                                     <div className="ml-2 py-1 px-3 text-white bg-gray-300 rounded shadow shadow-lg transition-all" title="CAPTURE IMAGE FIRST">
                                         <PrinterIcon className="h-[30px] mt-2" />
                                     </div>
                                 }
+                                <Link
+                                    href={route('permit.pdf', applicants.id )}
+                                    className="ml-2 py-1 px-3 text-gray-800 bg-[rgb(239,228,176)] rounded shadow shadow-lg transition-all hover:bg-yellow-600 ">
+                                    <PrinterIcon className="h-[30px] mt-2" />
+                                </Link>
                                 <Link href={route("applicant.index")}
                                     className=" bg-gray-500 ml-2 py-1 px-3 text-white rounded shadow  hover:bg-gray-800 mr-2"
                                 >

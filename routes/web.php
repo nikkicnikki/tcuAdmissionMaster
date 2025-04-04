@@ -7,9 +7,10 @@ use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ImportApplicantController;
+use App\Http\Controllers\PermitController;
+
 
 //use App\Http\Controllers\Auth\RegisteredUserController; //
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -68,10 +69,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/excel', [ImportApplicantController::class, 'importing' ])->name('importing.applicant');
     //Route::get('/applicant/import', [ApplicantController::class, 'import']);
 
-    // Print Applicant Permit
+    // Permit Form
     Route::get('/applicant/{applicant}/permit', [ApplicantController::class, 'permit'])->name('applicant.permit');
-
-
+    //create Route::put for the update of image_capture
+    // Permit PDF
+    Route::get('/PDF/{applicant}/permit_pdf', [PermitController::class, 'permit_pdf'])->name('permit.pdf');
 
 });
 
