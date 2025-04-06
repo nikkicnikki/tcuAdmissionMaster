@@ -165,8 +165,6 @@ export default function Index({ auth, examDates, examRooms, programs, users, suc
                                         <th className="px-3 py-3">ROOM</th>
                                         <th className="px-3 py-3">STATE</th>
                                         <th className="px-3 py-3">USER-PERMIT</th>
-                                        <th className="px-3 py-3">OCCUPANT</th>
-                                        <th className="px-3 py-3">STATUS</th>
                                         <th className="px-3 py-3">DESCRIPTION</th>
                                         <th className="px-3 py-3">CREATE</th>
                                         <th className="px-3 py-3">ACTION</th>
@@ -190,12 +188,7 @@ export default function Index({ auth, examDates, examRooms, programs, users, suc
                                                     users.find(user => user.id === examRoom.set_user)?.name || "Unknown User" 
                                                     : " - " }
                                             </td>
-                                            <td className="px-3 py-2">
-                                                {examRoom.capacity  ? examRoom.capacity : " - " }
-                                            </td>
-                                            <td className="px-3 py-2">
-                                                {examRoom.capacity_status ? examRoom.capacity_status : " - " }
-                                            </td>
+                                           
 
                                             <td className="px-3 py-2">
                                                 {examRoom.des}

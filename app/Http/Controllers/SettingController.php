@@ -37,6 +37,8 @@ class SettingController extends Controller
         $examDateQuery = ExamDate::query();
         $examRoomQuery = ExamRoom::query();
         $programQuery = Program::query();
+        
+
 
 
         $examDates = $examDateQuery->paginate(20)->onEachSide(1);

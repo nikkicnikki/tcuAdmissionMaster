@@ -5,7 +5,7 @@ import { BackspaceIcon, CameraIcon, PrinterIcon } from "@heroicons/react/24/outl
 import { Head, Link, useForm } from "@inertiajs/react";
 import { router } from '@inertiajs/react'
 
-export default function Edit({ auth, applicants, users, examdates, examrooms }) {
+export default function Permit({ auth, applicants, users, examdates, examrooms }) {
 
     const curr_user = auth.user.id;
     const vald_user_id = applicants.validate_by;

@@ -52,7 +52,7 @@ class ImportApplicant implements ToCollection, ToModel
                     'gov_id'      => $row[23],
                     'tor'         => $row[24],
                     'voter_id'    => $row[25],
-                    'status'      => 1, // for status be pending(1)
+                    //'status'      => 1, // for status be pending(1)
                 ]);
 
             } else {

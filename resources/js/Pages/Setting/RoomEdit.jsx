@@ -14,17 +14,16 @@ export default function RoomCreate({ auth, examroom, users }) {
         status: examroom.data.status || '',
         des: examroom.data.des || '',
         set_user: examroom.data.set_user || '',
-        capacity: examroom.data.capacity || '',
-        capacity_status: examroom.data.capacity_status || '',
+ 
     })
 
     const onSubmit = (e) => {
         e.preventDefault();
 
-        if (data.set_user && data.status == 2) {
-            put(route('room.update', examroom.data.id));
-        } else {
+        if ( data.status == 1 && data.set_user ) {
             alert("Room State must set to Active to Assign a User to Permit ");
+        } else {
+            put(route('room.update', examroom.data.id));
         }
     }
 
@@ -98,47 +97,6 @@ export default function RoomCreate({ auth, examroom, users }) {
                                 <InputError message={errors.set_user} className="mt-2" />
                             </div>
 
-                            <div className="mt-4">
-                                <InputLabel
-                                    htmlFor="set_capacity"
-                                    value="Room Current No. of Occupant"
-                                />
-                                {data.capacity ?
-                                    <p className="p-2">data.capacity</p> :
-                                    <p className="p-2 text-gray-400"> Empty </p>
-                                }
-                                <TextInput
-                                    id="set_capacity"
-                                    className="mt-2 block w-full"
-                                    name="capacity"
-                                    type="hidden"
-                                    value={data.capacity}
-                                    onChange={(e) => setData("capacity", e.target.value)}
-                                    readOnly
-                                />
-                                <InputError message={errors.capacity} className="mt-2" />
-                            </div>
-
-                            <div>
-                                <InputLabel
-                                    htmlFor="set_capacity_status"
-                                    value="Room Current No. of Occupant Status"
-                                />
-                                {data.capacity_status ?
-                                    <p className="p-2">data.capacity_status</p> :
-                                    <p className="p-2 text-gray-400"> Empty </p>
-                                }
-                                <TextInput
-                                    id="set_capacity_status"
-                                    className="mt-2 block w-full"
-                                    name="capacity_status"
-                                    value={data.capacity_status}
-                                    onChange={(e) => setData("capacity_status", e.target.value)}
-                                    type="hidden"
-                                    readOnly
-                                />
-                                <InputError message={errors.capacity_status} className="mt-2" />
-                            </div>
 
                             <div className="mt-4">
                                 <InputLabel

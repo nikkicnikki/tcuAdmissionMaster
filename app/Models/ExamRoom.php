@@ -12,8 +12,6 @@ class ExamRoom extends Model
         'status' , 
         'des' , 
         'set_user' ,
-        'capacity' ,
-        'capacity_status' ,  
     ];
 
 }
