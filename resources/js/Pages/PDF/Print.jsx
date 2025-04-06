@@ -167,9 +167,12 @@ export default function Print({ auth }) {
             <AuthenticatedLayout
                 user={auth.user}
                 header={
-                    <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                    
+                    <a 
+                    href="javascript:history.back()"
+                    className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
                         PDF PRINT 
-                    </h2>
+                    </a>
                 }
             >
                 <Head title={"PDF PRINT"} />
