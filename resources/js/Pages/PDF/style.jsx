@@ -33,9 +33,10 @@ export const styles = StyleSheet.create({
 
         content: { flexDirection: 'row', marginBottom: 1, },
         contentId: { flexDirection: 'row', marginBottom: 15, },
-        contField: { fontSize: 10, fontWeight: 'bold', marginBottom: 5, },
+        contField: { fontSize: 10, fontWeight: 'bold',   },
         contField2: { fontSize: 10, },
         contValue: { fontSize: 9, borderBottom: '1px solid black', paddingLeft: 2, paddingRight: 2, },
+        contValue2: { fontSize: 9, borderBottom: '1px solid black', paddingLeft: 2, paddingRight: 2,marginBottom: 5, },
 
         dv: { flexDirection: 'row', marginBottom: 2, },
         remindHead: { fontSize: 13, fontWeight: 'bold', margin: 14, },

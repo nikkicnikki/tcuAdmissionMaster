@@ -46,7 +46,7 @@ export default function Show({ auth, applicant }) {
                                                 day: "numeric",
                                             }) : "none"
                                         }
-                                        <label className="font-bold text-lg"> - </label>
+                                        <label className="font-bold text-lg"> Room : </label>
                                         {applicant.exam_room?.exam_room ? applicant.exam_room.exam_room : "none"}
                                     </p>
                                 </div>

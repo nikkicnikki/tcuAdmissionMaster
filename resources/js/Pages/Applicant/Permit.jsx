@@ -1,12 +1,9 @@
-import InputError from "@/Components/InputError";
-import InputLabel from "@/Components/InputLabel";
-import SelectInput from "@/Components/SelectInput";
-import TextAreaInput from "@/Components/TextAreaInput";
-import TextInput from "@/Components/TextInput";
 import { APPLICANT_STATUS_CLASS_MAP, APPLICANT_STATUS_TEXT_MAP, USER_STATUS_CLASS_MAP, USER_STATUS_TEXT_MAP } from "@/constants";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import { Button } from "@headlessui/react";
 import { BackspaceIcon, CameraIcon, PrinterIcon } from "@heroicons/react/24/outline";
 import { Head, Link, useForm } from "@inertiajs/react";
+import { router } from '@inertiajs/react'
 
 export default function Edit({ auth, applicants, users, examdates, examrooms }) {
 
@@ -18,7 +15,6 @@ export default function Edit({ auth, applicants, users, examdates, examrooms }) 
     const schedule_exam_date = examdates.find(examdate => examdate.status === 2)?.exam_date;
     const room_id = examrooms.find(examroom => examroom.set_user === curr_user)?.id;
     const room_exam = examrooms.find(examroom => examroom.set_user === curr_user)?.exam_room;
-    //console.log(applicants);
 
     const { data, setData, put, errors, reset } = useForm({
         //header
@@ -45,17 +41,47 @@ export default function Edit({ auth, applicants, users, examdates, examrooms }) 
 
         image_capture: applicants.image_capture || '',
 
+        exam_date: schedule_date_id || '',
+        exam_room: room_id || '',
+
     });
-    console.log(applicants);
+
     if (auth.user.role == 3 && (data.status == 1 || data.status == 2)) {
         data.status = 2;
     }
 
-
-    const onSubmit = (e) => {
+    const handlePrintClick = (e) => {
         e.preventDefault();
-        put(route('applicant.update', data.applicant_id));
-    }
+
+        router.patch(route('permit.print', { applicant_id: data.applicant_id }), {
+            printed_by: data.printed_by,
+            exam_date: data.exam_date,
+            exam_room: data.exam_room,
+            exam_date_name: schedule_exam_date,
+            exam_room_name: room_exam,
+        }, {
+            onSuccess: () => {
+                // open print PDF in a new tab
+                window.open(
+                    route('permit.generate', {
+                        applicant_id: data.applicant_id,
+                        exam_date_name: schedule_exam_date,
+                        exam_room_name: room_exam,
+                    }),
+                    '_blank'
+                );
+                
+
+                // redirect to index page
+                router.visit(route('applicant.index', {
+                    successP: 'applicant print success',
+                    sucTypeP: 'print',
+                }));
+            }
+        });
+    };
+
+
 
     return (
         <AuthenticatedLayout
@@ -204,40 +230,36 @@ export default function Edit({ auth, applicants, users, examdates, examrooms }) 
                             </div>
                         </div>
 
-                        <form
-                            onSubmit={onSubmit}
-                            className="p-2 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg"
-                        >
-                            <div className="mt-2 flex justify-end">
 
-                                {data.image_capture ?
-                                    (<Link
-                                        //href={route('permit.pdf', applicant_id )}
-                                        className="ml-2 py-1 px-3 text-gray-800 bg-[rgb(239,228,176)] rounded shadow shadow-lg transition-all hover:bg-yellow-600 ">
-                                        <PrinterIcon className="h-[30px] mt-2" />
-                                    </Link>) :
-                                    <div className="ml-2 py-1 px-3 text-white bg-gray-300 rounded shadow shadow-lg transition-all" title="CAPTURE IMAGE FIRST">
-                                        <PrinterIcon className="h-[30px] mt-2" />
-                                    </div>
-                                }
-                                <Link
-                                    href={route('permit.pdf', applicants.id )}
-                                    className="ml-2 py-1 px-3 text-gray-800 bg-[rgb(239,228,176)] rounded shadow shadow-lg transition-all hover:bg-yellow-600 ">
-                                    <PrinterIcon className="h-[30px] mt-2" />
-                                </Link>
-                                <Link href={route("applicant.index")}
-                                    className=" bg-gray-500 ml-2 py-1 px-3 text-white rounded shadow  hover:bg-gray-800 mr-2"
-                                >
-                                    <BackspaceIcon className="h-[30px] mt-1" />
-                                </Link>
 
+                        {data.image_capture ?
+                            (<Button
+                                onClick={handlePrintClick}
+                                className="ml-2 py-1 px-3 text-gray-800 bg-[rgb(239,228,176)] rounded shadow shadow-lg transition-all hover:bg-yellow-600 "
+                            >
+                                <PrinterIcon className="h-[30px] mt-2" />
+                            </Button>) :
+                            <div className="ml-2 py-1 px-3 text-white bg-gray-300 rounded shadow shadow-lg transition-all" title="CAPTURE IMAGE FIRST">
+                                <PrinterIcon className="h-[30px] mt-2" />
                             </div>
-                        </form>
+                        }
+                        <Button
+                            onClick={handlePrintClick}
+                            className="ml-2 py-1 px-3 text-gray-800 bg-[rgb(239,228,176)] rounded shadow shadow-lg transition-all hover:bg-yellow-600 "
+                        >
+                            <PrinterIcon className="h-[30px] mt-2" />
+                        </Button>
+                        <Link href={route("applicant.index")}
+                            className=" bg-gray-500 ml-2 py-1 px-3 text-white rounded shadow  hover:bg-gray-800 mr-2"
+                        >
+                            <BackspaceIcon className="h-[30px] mt-1" />
+                        </Link>
 
                     </div>
                 </div>
             </div>
 
-        </AuthenticatedLayout>
+
+        </AuthenticatedLayout >
     )
 }

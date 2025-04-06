@@ -3,7 +3,7 @@ import SelectInput from "@/Components/SelectInput";
 import TextInput from "@/Components/TextInput";
 import { APPLICANT_STATUS_CLASS_MAP, APPLICANT_STATUS_TEXT_MAP } from "@/constants";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link, router } from "@inertiajs/react";
+import { Head, Link, router, usePage } from "@inertiajs/react";
 //import { ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/16/solid";
 import TableHeading from "@/Components/TableHeading";
 import ApplicantFormAction from "@/Components/ApplicantFormAction";
@@ -48,7 +48,14 @@ export default function Index({ auth, applicants, queryParams = null, success, s
         router.get(route('applicant.index'), queryParams);
     }
 
+    const alertClasses = {
+        success: 'bg-emerald-500 text-white',
+        edit: 'bg-blue-500 text-white',
+        delete: 'bg-red-500 text-white',
+        print: 'bg-[rgb(250,245,226)] text-gray-500',
+    };
 
+    
 
     return (
 
@@ -76,7 +83,7 @@ export default function Index({ auth, applicants, queryParams = null, success, s
                                     <label className="font-bold">YOUR ASSIGN ROOM: </label>
                                     <label className="bg-[rgb(250,245,226)] shadow-inner p-5">{assign_room ? assign_room : "no assign room"}</label>
                                 </div> : ""
-                            
+
                             }
                         </div>
 
@@ -114,14 +121,13 @@ export default function Index({ auth, applicants, queryParams = null, success, s
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
 
                         {
-                            (success && sucType) && sucType === 'success' ?
-                                (<div className="bg-emerald-500 px-2 py-4 text-white rounded pl-5">{success}</div>)
-                                : (success && sucType) && sucType === 'edit' ?
-                                    (<div className="bg-blue-500 px-2 py-4 text-white rounded pl-5">{success}</div>)
-                                    : (success && sucType) && sucType === 'delete' ?
-                                        (<div className="bg-red-500 px-2 py-4 text-white rounded pl-5">{success}</div>)
-                                        : ""
+                            success && sucType && (
+                                <div className={`${alertClasses[sucType]} px-2 py-4 rounded pl-5`}>
+                                    {success}
+                                </div>
+                            )
                         }
+
 
                         <div className="p-6 text-gray-900 dark:text-gray-100 shadow-lg border border-gray-300">
 

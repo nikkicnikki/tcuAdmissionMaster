@@ -18,14 +18,14 @@ use App\Http\Resources\ApplicantPermitResource;
 
 use App\Http\Resources\ExamDateResource;
 use App\Http\Resources\ExamRoomResource;
-
+use Illuminate\Http\Request;
 
 class ApplicantController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $query = Applicant::query();
 
