@@ -21,7 +21,7 @@ export default function RoomCreate({ auth, examroom, users }) {
     const onSubmit = (e) => {
         e.preventDefault();
 
-        if(data.set_user && data.status == 2 ){
+        if (data.set_user && data.status == 2) {
             put(route('room.update', examroom.data.id));
         } else {
             alert("Room State must set to Active to Assign a User to Permit ");
@@ -33,9 +33,16 @@ export default function RoomCreate({ auth, examroom, users }) {
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                    Settings - Edit Room "{examroom.data.exam_room}"
-                </h2>
+                <div className="flex">
+                    <a
+                        onClick={() => window.history.back()}
+                        className="text-xl cursor-pointer font-semibold leading-tight text-gray-800 dark:text-gray-200 cursor-pointer hover:underline transition-colors duration-200">
+                        &laquo; back
+                    </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                        Settings - Edit Room "{examroom.data.exam_room}"
+                    </h2>
+                </div>
             }
         >
             <Head title="Add Room" />
@@ -81,8 +88,8 @@ export default function RoomCreate({ auth, examroom, users }) {
                                     }}>
                                     <option value="">Select User</option>
                                     {users.map(user => (
-                                        (user.role == 1 || user.role == 2) &&(
-                                            <option className="text-white bg-gray-500" key={user.id}  value={user.id}>
+                                        (user.role == 1 || user.role == 2) && (
+                                            <option className="text-white bg-gray-500" key={user.id} value={user.id}>
                                                 {`${user.name} - ${USER_STATUS_TEXT_MAP[user.role]}`}
                                             </option>
                                         )

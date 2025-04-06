@@ -75,8 +75,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Permit PDF then you can print there
     Route::patch('/PDF/{applicant_id}/permit_print', [PermitController::class, 'permit_print'])->name('permit.print');
-    Route::get('/PDF/{applicant_id}/permit_generate', [PermitController::class, 'permit_generate'])->name('permit.generate');
-
+    
+    //Route::get('/PDF/{applicant_id}/permit_generate', [PermitController::class, 'permit_generate'])->name('permit.generate');
     //Route::get('/PDF/{applicant}/permit_pdf', [PermitController::class, 'permit_pdf'])->name('permit.pdf');
 
 });

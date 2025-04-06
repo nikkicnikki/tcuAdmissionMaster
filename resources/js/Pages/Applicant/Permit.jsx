@@ -59,25 +59,6 @@ export default function Edit({ auth, applicants, users, examdates, examrooms }) 
             exam_room: data.exam_room,
             exam_date_name: schedule_exam_date,
             exam_room_name: room_exam,
-        }, {
-            onSuccess: () => {
-                // open print PDF in a new tab
-                window.open(
-                    route('permit.generate', {
-                        applicant_id: data.applicant_id,
-                        exam_date_name: schedule_exam_date,
-                        exam_room_name: room_exam,
-                    }),
-                    '_blank'
-                );
-                
-
-                // redirect to index page
-                router.visit(route('applicant.index', {
-                    successP: 'applicant print success',
-                    sucTypeP: 'print',
-                }));
-            }
         });
     };
 
@@ -87,9 +68,16 @@ export default function Edit({ auth, applicants, users, examdates, examrooms }) 
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                    Permit for {`Applicant "${`${data.f_name} ${data.m_name} ${data.sr_name}`.toUpperCase()}"`}
-                </h2>
+                <div className="flex ">
+                    <a
+                        onClick={() => window.history.back()}
+                        className="text-xl cursor-pointer font-semibold leading-tight text-gray-800 dark:text-gray-200 cursor-pointer hover:underline transition-colors duration-200">
+                        &laquo; back
+                    </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                        Permit for {`Applicant "${`${data.f_name} ${data.m_name} ${data.sr_name}`.toUpperCase()}"`}
+                    </h2>
+                </div>
             }
         >
             <Head title={`Applicant "${`${data.f_name} ${data.m_name} ${data.sr_name}`.toUpperCase()}"`} />
@@ -218,43 +206,48 @@ export default function Edit({ auth, applicants, users, examdates, examrooms }) 
                                     </tbody>
                                 </table>
                             </div>
-                            <div className="w-3/12 text-right " >
+                            <div className="w-3/12 text-right  m-3" >
                                 {data.image_capture ?
                                     (<img src="" alt="N/A" className="w-full h-5/6" />) :
-                                    <div className="w-full h-5/6 bg-gray-200 shadow-inner flex items-center justify-center">Capture applicant image</div>
+                                    <div className="w-full h-full bg-gray-200 shadow-inner flex items-center justify-center">Capture applicant image</div>
                                 }
 
-                                <button className="ml-2 mt-2 py-1 px-2 text-white bg-blue-500 rounded border transition-all hover:bg-blue-600 ">
-                                    <CameraIcon className="h-[30px] " />
-                                </button>
+
                             </div>
                         </div>
 
 
+                        <div className="flex justify-end mb-10 pr-10 mr-5">
+                            <button className="ml-2 py-1 px-3 text-white bg-blue-500 rounded shadow shadow-lg transition-all hover:bg-blue-600">
+                                <CameraIcon className="h-[30px]" />
+                            </button>
 
-                        {data.image_capture ?
-                            (<Button
+                            {data.image_capture ?
+                                (<Button
+                                    onClick={handlePrintClick}
+                                    title="PDF PRINT"
+                                    className="ml-2 py-1 px-3 text-gray-800 bg-[rgb(239,228,176)] rounded shadow shadow-lg transition-all hover:bg-yellow-600 "
+                                >
+                                    <PrinterIcon className="h-[30px] mt-2" />
+                                </Button>) :
+                                <div className="ml-2 py-1 px-3 text-white bg-gray-300 rounded shadow shadow-lg transition-all" title="CAPTURE IMAGE FIRST">
+                                    <PrinterIcon className="h-[30px] mt-2" />
+                                </div>
+                            }
+                            <Button
                                 onClick={handlePrintClick}
+                                title="PDF PRINT"
                                 className="ml-2 py-1 px-3 text-gray-800 bg-[rgb(239,228,176)] rounded shadow shadow-lg transition-all hover:bg-yellow-600 "
                             >
                                 <PrinterIcon className="h-[30px] mt-2" />
-                            </Button>) :
-                            <div className="ml-2 py-1 px-3 text-white bg-gray-300 rounded shadow shadow-lg transition-all" title="CAPTURE IMAGE FIRST">
-                                <PrinterIcon className="h-[30px] mt-2" />
-                            </div>
-                        }
-                        <Button
-                            onClick={handlePrintClick}
-                            className="ml-2 py-1 px-3 text-gray-800 bg-[rgb(239,228,176)] rounded shadow shadow-lg transition-all hover:bg-yellow-600 "
-                        >
-                            <PrinterIcon className="h-[30px] mt-2" />
-                        </Button>
-                        <Link href={route("applicant.index")}
-                            className=" bg-gray-500 ml-2 py-1 px-3 text-white rounded shadow  hover:bg-gray-800 mr-2"
-                        >
-                            <BackspaceIcon className="h-[30px] mt-1" />
-                        </Link>
-
+                            </Button>
+                            <Link href={route("applicant.index")}
+                                title="BACK / CANCEL"
+                                className=" bg-gray-500 ml-2 py-1 px-3 text-white rounded shadow  hover:bg-gray-800 mr-2"
+                            >
+                                <BackspaceIcon className="h-[30px] mt-1" />
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>

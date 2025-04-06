@@ -10,7 +10,7 @@ import { Head, Link, useForm } from "@inertiajs/react";
 export default function Edit({ auth, applicants, programs }) {
 
     const curr_user = auth.user.id;
-    
+
     const { data, setData, put, errors, reset } = useForm({
 
         status: applicants.status || '',
@@ -75,9 +75,16 @@ export default function Edit({ auth, applicants, programs }) {
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                    Validation / Update Information of {`Applicant "${`${data.f_name} ${data.m_name} ${data.sr_name}`.toUpperCase()}"`}
-                </h2>
+                <div className="flex">
+                    <a
+                        onClick={() => window.history.back()}
+                        className="text-xl cursor-pointer font-semibold leading-tight text-gray-800 dark:text-gray-200 cursor-pointer hover:underline transition-colors duration-200">
+                        &laquo; back
+                    </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                        Validation / Update Information of {`Applicant "${`${data.f_name} ${data.m_name} ${data.sr_name}`.toUpperCase()}"`}
+                    </h2>
+                </div>
             }
         >
             <Head title={`Applicant "${`${data.f_name} ${data.m_name} ${data.sr_name}`.toUpperCase()}"`} />
@@ -358,7 +365,7 @@ export default function Edit({ auth, applicants, programs }) {
                             </div>
 
                             <div className="mt-4 flex flex-nowrap">
-                                
+
                                 <div className="flex-1 pl-2">
                                     <InputLabel
                                         htmlFor="app_gov_id"

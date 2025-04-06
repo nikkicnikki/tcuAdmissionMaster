@@ -15,12 +15,12 @@ export default function Validate({ auth, applicant }) {
         status: applicant.status || '',
         validate_by: auth.user.id || '',
     });
-    
+
     data.status = 3;
     console.log(applicant);
     const onSubmit = (e) => {
         e.preventDefault();
-        
+
         put(route('applicant.valid', data.id));
     }
 
@@ -28,9 +28,16 @@ export default function Validate({ auth, applicant }) {
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                    {`Applicant "${`${applicant.f_name} ${applicant.m_name} ${applicant.sr_name}`.toUpperCase()}"`}
-                </h2>
+                <div className="flex">
+                    <a
+                        onClick={() => window.history.back()}
+                        className="text-xl cursor-pointer font-semibold leading-tight text-gray-800 dark:text-gray-200 cursor-pointer hover:underline transition-colors duration-200">
+                        &laquo; back
+                    </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                        {`Applicant "${`${applicant.f_name} ${applicant.m_name} ${applicant.sr_name}`.toUpperCase()}"`}
+                    </h2>
+                </div>
             }
         >
             <Head title={`Applicant "${`${applicant.f_name} ${applicant.m_name} ${applicant.sr_name}`.toUpperCase()}"`} />
@@ -206,7 +213,7 @@ export default function Validate({ auth, applicant }) {
                                             {applicant.l_serv ? applicant.l_serv + " Year/'s " : ""}
                                         </p>
                                     </div>
-                                    
+
                                     <div className="mt-1">
                                         <p className="mt-1">
                                             <label className="font-bold text-lg"> Gov. issued ID : </label>

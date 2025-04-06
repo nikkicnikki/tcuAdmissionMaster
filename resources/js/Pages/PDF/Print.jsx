@@ -167,12 +167,16 @@ export default function Print({ auth }) {
             <AuthenticatedLayout
                 user={auth.user}
                 header={
-                    
-                    <a 
-                    href="javascript:history.back()"
-                    className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                        PDF PRINT 
-                    </a>
+                    <div className="flex justify-between ">
+                        <a 
+                        onClick={() => window.history.back()}
+                        className="text-xl cursor-pointer font-semibold leading-tight text-gray-800 dark:text-gray-200 hover:underline">
+                            &laquo; back 
+                        </a>
+                        <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                            PDF PRINT
+                        </h2>
+                    </div>
                 }
             >
                 <Head title={"PDF PRINT"} />

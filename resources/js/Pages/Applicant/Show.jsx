@@ -8,9 +8,16 @@ export default function Show({ auth, applicant }) {
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                    {`Applicant "${`${applicant.f_name} ${applicant.m_name} ${applicant.sr_name}`.toUpperCase()}"`}
-                </h2>
+                <div className="flex">
+                    <a
+                        onClick={() => window.history.back()}
+                        className="text-xl cursor-pointer font-semibold leading-tight text-gray-800 dark:text-gray-200 cursor-pointer hover:underline transition-colors duration-200">
+                        &laquo; back
+                    </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                        {`Applicant "${`${applicant.f_name} ${applicant.m_name} ${applicant.sr_name}`.toUpperCase()}"`}
+                    </h2>
+                </div>
             }
         >
             <Head title={`Applicant "${`${applicant.f_name} ${applicant.m_name} ${applicant.sr_name}`.toUpperCase()}"`} />
@@ -103,7 +110,7 @@ export default function Show({ auth, applicant }) {
                 </div>
             </div>
 
-            
+
 
             <div className="py-2 ">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -185,7 +192,7 @@ export default function Show({ auth, applicant }) {
                                             {applicant.l_serv ? applicant.l_serv + " Year/'s " : ""}
                                         </p>
                                     </div>
-                                    
+
                                     <div className="mt-1">
                                         <p className="mt-1">
                                             <label className="font-bold text-lg"> Gov. issued ID : </label>

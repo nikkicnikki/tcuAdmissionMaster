@@ -24,16 +24,21 @@ class PermitController extends Controller
         $applicant->printed_date = now();
         $applicant->save();
 
-    }
-
-    public function permit_generate(Request $request, $applicant_id)
-    {
-        $applicant = Applicant::findOrFail($applicant_id);
-
         return Inertia::render('PDF/Print', [
             'applicant' => new ApplicantPermitResource($applicant),
-            'exam_date_name' => $request->query('exam_date_name'),
-            'exam_room_name' => $request->query('exam_room_name'),
+            'exam_date_name' => $request->input('exam_date_name'),
+            'exam_room_name' => $request->input('exam_room_name'),
         ]);
     }
+
+    // public function permit_generate(Request $request, $applicant_id)
+    // {
+    //     $applicant = Applicant::findOrFail($applicant_id);
+
+    //     return Inertia::render('PDF/Print', [
+    //         'applicant' => new ApplicantPermitResource($applicant),
+    //         'exam_date_name' => $request->query('exam_date_name'),
+    //         'exam_room_name' => $request->query('exam_room_name'),
+    //     ]);
+    // }
 }

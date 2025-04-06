@@ -4,9 +4,9 @@ import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 
-export default function ProgramCreate({auth , program}) {
+export default function ProgramCreate({ auth, program }) {
 
-    const { data , setData , put , errors , reset } = useForm({
+    const { data, setData, put, errors, reset } = useForm({
         name: program.data.name || '',
         acronym: program.data.acronym || '',
     })
@@ -24,27 +24,34 @@ export default function ProgramCreate({auth , program}) {
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                    Settings - Edit Program "{program.data.name}"
-                </h2>
+                <div className="flex">
+                    <a
+                        onClick={() => window.history.back()}
+                        className="text-xl cursor-pointer font-semibold leading-tight text-gray-800 dark:text-gray-200 cursor-pointer hover:underline transition-colors duration-200">
+                        &laquo; back
+                    </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                        Settings - Edit Program "{program.data.name}"
+                    </h2>
+                </div>
             }
         >
-            <Head title="Add Program" /> 
+            <Head title="Add Program" />
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
-                        <form 
-                            onSubmit = {onSubmit}
+                        <form
+                            onSubmit={onSubmit}
                             className="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg"
                         >
                             <div>
-                                <InputLabel 
-                                    htmlFor="set_name" 
-                                    value="Setting Program Name" 
+                                <InputLabel
+                                    htmlFor="set_name"
+                                    value="Setting Program Name"
                                 />
 
-                                <TextInput  
+                                <TextInput
                                     id="set_name"
                                     className="mt-2 block w-full uppercase"
                                     name="name"
@@ -55,12 +62,12 @@ export default function ProgramCreate({auth , program}) {
                                 <InputError message={errors.name} className="mt-2" />
                             </div>
                             <div className="mt-4">
-                                <InputLabel 
-                                    htmlFor="set_acronym" 
-                                    value="Setting Program Acronym" 
+                                <InputLabel
+                                    htmlFor="set_acronym"
+                                    value="Setting Program Acronym"
                                 />
 
-                                <TextInput  
+                                <TextInput
                                     id="set_acronym"
                                     className="mt-2 block w-full uppercase"
                                     name="acronym"
@@ -85,5 +92,5 @@ export default function ProgramCreate({auth , program}) {
                 </div>
             </div>
         </AuthenticatedLayout>
-        )
+    )
 }

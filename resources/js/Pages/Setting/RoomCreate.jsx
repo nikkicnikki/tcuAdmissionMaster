@@ -6,9 +6,9 @@ import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 
-export default function RoomCreate({auth}) {
+export default function RoomCreate({ auth }) {
 
-    const { data , setData , post , errors , reset } = useForm({
+    const { data, setData, post, errors, reset } = useForm({
         exam_room: '',
         status: '',
         des: '',
@@ -29,27 +29,34 @@ export default function RoomCreate({auth}) {
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                    Settings - Add Room
-                </h2>
+                <div className="flex">
+                    <a
+                        onClick={() => window.history.back()}
+                        className="text-xl cursor-pointer font-semibold leading-tight text-gray-800 dark:text-gray-200 cursor-pointer hover:underline transition-colors duration-200">
+                        &laquo; back
+                    </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                        Settings - Add Room
+                    </h2>
+                </div>
             }
         >
-            <Head title="Add Room" /> 
+            <Head title="Add Room" />
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
-                        <form 
-                            onSubmit = {onSubmit}
+                        <form
+                            onSubmit={onSubmit}
                             className="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg"
                         >
                             <div>
-                                <InputLabel 
-                                    htmlFor="set_room" 
-                                    value="Setting Room" 
+                                <InputLabel
+                                    htmlFor="set_room"
+                                    value="Setting Room"
                                 />
 
-                                <TextInput  
+                                <TextInput
                                     id="set_room"
                                     className="mt-2 block w-full"
                                     name="exam_room"
@@ -60,16 +67,16 @@ export default function RoomCreate({auth}) {
                                 <InputError message={errors.exam_room} className="mt-2" />
                             </div>
                             <div className="mt-4">
-                                <InputLabel 
-                                    htmlFor="set_status" 
-                                    value="Setting Status" 
+                                <InputLabel
+                                    htmlFor="set_status"
+                                    value="Setting Status"
                                 />
 
-                                <SelectInput 
+                                <SelectInput
                                     id="set_status"
-                                    className="mt-2 block w-full" 
+                                    className="mt-2 block w-full"
                                     name="status"
-                                    onChange={ e => setData('status', e.target.value) }>
+                                    onChange={e => setData('status', e.target.value)}>
                                     <option value="">Select Status</option>
                                     <option value="2">Active</option>
                                     <option value="1">Inactive</option>
@@ -78,22 +85,22 @@ export default function RoomCreate({auth}) {
 
                             </div>
                             <div className="mt-4">
-                                <InputLabel 
-                                    htmlFor="set_des" 
-                                    value="Setting Description" 
+                                <InputLabel
+                                    htmlFor="set_des"
+                                    value="Setting Description"
                                 />
 
-                                <TextAreaInput 
+                                <TextAreaInput
                                     id="set_des"
-                                    className="mt-2 block w-full" 
+                                    className="mt-2 block w-full"
                                     name="des"
                                     value={data.des}
-                                    onChange={ e => setData('des', e.target.value) } 
+                                    onChange={e => setData('des', e.target.value)}
                                     isFocused={true}
                                     placeholder="Enter other information"
-                                /> 
-                            
-                            <InputError message={errors.des} className="mt-2" />
+                                />
+
+                                <InputError message={errors.des} className="mt-2" />
                             </div>
                             <div className="mt-4 text-right">
                                 <Link
@@ -110,5 +117,5 @@ export default function RoomCreate({auth}) {
                 </div>
             </div>
         </AuthenticatedLayout>
-        )
+    )
 }

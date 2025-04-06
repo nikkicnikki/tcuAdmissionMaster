@@ -6,9 +6,9 @@ import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 
-export default function DateCreate({ auth , examdate }) {
+export default function DateCreate({ auth, examdate }) {
 
-    const { data , setData , put , errors , reset } = useForm({
+    const { data, setData, put, errors, reset } = useForm({
 
         exam_date: examdate.data.exam_date || '',
         status: examdate.data.status || '',
@@ -23,39 +23,46 @@ export default function DateCreate({ auth , examdate }) {
         // Log the data before submitting
         //console.log("Form Data before submit:", data);
 
-        put(route('date.update',  examdate.data.id));
+        put(route('date.update', examdate.data.id));
     }
 
     return (
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                    Settings - Edit Date "{new Date(examdate.data.exam_date).toLocaleDateString("en-US", {
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                            })
-                    }"
-                </h2>
+                <div className="flex">
+                    <a
+                        onClick={() => window.history.back()}
+                        className="text-xl cursor-pointer font-semibold leading-tight text-gray-800 dark:text-gray-200 cursor-pointer hover:underline transition-colors duration-200">
+                        &laquo; back
+                    </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                        Settings - Edit Date "{new Date(examdate.data.exam_date).toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                        })
+                        }"
+                    </h2>
+                </div>
             }
         >
-            <Head title="Add Schedule" /> 
+            <Head title="Add Schedule" />
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
-                        <form 
-                            onSubmit = {onSubmit}
+                        <form
+                            onSubmit={onSubmit}
                             className="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg"
                         >
                             <div>
-                                <InputLabel 
-                                    htmlFor="set_date" 
-                                    value="Setting Date" 
+                                <InputLabel
+                                    htmlFor="set_date"
+                                    value="Setting Date"
                                 />
 
-                                <TextInput  
+                                <TextInput
                                     id="set_date"
                                     type="date"
                                     className="mt-2 block w-full"
@@ -66,19 +73,19 @@ export default function DateCreate({ auth , examdate }) {
                                 <InputError message={errors.exam_date} className="text-red-500 mt-2" />
                             </div>
                             <div className="mt-4">
-                                <InputLabel 
-                                    htmlFor="set_status" 
-                                    value="Setting Status" 
+                                <InputLabel
+                                    htmlFor="set_status"
+                                    value="Setting Status"
                                 />
-                                <SelectInput 
+                                <SelectInput
                                     id="set_status"
-                                    className="mt-2 block w-full" 
+                                    className="mt-2 block w-full"
                                     name="status"
                                     value={data.status}
-                                    onChange={ e => {
+                                    onChange={e => {
                                         //console.log("Selected Value:", e.target.value);
                                         setData('status', e.target.value);
-                                        } }>
+                                    }}>
                                     <option value="">Select status</option>
                                     <option value="2">Active</option>
                                     <option value="1">Inactive</option>
@@ -87,22 +94,22 @@ export default function DateCreate({ auth , examdate }) {
 
                             </div>
                             <div className="mt-4">
-                                <InputLabel 
-                                    htmlFor="set_des" 
-                                    value="Setting Description" 
+                                <InputLabel
+                                    htmlFor="set_des"
+                                    value="Setting Description"
                                 />
 
-                                <TextAreaInput 
+                                <TextAreaInput
                                     id="set_des"
-                                    className="mt-2 block w-full" 
+                                    className="mt-2 block w-full"
                                     name="des"
                                     value={data.des}
-                                    onChange={ e => setData('des', e.target.value) } 
+                                    onChange={e => setData('des', e.target.value)}
                                     isFocused={true}
                                     placeholder="Enter other information"
-                                /> 
-                               
-                               <InputError message={errors.des} className="text-red-500 mt-2" />
+                                />
+
+                                <InputError message={errors.des} className="text-red-500 mt-2" />
                             </div>
                             <div className="mt-4 text-right">
                                 <Link
@@ -120,5 +127,5 @@ export default function DateCreate({ auth , examdate }) {
             </div>
 
         </AuthenticatedLayout>
-        )
+    )
 }
