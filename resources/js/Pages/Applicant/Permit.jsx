@@ -1,9 +1,14 @@
+import React, { useState } from 'react';
 import { APPLICANT_STATUS_CLASS_MAP, APPLICANT_STATUS_TEXT_MAP, USER_STATUS_CLASS_MAP, USER_STATUS_TEXT_MAP } from "@/constants";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Button } from "@headlessui/react";
 import { BackspaceIcon, CameraIcon, PrinterIcon } from "@heroicons/react/24/outline";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { router } from '@inertiajs/react'
+import ReactDOM from 'react-dom';
+//import { Webcam } from '@webcam/react';
+import Webcam from 'react-webcam';
+
 
 export default function Permit({ auth, applicants, users, examdates, examrooms }) {
 
@@ -52,17 +57,47 @@ export default function Permit({ auth, applicants, users, examdates, examrooms }
 
     const handlePrintClick = (e) => {
         e.preventDefault();
+        if (!cap) return alert("No image captured");
 
-        router.patch(route('permit.print', { applicant_id: data.applicant_id }), {
+        const queryParams = new URLSearchParams({
+            image_capture: cap,
             printed_by: data.printed_by,
             exam_date: data.exam_date,
             exam_room: data.exam_room,
             exam_date_name: schedule_exam_date,
             exam_room_name: room_exam,
-        });
+        }).toString();
+
+        router.get(route('permit.print', { applicant_id: data.applicant_id }) + '?' + queryParams);
+
     };
 
+    const [cap, setCap] = useState('');
 
+    const webcamRef = React.useRef(null);
+    const capture = React.useCallback(
+        () => {
+            //const imageSrc = webcamRef.current.getScreenshot();
+
+            if (webcamRef.current) {
+                const imageSrc = webcamRef.current.getScreenshot({
+                    width: 640,
+                    height: 480
+                });
+                setCap(imageSrc)
+                //console.log('Captured image:', imageSrc);
+
+                const base64Length = imageSrc.length - 'data:image/jpeg;base64,'.length;
+                const fileSizeInBytes = 4 * Math.ceil(base64Length / 3);
+                const fileSizeInKB = fileSizeInBytes / 1024;
+                console.log('File size (KB):', fileSizeInKB.toFixed(2));
+
+            } else {
+                console.log("Webcam not ready yet!");
+            }
+        },
+        [webcamRef]
+    );
 
     return (
         <AuthenticatedLayout
@@ -121,17 +156,17 @@ export default function Permit({ auth, applicants, users, examdates, examrooms }
                                     })}
                                 </p>
                                 <p className="text-[11px] ">
-                                    <label className="font-bold ">PRINTED BY : </label> {data.printed_name.toUpperCase()}
+                                    <label className="font-bold ">PRINTED BY :</label> {data.printed_name.toUpperCase()}
                                     <span
                                         className={
-                                            "px-1 py-1 ml-3 rounded text-white text-[10px]" +
+                                            "px-1 py-1 ml-3 rounded text-white text-[10px] " +
                                             USER_STATUS_CLASS_MAP[auth.user.role]
                                         }
                                     >
                                         {USER_STATUS_TEXT_MAP[auth.user.role]}
                                     </span>
 
-                                    <label className="font-bold "> VALIDATED BY : </label> {data.validate_name.toUpperCase()}
+                                    <label className="font-bold pl-2"> VALIDATED BY : </label> {data.validate_name.toUpperCase()}
                                     <span
                                         className={
                                             "px-1 py-1 ml-3 rounded text-white text-[10px]" +
@@ -155,8 +190,8 @@ export default function Permit({ auth, applicants, users, examdates, examrooms }
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
 
-                        <div className="mt-2 p-10 flex">
-                            <div className="w-9/12 bg-[rgb(250,245,226)] shadow-inner p-5 m-3" >
+                        <div className="mt-2 p-10 flex bg-[rgb(250,245,226)] shadow-inner">
+                            <div className="w-full p-5 m-3" >
                                 <table className="text-left">
                                     <tbody>
                                         <tr className="pb-20">
@@ -206,23 +241,43 @@ export default function Permit({ auth, applicants, users, examdates, examrooms }
                                     </tbody>
                                 </table>
                             </div>
-                            <div className="w-3/12 text-right  m-3" >
-                                {data.image_capture ?
-                                    (<img src="" alt="N/A" className="w-full h-5/6" />) :
-                                    <div className="w-full h-full bg-gray-200 shadow-inner flex items-center justify-center">Capture applicant image</div>
+                            <div className=" text-right  " >
+                                {cap &&
+                                    <div className='pl-20 pb-20'>
+                                        <label htmlFor="" className='bg-blue-500 p-2 text-white'> CAPTURED</label>
+                                        <img src={cap} alt="Captured image" className="w-full h-auto rounded pl-20" />
+                                    </div>
                                 }
-
+                                <div className='pl-20 pb-20'>
+                                    <label htmlFor="" className='bg-red-500 p-2 text-white '> LIVE</label>
+                                    <Webcam
+                                        audio={false}
+                                        ref={webcamRef}
+                                        screenshotFormat="image/jpeg"
+                                        screenshotQuality={0.6}
+                                        videoConstraints={{
+                                            width: 640, // smaller than 1280
+                                            height: 480, // smaller than 720
+                                            facingMode: "user", // Use "environment" for the rear camera
+                                        }}
+                                        className="w-full h-auto rounded pl-20"
+                                    />
+                                </div>
 
                             </div>
                         </div>
 
 
-                        <div className="flex justify-end mb-10 pr-10 mr-5">
-                            <button className="ml-2 py-1 px-3 text-white bg-blue-500 rounded shadow shadow-lg transition-all hover:bg-blue-600">
+
+                        <div className="flex justify-end mb-10 pr-10 mr-5 mt-2">
+                            <button
+                                onClick={capture}
+                                className="ml-2 py-1 px-3 text-white bg-blue-500 rounded shadow shadow-lg transition-all hover:bg-blue-600"
+                            >
                                 <CameraIcon className="h-[30px]" />
                             </button>
 
-                            {data.image_capture ?
+                            {cap ?
                                 (<Button
                                     onClick={handlePrintClick}
                                     title="PDF PRINT"
@@ -234,13 +289,7 @@ export default function Permit({ auth, applicants, users, examdates, examrooms }
                                     <PrinterIcon className="h-[30px] mt-2" />
                                 </div>
                             }
-                            <Button
-                                onClick={handlePrintClick}
-                                title="PDF PRINT"
-                                className="ml-2 py-1 px-3 text-gray-800 bg-[rgb(239,228,176)] rounded shadow shadow-lg transition-all hover:bg-yellow-600 "
-                            >
-                                <PrinterIcon className="h-[30px] mt-2" />
-                            </Button>
+
                             <Link href={route("applicant.index")}
                                 title="BACK / CANCEL"
                                 className=" bg-gray-500 ml-2 py-1 px-3 text-white rounded shadow  hover:bg-gray-800 mr-2"
@@ -248,6 +297,7 @@ export default function Permit({ auth, applicants, users, examdates, examrooms }
                                 <BackspaceIcon className="h-[30px] mt-1" />
                             </Link>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -255,4 +305,6 @@ export default function Permit({ auth, applicants, users, examdates, examrooms }
 
         </AuthenticatedLayout >
     )
+
+
 }

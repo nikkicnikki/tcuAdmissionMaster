@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashbaordController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ApplicantController;
 use App\Http\Controllers\BarangayController;
@@ -21,7 +22,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', fn() => Inertia::render('Dashboard'))->name('dashboard');
+    Route::get('/dashboard', [DashbaordController::class, 'index'])->name('dashboard');
 
 
     Route::resource('applicant', ApplicantController::class);
@@ -74,7 +75,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //create Route::put for the update of image_capture
 
     // Permit PDF then you can print there
-    Route::patch('/PDF/{applicant_id}/permit_print', [PermitController::class, 'permit_print'])->name('permit.print');
+    Route::get('/PDF/{applicant_id}/permit_print', [PermitController::class, 'permit_print'])->name('permit.print');
     
     //Route::get('/PDF/{applicant_id}/permit_generate', [PermitController::class, 'permit_generate'])->name('permit.generate');
     //Route::get('/PDF/{applicant}/permit_pdf', [PermitController::class, 'permit_pdf'])->name('permit.pdf');

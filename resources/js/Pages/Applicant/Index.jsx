@@ -7,6 +7,7 @@ import { Head, Link, router, usePage } from "@inertiajs/react";
 //import { ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/16/solid";
 import TableHeading from "@/Components/TableHeading";
 import ApplicantFormAction from "@/Components/ApplicantFormAction";
+import { ArrowUpOnSquareStackIcon } from "@heroicons/react/24/outline";
 
 
 export default function Index({ auth, applicants, queryParams = null, success, sucType, examdate, examrooms }) {
@@ -55,7 +56,7 @@ export default function Index({ auth, applicants, queryParams = null, success, s
         print: 'bg-[rgb(250,245,226)] text-gray-500',
     };
 
-    
+
 
     return (
 
@@ -95,17 +96,17 @@ export default function Index({ auth, applicants, queryParams = null, success, s
 
                 <div className="pt-5 pb-5">
                     <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                        <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 p-4">
+                        <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 p-4 flex items-center gap-4">
 
                             <a
-                                className="text-white bg-blue-500 p-5 hover:bg-blue-700 "
+                                className="text-white bg-blue-500 p-3 hover:bg-blue-700 flex items-center gap-2 rounded"
                                 href="/excel"
                             >
-                                Import Applicant
+                                <ArrowUpOnSquareStackIcon className="h-[20px] w-[20px]" />
+                                <span>Import Applicant</span>
                             </a>
 
-                            {" << Add NEW Applicant here"}
-
+                            <span className="text-gray-500">{"<< Add NEW Applicant here"}</span>
 
                         </div>
                     </div>

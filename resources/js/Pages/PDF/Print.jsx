@@ -6,7 +6,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 export default function Print({ auth }) {
 
-    const { applicant, exam_date_name, exam_room_name } = usePage().props;
+    const { applicant, exam_date_name, exam_room_name , image_capture} = usePage().props;
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -133,6 +133,14 @@ export default function Print({ auth }) {
                     src="/storage/source/TCU2024.png" // can also be base64 or local path
                 />
 
+                <Image
+                    style={styles.pic1}
+                    src={"/storage/"+image_capture} 
+                />
+                <Image
+                    style={styles.pic2}
+                    src={"/storage/"+image_capture} 
+                />
                 <HeadTitle />
                 {applicant ? <ApplicantINFO applicant={applicant} /> : <View><Text>NO DATA INPUT</Text></View>}
                 <Reminders />
@@ -164,32 +172,32 @@ export default function Print({ auth }) {
 
     return (
 
-            <AuthenticatedLayout
-                user={auth.user}
-                header={
-                    <div className="flex justify-between ">
-                        <a 
+        <AuthenticatedLayout
+            user={auth.user}
+            header={
+                <div className="flex justify-between ">
+                    <a
                         onClick={() => window.history.back()}
                         className="text-xl cursor-pointer font-semibold leading-tight text-gray-800 dark:text-gray-200 hover:underline">
-                            &laquo; back 
-                        </a>
-                        <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                            PDF PRINT
-                        </h2>
-                    </div>
-                }
-            >
-                <Head title={"PDF PRINT"} />
-
-                <div className="flex items-center justify-center">
-                    <div className="w-full h-[780px]">
-                        <PDFViewer width={"100%"} height={"100%"}>
-                            {memoizedPDF}
-                        </PDFViewer>
-                    </div>
+                        &laquo; back
+                    </a>
+                    <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                        PDF PRINT
+                    </h2>
                 </div>
-            </AuthenticatedLayout>
+            }
+        >
+            <Head title={"PDF PRINT"} />
 
-            )
+            <div className="flex items-center justify-center">
+                <div className="w-full h-[780px]">
+                    <PDFViewer width={"100%"} height={"100%"}>
+                        {memoizedPDF}
+                    </PDFViewer>
+                </div>
+            </div>
+        </AuthenticatedLayout>
+
+    )
 
 }
