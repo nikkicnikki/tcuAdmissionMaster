@@ -3,12 +3,14 @@ import { Head } from '@inertiajs/react';
 
 export default function Dashboard({
     auth,
-    totalApplicant, 
+    totalApplicant,
     totalApplicantPending,
-    totalApplicantInomplete,
+    totalApplicantIncomplete,
     totalApplicantValid,
     totalApplicantHasPermit,
-    totalApplicantScored,}) {
+    totalApplicantScored,
+    havePermitApplicants,
+}) {
 
     return (
         <AuthenticatedLayout
@@ -20,7 +22,7 @@ export default function Dashboard({
         >
             <Head title="Dashboard" />
 
-            <div className="py-12">
+            <div className="py-5">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 grid grid-cols-6 gap-2">
 
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
@@ -40,7 +42,7 @@ export default function Dashboard({
                     <div className="overflow-hidden bg-[rgb(153,217,234)] shadow-sm sm:rounded-lg dark:bg-gray-800">
                         <div className="p-2 text-gray-900 dark:text-gray-100">
                             <h3 className='text-gray-900 text-xl font-semibold'>Incomplete</h3>
-                            <p>{totalApplicantInomplete}</p>
+                            <p>{totalApplicantIncomplete}</p>
                         </div>
                     </div>
 
@@ -65,6 +67,40 @@ export default function Dashboard({
                         </div>
                     </div>
 
+                </div>
+            </div>
+
+            <div className="mt-2">
+                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 ">
+                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
+                        <div className="p-2 text-gray-900 dark:text-gray-100">
+
+                            {Object.keys(havePermitApplicants).map((groupKey) => (
+                                <div key={groupKey} className='p-4'>
+                                    <h2>{groupKey}</h2>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>ID</th>
+                                                <th>NAME</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {havePermitApplicants[groupKey].map((applicant, index) => (
+                                            <tr key={index}>
+                                                <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{index+1}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                                <tb>&nbsp;&nbsp;&nbsp;{applicant.id}&nbsp;&nbsp;&nbsp;</tb>
+                                                <td className='text-left'>{applicant.sr_name.toUpperCase() + ", " + applicant.f_name.toUpperCase() + " " + applicant.m_name.toUpperCase()}</td>
+                                            </tr>
+                                        ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            ))}
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </AuthenticatedLayout>

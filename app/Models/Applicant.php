@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Applicant extends Model
 {
     //
@@ -72,11 +72,11 @@ class Applicant extends Model
         return $this->belongsTo(User::class , 'score_by');
     }
 
-    public function examDate() {
+    public function examDate(): BelongsTo {
         return $this->belongsTo(ExamDate::class , 'exam_date');
     }
 
-    public function examRoom() {
+    public function examRoom(): BelongsTo {
         return $this->belongsTo(ExamRoom::class , 'exam_room');
     }
 }

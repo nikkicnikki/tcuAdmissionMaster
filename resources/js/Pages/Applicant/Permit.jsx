@@ -1,16 +1,24 @@
-import React, { useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { APPLICANT_STATUS_CLASS_MAP, APPLICANT_STATUS_TEXT_MAP, USER_STATUS_CLASS_MAP, USER_STATUS_TEXT_MAP } from "@/constants";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Button } from "@headlessui/react";
-import { BackspaceIcon, CameraIcon, PrinterIcon } from "@heroicons/react/24/outline";
-import { Head, Link, useForm } from "@inertiajs/react";
+import { Button, Dialog } from "@headlessui/react";
+import { BackspaceIcon, CameraIcon, ExclamationTriangleIcon, PrinterIcon } from "@heroicons/react/24/outline";
+import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import { router } from '@inertiajs/react'
-import ReactDOM from 'react-dom';
-//import { Webcam } from '@webcam/react';
 import Webcam from 'react-webcam';
 
 
 export default function Permit({ auth, applicants, users, examdates, examrooms }) {
+
+
+    const [showErrorModal, setShowErrorModal] = useState(false);
+    const { error } = usePage().props;
+
+    useEffect(() => {
+        if (error) {
+            setShowErrorModal(true);
+        }
+    }, [error]);
 
     const curr_user = auth.user.id;
     const vald_user_id = applicants.validate_by;
@@ -117,10 +125,12 @@ export default function Permit({ auth, applicants, users, examdates, examrooms }
         >
             <Head title={`Applicant "${`${data.f_name} ${data.m_name} ${data.sr_name}`.toUpperCase()}"`} />
 
+
             {/* APPLICANT STATUS */}
             <div className="pt-8 pb-2">
                 <div className="mx-auto max-w-7xl sm:px- lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
+                        
                         <div className="p-1 sm:p-3 bg-white shadow sm:rounded-lg flex flex-nowrap" >
 
                             <div className="mt-1 flex-1">
@@ -301,6 +311,32 @@ export default function Permit({ auth, applicants, users, examdates, examrooms }
                     </div>
                 </div>
             </div>
+            
+            {/* ERROR MODAL */}
+            <Dialog open={showErrorModal} onClose={() => setShowErrorModal(false)} as={Fragment}>
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30">
+                    <Dialog.Panel className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full relative">
+                        <div className="flex items-start">
+                            <ExclamationTriangleIcon className="h-6 w-6 text-red-500 mt-1 mr-2" />
+                            <div>
+                                <Dialog.Title className="text-lg font-semibold text-red-700">Error</Dialog.Title>
+                                <Dialog.Description className="text-gray-700 mt-1">
+                                    {error}
+                                </Dialog.Description>
+                            </div>
+                        </div>
+                        <div className="mt-4 text-right">
+                            <button
+                                onClick={() => setShowErrorModal(false)}
+                                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </Dialog.Panel>
+                </div>
+            </Dialog>
+
 
 
         </AuthenticatedLayout >

@@ -20,7 +20,20 @@ class PermitController extends Controller
             'image_capture' => 'required|string'
         ]);
 
+        $examDate = $request->input('exam_date');
+        $examRoom = $request->input('exam_room');
+        // SELECT COUNT(*) FROM `applicants` WHERE exam_date = 4 AND exam_room = 1
         $applicant = Applicant::findOrFail($applicant_id);
+
+        $limit = Applicant::where('exam_date', $examDate)
+            ->where('exam_room', $examRoom)->count();
+
+        $setLimit = 50 ; //SET THE ROOM LIMIT HERE
+
+        if ($limit >= $setLimit) {
+            //change State to complete
+            return redirect()->back()->with('error', 'Limit of $setLimit applicants per room has been reached.');
+        }
 
         $imageData = $request->input('image_capture');
 
@@ -37,8 +50,8 @@ class PermitController extends Controller
 
         $applicant->image_capture = "applicants/{$imageName}";
         $applicant->printed_by = $request->input('printed_by');
-        $applicant->exam_date = $request->input('exam_date');
-        $applicant->exam_room = $request->input('exam_room');
+        $applicant->exam_date = $examDate;
+        $applicant->exam_room = $examRoom;
         $applicant->status = 4;
         $applicant->printed_date = now();
         $applicant->save();
