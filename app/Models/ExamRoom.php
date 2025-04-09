@@ -13,5 +13,6 @@ class ExamRoom extends Model
         'status',
         'des',
         'set_user',
+        'limit',
     ];
 }

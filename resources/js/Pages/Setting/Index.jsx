@@ -6,7 +6,7 @@ import { Head, Link, router } from "@inertiajs/react";
 
 export default function Index({ auth, examDates, examRooms, programs, users, success, sucType }) {
 
-    //console.log(users);
+    console.log(examRooms);
 
     const hasStatusActive = examDates.data?.some(examDate => examDate.status === 2);
 
@@ -165,6 +165,7 @@ export default function Index({ auth, examDates, examRooms, programs, users, suc
                                         <th className="px-3 py-3">ROOM</th>
                                         <th className="px-3 py-3">STATE</th>
                                         <th className="px-3 py-3">USER-PERMIT</th>
+                                        <th className="px-3 py-3">LIMIT</th>
                                         <th className="px-3 py-3">DESCRIPTION</th>
                                         <th className="px-3 py-3">CREATE</th>
                                         <th className="px-3 py-3">ACTION</th>
@@ -189,6 +190,9 @@ export default function Index({ auth, examDates, examRooms, programs, users, suc
                                                     : " - " }
                                             </td>
                                            
+                                            <td className="px-3 py-2">
+                                                {examRoom.limit}
+                                            </td>
 
                                             <td className="px-3 py-2">
                                                 {examRoom.des}

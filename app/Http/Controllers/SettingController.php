@@ -24,8 +24,7 @@ use App\Http\Requests\UpdateExamRoomRequest;
 //use App\Http\Resources\ExamRoomResource;
 
 use App\Http\Resources\ExamRoomEditResource;
-
-
+use App\Models\Applicant;
 use App\Models\User;
 
 use Carbon\Carbon;
@@ -35,10 +34,31 @@ class SettingController extends Controller
     public function index()
     {
         $examDateQuery = ExamDate::query();
-        $examRoomQuery = ExamRoom::query();
         $programQuery = Program::query();
-        
+        $examRoomQuery = ExamRoom::query();
+        $activeDateID = ExamDate::where('status', 2)->value('id');
+        // $examRoomQuery = ExamRoom::query()
+        //     ->join('applicants', 'exam_rooms.id', '=', 'applicants.exam_room')
+        //     ->where('applicants.exam_date', $activeDateID)
+        //     ->selectRaw(' COUNT(applicants.exam_room) AS curr_count, 
+        //                     exam_rooms.id, 
+        //                     exam_rooms.exam_room, 
+        //                     exam_rooms.status, 
+        //                     exam_rooms.set_user, 
+        //                     exam_rooms.limit, 
+        //                     exam_rooms.created_at, 
+        //                     exam_rooms.des')
+        //     ->groupBy('applicants.exam_room');
 
+        // $applicantWithPermit = Applicant::selectRaw('COUNT(exam_room) AS curr_count, exam_room, exam_date')
+        //     ->where('exam_date', $activeDateID)
+        //     ->groupBy('exam_room', 'exam_date')
+        //     ->get();
+
+        // SELECT  COUNT(exam_room) AS curr_count ,
+        //     exam_room, exam_date FROM `applicants`
+        // WHERE exam_date = 2 
+        // GROUP BY exam_room 
 
 
         $examDates = $examDateQuery->paginate(20)->onEachSide(1);
@@ -51,6 +71,7 @@ class SettingController extends Controller
             'examRooms' => $examRooms,
             'programs' => $programs,
             'users' => $users,
+            // 'applicantWithPermit' => $applicantWithPermit,
             'success' => session('success'),
             'sucType' => session('sucType'),
 
@@ -95,7 +116,6 @@ class SettingController extends Controller
             'success' => "Successful Add Schedule \"{$formattedDate}\" ",
             'sucType' => 'add'
         ]);
-
     }
 
     public function examRoomStore(StoreExamRoomRequest $request)
@@ -108,7 +128,6 @@ class SettingController extends Controller
             'success' => "Successful Add Room \"{$data['exam_room']}\" ",
             'sucType' => 'add',
         ]);
-
     }
 
     public function programStore(StoreProgramRequest $request)
@@ -121,7 +140,6 @@ class SettingController extends Controller
             'success' => "Successful Add Program \"{$data['name']}\" ",
             'sucType' => 'add',
         ]);
-
     }
 
 
@@ -135,7 +153,6 @@ class SettingController extends Controller
             'success' => "Successful Add Barangay \"{$data['name']}\" ",
             'sucType' => 'add',
         ]);
-
     }
 
     /* DESTROY or DELETE */
@@ -262,9 +279,9 @@ class SettingController extends Controller
 
         // Check if the original set_user is assigned to another ExamRoom and reset it
         if (!is_null($originalSetUser)) {
-            ExamRoom::where('set_user', '=' ,$originalSetUser)
-            ->where('id', '!=', $examroom->id) // Avoid updating the current exam room
-            ->update(['set_user' => null]);
+            ExamRoom::where('set_user', '=', $originalSetUser)
+                ->where('id', '!=', $examroom->id) // Avoid updating the current exam room
+                ->update(['set_user' => null]);
         }
 
         return to_route('setting.index')->with([
@@ -297,6 +314,4 @@ class SettingController extends Controller
 
         ]);
     }
-
-
 }
