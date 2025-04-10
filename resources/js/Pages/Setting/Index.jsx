@@ -10,7 +10,7 @@ import { Inertia } from '@inertiajs/inertia';
 
 export default function Index({ auth, examDates, examRooms, programs, users, applicantWithPermit, success, sucType }) {
 
-    console.log(applicantWithPermit);
+    // console.log(applicantWithPermit);
     const { data, setData, patch, processing, errors } = useForm({
         limit: ''
     });
@@ -59,24 +59,23 @@ export default function Index({ auth, examDates, examRooms, programs, users, app
         e.preventDefault();
 
         if (!data.limit) {
-            alert("Please input a value.");
+            alert("Input Value");
             return;
         }
 
-        patch(route('roomLimit.patch', data.limit), {
+        router.patch(route('roomLimit.patch', data.limit), {
             onSuccess: () => {
                 alert("Limit updated successfully!");
-                Inertia.reload();  // Refresh the page
+                //Inertia.reload(); // 👈 this will refresh your Inertia page
+                Inertia.reload({ only: ['examRooms'] });
+                data.limit = '';
             },
             onError: (errors) => {
-                if (errors.limit) {
-                    alert("Invalid limit: " + errors.limit);
-                } else {
-                    alert("An unexpected error occurred.");
-                }
-            }
+                console.error(errors);
+            },
         });
     };
+
 
 
 

@@ -351,6 +351,7 @@ class SettingController extends Controller
             return response()->json(['error' => 'Failed to update exam rooms.'], 409);
         }
 
+        
         // Send back a success message to the frontend
         //return response()->json(['message' => 'Limit updated successfully.']);
     }

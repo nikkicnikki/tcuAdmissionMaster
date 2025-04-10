@@ -10,9 +10,5 @@ export default defineConfig({
         }),
         react(),
     ],
-    resolve: {
-        alias: {
-            '@inertiajs/inertia': require.resolve('@inertiajs/inertia'),
-        },
-    },
+    
 });
