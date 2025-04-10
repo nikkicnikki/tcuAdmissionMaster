@@ -57,7 +57,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/settings/update_room/{examroom}', [SettingController::class, 'examRoomUpdate'])->name('room.update');
     Route::put('/settings/update_program/{program}', [SettingController::class, 'programUpdate'])->name('program.update');
     Route::put('/settings/update_barangay/{barangay}', [SettingController::class, 'barangayUpdate'])->name('barangay.update');
-    
+    // setting Patch
+    Route::patch( 'settings/patchRoomLimit/{limit}', [SettingController::class, 'setLimit'] )->name('roomLimit.patch');
 
     // Validation
     Route::get('/applicant/{applicant}/validate', [ApplicantController::class, 'validate'])->name('applicant.validate');

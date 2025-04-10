@@ -51,7 +51,7 @@ class Applicant extends Model
 
     use HasFactory;
 
-
+    
     public function program(){
         return $this->belongsTo(Program::class , 'prog');
     }

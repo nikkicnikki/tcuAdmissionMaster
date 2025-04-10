@@ -10,8 +10,10 @@ export default function Dashboard({
     totalApplicantHasPermit,
     totalApplicantScored,
     havePermitApplicants,
+    roomLimit,
+    scheduleListCount,
 }) {
-
+    console.log(scheduleListCount);
     return (
         <AuthenticatedLayout
             header={
@@ -74,26 +76,45 @@ export default function Dashboard({
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 ">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
                         <div className="p-2 text-gray-900 dark:text-gray-100">
-
+                            <div className='flex'>
+                                {scheduleListCount.map((schedList , index) => (
+                                    <>
+                                        <div className='ml-2 p-2 bg-[rgb(239,228,176)] text-black shadow-inner' key={schedList.total+"-"+index}>
+                                            {schedList.exam_date}
+                                        </div>
+                                        <span className='bg-gray-200 text-gray-900 p-2 shadow shadow-md border-b-2 border-red-500'>{schedList.total}</span>
+                                    </>
+                                ))}
+                            </div>
                             {Object.keys(havePermitApplicants).map((groupKey) => (
                                 <div key={groupKey} className='p-4'>
-                                    <h2>{groupKey}</h2>
+                                    <h2 className='bg-gray-200 text-gray-900 p-2 shadow shadow-md border-b-2 border-red-400'>
+                                        {groupKey} ({havePermitApplicants[groupKey].length}/{roomLimit})
+                                        {havePermitApplicants[groupKey].length >= roomLimit ?
+                                            <span className='bg-red-500 text-white text-xs px-2 ml-2' >full</span>
+                                            : ""
+                                        }
+                                    </h2>
                                     <table>
                                         <thead>
                                             <tr>
                                                 <th>#</th>
                                                 <th>ID</th>
                                                 <th>NAME</th>
+                                                <th>&nbsp;&nbsp;&nbsp;VALIDATED BY&nbsp;&nbsp;&nbsp;</th>
+                                                <th>&nbsp;&nbsp;&nbsp;PRINTED BY&nbsp;&nbsp;&nbsp;</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        {havePermitApplicants[groupKey].map((applicant, index) => (
-                                            <tr key={index}>
-                                                <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{index+1}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                                <tb>&nbsp;&nbsp;&nbsp;{applicant.id}&nbsp;&nbsp;&nbsp;</tb>
-                                                <td className='text-left'>{applicant.sr_name.toUpperCase() + ", " + applicant.f_name.toUpperCase() + " " + applicant.m_name.toUpperCase()}</td>
-                                            </tr>
-                                        ))}
+                                            {havePermitApplicants[groupKey].map((applicant, index) => (
+                                                <tr key={index}>
+                                                    <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{index + 1}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                                    <td>&nbsp;&nbsp;&nbsp;{applicant.id}&nbsp;&nbsp;&nbsp;</td>
+                                                    <td className='text-left'>{applicant.sr_name.toUpperCase() + ", " + applicant.f_name.toUpperCase() + " " + applicant.m_name.toUpperCase()}</td>
+                                                    <td>&nbsp;&nbsp;&nbsp;{applicant.valid_by}&nbsp;&nbsp;&nbsp;</td>
+                                                    <td>&nbsp;&nbsp;&nbsp;{applicant.print_by}&nbsp;&nbsp;&nbsp;</td>
+                                                </tr>
+                                            ))}
                                         </tbody>
                                     </table>
                                 </div>

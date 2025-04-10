@@ -28,7 +28,10 @@ class PermitController extends Controller
         $limit = Applicant::where('exam_date', $examDate)
             ->where('exam_room', $examRoom)->count();
 
-        $setLimit = 50 ; //SET THE ROOM LIMIT HERE
+        $userID = auth()->user()->id;
+        $activeDateID = ExamDate::where('status', 2)->value('id');
+        $setLimit = ExamRoom::where('set_user', $userID)->value('limit');
+        //                                   'id'  ,  exam_room
 
         if ($limit >= $setLimit) {
             //change State to complete

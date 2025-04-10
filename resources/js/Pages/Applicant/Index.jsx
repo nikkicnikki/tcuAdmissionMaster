@@ -10,7 +10,17 @@ import ApplicantFormAction from "@/Components/ApplicantFormAction";
 import { ArrowUpOnSquareStackIcon } from "@heroicons/react/24/outline";
 
 
-export default function Index({ auth, applicants, queryParams = null, success, sucType, examdate, examrooms }) {
+export default function Index({
+    auth,
+    applicants,
+    queryParams = null,
+    success,
+    sucType,
+    examdate,
+    examrooms,
+    examRoomLimit,
+    examRoomLimitStatus
+}) {
 
     const active_schedule = examdate.find(examd => examd.status == 2)?.exam_date;
     const assign_room = examrooms.find(examroom => examroom.set_user == auth.user.id)?.exam_room;
@@ -75,7 +85,7 @@ export default function Index({ auth, applicants, queryParams = null, success, s
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 p-4 flex justify-between">
 
                         <div className="flex justify-between gap-4">
-                            <div>
+                            <div className=" text-nowrap">
                                 <label className="font-bold">ACTIVE SCHEDULE: </label>
                                 <label className="bg-[rgb(250,245,226)] shadow-inner p-5">{active_schedule ? new Date(active_schedule).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }) : "no schedule"}</label>
                             </div>
@@ -83,6 +93,12 @@ export default function Index({ auth, applicants, queryParams = null, success, s
                                 <div>
                                     <label className="font-bold">YOUR ASSIGN ROOM: </label>
                                     <label className="bg-[rgb(250,245,226)] shadow-inner p-5">{assign_room ? assign_room : "no assign room"}</label>
+                                    <label className="ml-4 font-bold">STATUS: </label>
+                                    { examRoomLimitStatus >= examRoomLimit ? 
+                                        <label className="bg-red-500 text-white shadow-inner p-5">{examRoomLimitStatus + "/" + examRoomLimit + "FULL"}</label>
+                                        : <label className="bg-[rgb(250,245,226)] shadow-inner p-5">{examRoomLimitStatus + "/" + examRoomLimit}</label>
+                                    }
+                                    
                                 </div> : ""
 
                             }
@@ -279,6 +295,8 @@ export default function Index({ auth, applicants, queryParams = null, success, s
                                                     role={auth.user.role}
                                                     status={applicant.status}
                                                     applicantId={applicant.id}
+                                                    roomLimit={examRoomLimit}
+                                                    roomLimitStatus={examRoomLimitStatus}
                                                 />
                                             </tr>
                                         ))}

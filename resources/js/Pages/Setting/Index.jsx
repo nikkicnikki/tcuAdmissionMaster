@@ -1,12 +1,19 @@
+import InputError from "@/Components/InputError";
+import InputLabel from "@/Components/InputLabel";
 import Pagination from "@/Components/Pagination";
+import TextInput from "@/Components/TextInput";
 import { EXAM_STATUS_CLASS_MAP, EXAM_STATUS_TEXT_MAP } from "@/constants";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link, router } from "@inertiajs/react";
+import { Head, Link, router, useForm } from "@inertiajs/react";
+import { Inertia } from '@inertiajs/inertia';
 
 
-export default function Index({ auth, examDates, examRooms, programs, users, success, sucType }) {
+export default function Index({ auth, examDates, examRooms, programs, users, applicantWithPermit, success, sucType }) {
 
-    console.log(examRooms);
+    console.log(applicantWithPermit);
+    const { data, setData, patch, processing, errors } = useForm({
+        limit: ''
+    });
 
     const hasStatusActive = examDates.data?.some(examDate => examDate.status === 2);
 
@@ -46,6 +53,33 @@ export default function Index({ auth, examDates, examRooms, programs, users, suc
         router.delete(route('program.delete', program.id));
     }
 
+
+
+    const limitSubmit = (e) => {
+        e.preventDefault();
+
+        if (!data.limit) {
+            alert("Please input a value.");
+            return;
+        }
+
+        patch(route('roomLimit.patch', data.limit), {
+            onSuccess: () => {
+                alert("Limit updated successfully!");
+                Inertia.reload();  // Refresh the page
+            },
+            onError: (errors) => {
+                if (errors.limit) {
+                    alert("Invalid limit: " + errors.limit);
+                } else {
+                    alert("An unexpected error occurred.");
+                }
+            }
+        });
+    };
+
+
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -76,7 +110,7 @@ export default function Index({ auth, examDates, examRooms, programs, users, suc
                             {/* DATES TABLE*/}
                             <div className="flex justify-between items-center p-2 text-xs text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
                                 <h2 className=" text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200 justify items-center">
-                                    Schedules  
+                                    Schedules
                                 </h2>
                                 <Link
                                     href={route("setting.examDateCreate")}
@@ -152,6 +186,27 @@ export default function Index({ auth, examDates, examRooms, programs, users, suc
                                 <h2 className=" text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200 justify items-center">
                                     Rooms
                                 </h2>
+
+                                <form
+                                    onSubmit={limitSubmit}
+                                    className="flex justify-end items-center gap-2 m-4"
+                                >
+                                    <InputLabel htmlFor="set_limit" value="limit" />
+
+                                    <TextInput
+                                        id="set_limit"
+                                        name="limit"
+                                        type="number"
+                                        value={data.limit}
+                                        onChange={(e) => setData("limit", e.target.value)}
+                                        className="w-1/6 h-4/6"
+                                    />
+                                    <InputError message={errors.limit} className="mt-2" />
+                                    <button
+                                        className="bg-blue-500 p-2 text-white rounded shadow transition-all hover:bg-blue-600"
+                                    >APPLY TO ALL</button>
+                                </form>
+
                                 <Link
                                     href={route("setting.examRoomCreate")}
                                     className="bg-emerald-500 p-4 mx-4 text-white rounded shadow transition-all hover:bg-emerald-600"
@@ -173,55 +228,66 @@ export default function Index({ auth, examDates, examRooms, programs, users, suc
                                 </thead>
 
                                 <tbody>
-                                    {examRooms.data.map(examRoom => (
-                                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={examRoom.id}>
-                                            <td className="px-3 py-2">
-                                                {examRoom.exam_room}
-                                            </td>
-                                            <td className="px-3 py-2">
-                                                <span className={"px-2 py-1 rounded text-white " + EXAM_STATUS_CLASS_MAP[examRoom.status]}>
-                                                    {EXAM_STATUS_TEXT_MAP[examRoom.status]}
-                                                </span>
-                                            </td>
-                                            
-                                            <td className="px-3 py-2">
-                                                {examRoom.set_user ? 
-                                                    users.find(user => user.id === examRoom.set_user)?.name || "Unknown User" 
-                                                    : " - " }
-                                            </td>
-                                           
-                                            <td className="px-3 py-2">
-                                                {examRoom.limit}
-                                            </td>
+                                    {examRooms.data.map(examRoom => {
+                                        const matchedApplicant = applicantWithPermit.find(applicant => applicant.exam_room === examRoom.id);
 
-                                            <td className="px-3 py-2">
-                                                {examRoom.des}
-                                            </td>
-                                            <td className="px-3 py-2 text-nowrap">
-                                                {new Date(examRoom.created_at).toLocaleDateString("en-US", {
-                                                    year: "numeric",
-                                                    month: "long",
-                                                    day: "numeric",
-                                                })}
-                                            </td>
-                                            <td className="px-3 py-2 text-right">
-                                                <Link
-                                                    href={route('room.edit', examRoom.id)}
-                                                    className="font-medium text-blue-600 dark:text-red-500 hover:underline mx-1"
-                                                >
-                                                    edit
-                                                </Link>
-                                                {!hasStatusActive &&
-                                                    <button
-                                                        onClick={(e) => deleteExamRoom(examRoom)}
-                                                        className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"
-                                                    >
-                                                        delete
-                                                    </button>
+                                        return (
+                                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={examRoom.id}>
+                                                <td className="px-3 py-2">
+                                                    {examRoom.exam_room}
+                                                </td>
+                                                <td className="px-3 py-2">
+                                                    <span className={"px-2 py-1 rounded text-white " + EXAM_STATUS_CLASS_MAP[examRoom.status]}>
+                                                        {EXAM_STATUS_TEXT_MAP[examRoom.status]}
+                                                    </span>
+                                                </td>
+
+                                                <td className="px-3 py-2">
+                                                    {examRoom.set_user ?
+                                                        users.find(user => user.id === examRoom.set_user)?.name || "Unknown User"
+                                                        : " - "}
+                                                </td>
+
+
+                                                {matchedApplicant ?
+                                                    (matchedApplicant.curr_count === examRoom.limit ?
+                                                        <td className="px-3 py-2 bg-red-500 text-white text-center">{matchedApplicant.curr_count + "/" + examRoom.limit + " FULL"}</td> :
+                                                        <td className="px-3 py-2 bg-green-500 text-white text-center">{matchedApplicant.curr_count + "/" + examRoom.limit}</td>)
+                                                    :
+                                                    <td className="px-3 py-2 bg-gray-500 text-white text-center">{"0/" + examRoom.limit}</td>
                                                 }
-                                            </td>
-                                        </tr>
-                                    ))}
+
+
+
+                                                <td className="px-3 py-2">
+                                                    {examRoom.des}
+                                                </td>
+                                                <td className="px-3 py-2 text-nowrap">
+                                                    {new Date(examRoom.created_at).toLocaleDateString("en-US", {
+                                                        year: "numeric",
+                                                        month: "long",
+                                                        day: "numeric",
+                                                    })}
+                                                </td>
+                                                <td className="px-3 py-2 text-right">
+                                                    <Link
+                                                        href={route('room.edit', examRoom.id)}
+                                                        className="font-medium text-blue-600 dark:text-red-500 hover:underline mx-1"
+                                                    >
+                                                        edit
+                                                    </Link>
+                                                    {!hasStatusActive &&
+                                                        <button
+                                                            onClick={(e) => deleteExamRoom(examRoom)}
+                                                            className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"
+                                                        >
+                                                            delete
+                                                        </button>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        )
+                                    })}
                                 </tbody>
                             </table>
 

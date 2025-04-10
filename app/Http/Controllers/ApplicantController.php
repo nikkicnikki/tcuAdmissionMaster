@@ -32,7 +32,14 @@ class ApplicantController extends Controller
         $sortField = request("sort_field", "created_at");
         $sortDirection = request("sort_direction", "desc");
 
-
+        $userID = auth()->user()->id;
+        $activeDateID = ExamDate::where('status', 2)->value('id'); 
+        $examRoomLimit = ExamRoom::where('set_user', $userID)->value('limit');
+        $examRoomLimitStatus = Applicant::join('exam_rooms', 'applicants.exam_room', '=', 'exam_rooms.id')
+                                    ->where('applicants.exam_date', $activeDateID )
+                                    ->where('exam_rooms.set_user', $userID )
+                                    ->count();
+        
         if (request( "name" )) {
             $query->where(function ($q) {
                 $q->where("f_name", "like", "%" . request("name") . "%")
@@ -61,6 +68,8 @@ class ApplicantController extends Controller
             'sucType' => session('sucType'),
             'examdate' => ExamDate::all() ,
             'examrooms' =>  ExamRoom::all() ,
+            'examRoomLimit' => $examRoomLimit,
+            'examRoomLimitStatus' => $examRoomLimitStatus,
         ]); 
     }
 

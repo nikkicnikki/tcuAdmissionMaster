@@ -28,6 +28,9 @@ use App\Models\Applicant;
 use App\Models\User;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Inertia\Inertia;
 
 class SettingController extends Controller
 {
@@ -36,34 +39,47 @@ class SettingController extends Controller
         $examDateQuery = ExamDate::query();
         $programQuery = Program::query();
         $examRoomQuery = ExamRoom::query();
-        $activeDateID = ExamDate::where('status', 2)->value('id');
-        // $examRoomQuery = ExamRoom::query()
-        //     ->join('applicants', 'exam_rooms.id', '=', 'applicants.exam_room')
-        //     ->where('applicants.exam_date', $activeDateID)
-        //     ->selectRaw(' COUNT(applicants.exam_room) AS curr_count, 
-        //                     exam_rooms.id, 
-        //                     exam_rooms.exam_room, 
-        //                     exam_rooms.status, 
-        //                     exam_rooms.set_user, 
-        //                     exam_rooms.limit, 
-        //                     exam_rooms.created_at, 
-        //                     exam_rooms.des')
-        //     ->groupBy('applicants.exam_room');
 
-        // $applicantWithPermit = Applicant::selectRaw('COUNT(exam_room) AS curr_count, exam_room, exam_date')
-        //     ->where('exam_date', $activeDateID)
-        //     ->groupBy('exam_room', 'exam_date')
+        $activeDateID = ExamDate::where('status', 2)->value('id');
+
+        // $examRoomQuery = DB::table('applicants')
+        //     ->join('exam_rooms', 'applicants.exam_room', '=', 'exam_rooms.id')
+        //     ->select(
+        //         DB::raw('COUNT(exam_rooms.id) as curr_count'),
+        //         'exam_rooms.exam_room',
+        //         'applicants.exam_date',
+        //         'exam_rooms.status',
+        //         'exam_rooms.set_user',
+        //         'exam_rooms.limit',
+        //         'exam_rooms.des',
+        //         'exam_rooms.created_at',
+        //         'exam_rooms.id'
+        //     )
+        //     ->where('applicants.exam_date',$activeDateID)
+        //     ->groupBy(
+        //         'exam_rooms.exam_room',
+        //         'applicants.exam_date',
+        //         'exam_rooms.status',
+        //         'exam_rooms.set_user',
+        //         'exam_rooms.limit',
+        //         'exam_rooms.des',
+        //         'exam_rooms.created_at',
+        //         'exam_rooms.id'
+        //     )
         //     ->get();
 
-        // SELECT  COUNT(exam_room) AS curr_count ,
-        //     exam_room, exam_date FROM `applicants`
-        // WHERE exam_date = 2 
-        // GROUP BY exam_room 
+
+        $applicantWithPermit = Applicant::selectRaw('COUNT(exam_room) AS curr_count, exam_room, exam_date')
+            ->where('exam_date', $activeDateID)
+            ->groupBy('exam_room', 'exam_date')
+            ->get();
 
 
-        $examDates = $examDateQuery->paginate(20)->onEachSide(1);
-        $examRooms = $examRoomQuery->paginate(20)->onEachSide(1);
-        $programs = $programQuery->paginate(20)->onEachSide(1);
+
+
+        $examDates = $examDateQuery->paginate(50)->onEachSide(1);
+        $examRooms = $examRoomQuery->paginate(50)->onEachSide(1);
+        $programs = $programQuery->paginate(50)->onEachSide(1);
         $users = User::all();
 
         return inertia('Setting/Index', [
@@ -71,7 +87,7 @@ class SettingController extends Controller
             'examRooms' => $examRooms,
             'programs' => $programs,
             'users' => $users,
-            // 'applicantWithPermit' => $applicantWithPermit,
+            'applicantWithPermit' => $applicantWithPermit,
             'success' => session('success'),
             'sucType' => session('sucType'),
 
@@ -314,4 +330,31 @@ class SettingController extends Controller
 
         ]);
     }
+
+
+
+    public function setLimit($limit)
+    {
+        // Validate the limit
+        $validator = Validator::make(['limit' => $limit], [
+            'limit' => 'required|integer|min:1'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        // Perform the update operation
+        $updateSuccess = ExamRoom::query()->update(['limit' => (int) $limit]);
+
+        if (!$updateSuccess) {
+            return response()->json(['error' => 'Failed to update exam rooms.'], 409);
+        }
+
+        // Send back a success message to the frontend
+        //return response()->json(['message' => 'Limit updated successfully.']);
+    }
+
+
+
 }

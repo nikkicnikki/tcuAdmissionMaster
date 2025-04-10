@@ -4,12 +4,14 @@ import { Link } from "@inertiajs/react";
 export default function ApplicantFormAction({
     role,
     status,
-    applicantId
+    applicantId,
+    roomLimit,
+    roomLimitStatus,
 }) {
     return (
         <>
             {/* ADMIN Role 1 or VALIDATOR Role 3 - Status 1 or Status 2 */}
-            {(role == 1 || role ==3) && (status == 1 || status == 2) && (
+            {(role == 1 || role == 3) && (status == 1 || status == 2) && (
                 <td className="px-3 py-2 text-right flex flex-nowrap">
                     <Link
                         href={route("applicant.edit", applicantId)}
@@ -31,7 +33,7 @@ export default function ApplicantFormAction({
             )}
 
             {/* ADMIN Role 1 or MIS Role 2 - Status 3 */}
-            {( role == 1 || role == 2 )&& status == 3 && (
+            {(role == 1 || role == 2) && status == 3 && (
                 <td className="px-3 py-2 text-right flex flex-nowrap">
                     <Link
                         href={route("applicant.edit", applicantId)}
@@ -40,13 +42,22 @@ export default function ApplicantFormAction({
                     >
                         <ArrowPathIcon className="w-5 h-3" />
                     </Link>
-                    <Link
-                        href={route("applicant.permit", applicantId)}
-                        className="font-medium rounded flex-1 px-2 py-2 text-gray-400 bg-[rgb(239,228,176)] dark:text-red-500 hover:bg-yellow-500 mx-1 flex flex-nowrap items-center justify-center"
-                        title="PRINT"
-                    >
-                        <PrinterIcon className="w-5 h-3 text-black" />
-                    </Link>
+                    {roomLimitStatus >= roomLimit ? 
+                        (<div
+                            className="font-medium rounded flex-1 px-2 py-2 text-gray-400 bg-gray-500 dark:text-gray-500 mx-1 flex flex-nowrap items-center justify-center"
+                            title="YOUR ASSIGN ROOM IS CURRENTLY FULL"
+                        >
+                            <PrinterIcon className="w-5 h-3 text-white" />
+                        </div>)
+                       : (<Link
+                            href={route("applicant.permit", applicantId)}
+                            className="font-medium rounded flex-1 px-2 py-2 text-gray-400 bg-[rgb(239,228,176)] dark:text-red-500 hover:bg-yellow-500 mx-1 flex flex-nowrap items-center justify-center"
+                            title="PRINT"
+                        >
+                            <PrinterIcon className="w-5 h-3 text-black" />
+                        </Link>)
+                    }
+                    
                 </td>
             )}
 
@@ -99,7 +110,7 @@ export default function ApplicantFormAction({
                 </td>
             )}
 
-            
+
         </>
 
     )

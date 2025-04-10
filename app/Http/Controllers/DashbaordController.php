@@ -15,7 +15,6 @@ class DashbaordController extends Controller
     {
         //$user = auth()->user();
 
-
         $totalApplicant = Applicant::count();
         $totalApplicantPending = Applicant::query()->where('status', 1)->count();
         $totalApplicantIncomplete = Applicant::query()->where('status', 2)->count();
@@ -23,7 +22,25 @@ class DashbaordController extends Controller
         $totalApplicantHasPermit = Applicant::query()->where('status', 4)->count();
         $totalApplicantScored = Applicant::query()->where('status', 5)->count();
 
-        $applicants = Applicant::with(['examDate', 'examRoom'])
+        $scheduleListCount = Applicant::with('examDate')
+            ->whereNotNull('exam_date')
+            ->groupBy('exam_date')
+            ->select('exam_date')
+            ->selectRaw('exam_date, COUNT(*) as total')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'exam_date' => Carbon::parse($item->examDate->exam_date)->format('F j, Y'),
+                    'total' => $item->total,
+                ];
+            });
+        
+
+        // GET THE SET LIMIT FROM SETTINGS FORM
+        // go the first row of the ExamRoom and get the value of the column field 'limit'
+        $roomLimit = optional(ExamRoom::first())->limit ?? 0;
+
+        $applicants = Applicant::with(['examDate', 'examRoom', 'validateBy', 'printedBy'])
             ->where('status', '=', 4)
             ->orderBy('status')
             ->get();
@@ -42,6 +59,8 @@ class DashbaordController extends Controller
                     'sr_name' => $applicant->sr_name,
                     'exam_date' => $applicant->examDate->exam_date,
                     'exam_room' => $applicant->examRoom->exam_room,
+                    'valid_by' => $applicant->validateBy->name,
+                    'print_by' => $applicant->printedBy->name,
                 ];
             });
         });
@@ -54,6 +73,8 @@ class DashbaordController extends Controller
             'totalApplicantHasPermit' => $totalApplicantHasPermit,
             'totalApplicantScored' => $totalApplicantScored,
             'havePermitApplicants' => $havePermitApplicants,  // Pass the grouped applicants here
+            'roomLimit' => $roomLimit,
+            'scheduleListCount' => $scheduleListCount,
         ]);
     }
 
