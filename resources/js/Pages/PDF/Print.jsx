@@ -6,7 +6,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 export default function Print({ auth }) {
 
-    const { applicant, exam_date_name, exam_room_name , image_capture} = usePage().props;
+    const { applicant, exam_date_name, exam_room_name, image_capture } = usePage().props;
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -134,12 +134,21 @@ export default function Print({ auth }) {
                 />
 
                 <Image
+                    style={styles.icon1}
+                    src="/storage/source/TCU2024.png" // can also be base64 or local path
+                />
+                <Image
+                    style={styles.icon2}
+                    src="/storage/source/TCU2024.png" // can also be base64 or local path
+                />
+
+                <Image
                     style={styles.pic1}
-                    src={"/storage/"+image_capture} 
+                    src={"/storage/" + image_capture}
                 />
                 <Image
                     style={styles.pic2}
-                    src={"/storage/"+image_capture} 
+                    src={"/storage/" + image_capture}
                 />
                 <HeadTitle />
                 {applicant ? <ApplicantINFO applicant={applicant} /> : <View><Text>NO DATA INPUT</Text></View>}

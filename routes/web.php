@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ApplicantController;
 use App\Http\Controllers\BarangayController;
 use App\Http\Controllers\ProgramController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ImportApplicantController;
@@ -78,6 +79,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Permit PDF then you can print there
     Route::get('/PDF/{applicant_id}/permit_print', [PermitController::class, 'permit_print'])->name('permit.print');
     
+
+    // reports PDF
+    Route::get('/PDF/date_room/{exam_date_id}/{exam_room_id}/{exam_date}/{exam_room}', [ReportController::class, 'dateRoomList'])->name('dateRoomList.pdf');
+
     //Route::get('/PDF/{applicant_id}/permit_generate', [PermitController::class, 'permit_generate'])->name('permit.generate');
     //Route::get('/PDF/{applicant}/permit_pdf', [PermitController::class, 'permit_pdf'])->name('permit.pdf');
 

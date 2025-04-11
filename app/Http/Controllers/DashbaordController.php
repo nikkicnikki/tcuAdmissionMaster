@@ -57,6 +57,8 @@ class DashbaordController extends Controller
                     'f_name' => $applicant->f_name,
                     'm_name' => $applicant->m_name,
                     'sr_name' => $applicant->sr_name,
+                    'exam_date_id' => $applicant->examDate->id,
+                    'exam_room_id' => $applicant->examRoom->id,
                     'exam_date' => $applicant->examDate->exam_date,
                     'exam_room' => $applicant->examRoom->exam_room,
                     'valid_by' => $applicant->validateBy->name,

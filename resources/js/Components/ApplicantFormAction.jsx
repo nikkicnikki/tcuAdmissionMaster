@@ -42,14 +42,14 @@ export default function ApplicantFormAction({
                     >
                         <ArrowPathIcon className="w-5 h-3" />
                     </Link>
-                    {roomLimitStatus >= roomLimit ? 
+                    {roomLimitStatus >= roomLimit ?
                         (<div
                             className="font-medium rounded flex-1 px-2 py-2 text-gray-400 bg-gray-500 dark:text-gray-500 mx-1 flex flex-nowrap items-center justify-center"
                             title="YOUR ASSIGN ROOM IS CURRENTLY FULL"
                         >
                             <PrinterIcon className="w-5 h-3 text-white" />
                         </div>)
-                       : (<Link
+                        : (<Link
                             href={route("applicant.permit", applicantId)}
                             className="font-medium rounded flex-1 px-2 py-2 text-gray-400 bg-[rgb(239,228,176)] dark:text-red-500 hover:bg-yellow-500 mx-1 flex flex-nowrap items-center justify-center"
                             title="PRINT"
@@ -57,13 +57,21 @@ export default function ApplicantFormAction({
                             <PrinterIcon className="w-5 h-3 text-black" />
                         </Link>)
                     }
-                    
+
                 </td>
             )}
 
             {/* ADMIN Role 1 - Status 4 */}
             {role == 1 && status == 4 && (
                 <td className="px-3 py-2 text-right flex flex-nowrap">
+                    <a
+                        href={route('permit.print', {applicant_id: applicantId})}
+                        className="p-2 shadow-inner bg-gray-100 hover:shadow-md"
+                        title="REPRINT"
+                        target="_blank"
+                    >
+                        <PrinterIcon className="w-5 h-3 text-gray-900" />
+                    </a>
                     <Link
                         href={route("applicant.edit", applicantId)}
                         className="font-medium rounded flex-1 px-2 py-2 text-white bg-[rgb(153,217,234)] dark:text-red-500 hover:bg-blue-500 mx-1 flex flex-nowrap items-center justify-center"
