@@ -10,15 +10,16 @@ import Webcam from 'react-webcam';
 
 export default function Permit({ auth, applicants, users, examdates, examrooms }) {
 
-
+    const [isWebcamReady, setIsWebcamReady] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
     const { error } = usePage().props;
 
     useEffect(() => {
-        if (error) {
+        if (error || errorMessage) {
             setShowErrorModal(true);
         }
-    }, [error]);
+    }, [error, errorMessage]);
 
     const curr_user = auth.user.id;
     const vald_user_id = applicants.validate_by;
@@ -83,29 +84,43 @@ export default function Permit({ auth, applicants, users, examdates, examrooms }
     const [cap, setCap] = useState('');
 
     const webcamRef = React.useRef(null);
-    const capture = React.useCallback(
-        () => {
-            //const imageSrc = webcamRef.current.getScreenshot();
+    const capture = React.useCallback(() => {
+        // Check if the webcam is ready
+        if (!isWebcamReady) {
+            setErrorMessage("Webcam not ready yet!");
+            setShowErrorModal(true);
+            return;
+        }
 
-            if (webcamRef.current) {
-                const imageSrc = webcamRef.current.getScreenshot({
-                    width: 640,
-                    height: 480
-                });
-                setCap(imageSrc)
-                //console.log('Captured image:', imageSrc);
+        // Check if the webcam reference is valid
+        if (webcamRef.current) {
+            const imageSrc = webcamRef.current.getScreenshot({
+                width: 640,
+                height: 480
+            });
+
+            // Check if the screenshot was actually captured
+            if (imageSrc) {
+                setCap(imageSrc);
+                setErrorMessage(""); // Clear any previous error
 
                 const base64Length = imageSrc.length - 'data:image/jpeg;base64,'.length;
                 const fileSizeInBytes = 4 * Math.ceil(base64Length / 3);
                 const fileSizeInKB = fileSizeInBytes / 1024;
                 console.log('File size (KB):', fileSizeInKB.toFixed(2));
-
             } else {
-                console.log("Webcam not ready yet!");
+                setErrorMessage("Unable to capture image. Please try again.");
+                setShowErrorModal(true);
             }
-        },
-        [webcamRef]
-    );
+        } else {
+            setErrorMessage("Webcam reference not available.");
+            setShowErrorModal(true);
+        }
+    }, [webcamRef, isWebcamReady]);
+
+
+
+
 
     return (
         <AuthenticatedLayout
@@ -130,7 +145,7 @@ export default function Permit({ auth, applicants, users, examdates, examrooms }
             <div className="pt-8 pb-2">
                 <div className="mx-auto max-w-7xl sm:px- lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
-                        
+
                         <div className="p-1 sm:p-3 bg-white shadow sm:rounded-lg flex flex-nowrap" >
 
                             <div className="mt-1 flex-1">
@@ -270,6 +285,11 @@ export default function Permit({ auth, applicants, users, examdates, examrooms }
                                             height: 480, // smaller than 720
                                             facingMode: "user", // Use "environment" for the rear camera
                                         }}
+                                        onUserMedia={() => setIsWebcamReady(true)}
+                                        onUserMediaError={() => {
+                                            setErrorMessage("Failed to access webcam.");
+                                            setShowErrorModal(true);
+                                        }}
                                         className="w-full h-auto rounded pl-20"
                                     />
                                 </div>
@@ -311,7 +331,7 @@ export default function Permit({ auth, applicants, users, examdates, examrooms }
                     </div>
                 </div>
             </div>
-            
+
             {/* ERROR MODAL */}
             <Dialog open={showErrorModal} onClose={() => setShowErrorModal(false)} as={Fragment}>
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30">
@@ -321,7 +341,7 @@ export default function Permit({ auth, applicants, users, examdates, examrooms }
                             <div>
                                 <Dialog.Title className="text-lg font-semibold text-red-700">Error</Dialog.Title>
                                 <Dialog.Description className="text-gray-700 mt-1">
-                                    {error}
+                                    {errorMessage || error}
                                 </Dialog.Description>
                             </div>
                         </div>
@@ -336,7 +356,6 @@ export default function Permit({ auth, applicants, users, examdates, examrooms }
                     </Dialog.Panel>
                 </div>
             </Dialog>
-
 
 
         </AuthenticatedLayout >

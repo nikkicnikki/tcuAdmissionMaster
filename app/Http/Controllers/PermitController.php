@@ -10,6 +10,7 @@ use App\Models\ExamRoom;
 use App\Http\Resources\ApplicantPermitResource;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
 
 class PermitController extends Controller
 {
@@ -28,7 +29,7 @@ class PermitController extends Controller
         $limit = Applicant::where('exam_date', $examDate)
             ->where('exam_room', $examRoom)->count();
 
-        $userID = auth()->user()->id;
+        $userID = Auth::user()->id;
         $activeDateID = ExamDate::where('status', 2)->value('id');
         $setLimit = ExamRoom::where('set_user', $userID)->value('limit');
         //                                   'id'  ,  exam_room

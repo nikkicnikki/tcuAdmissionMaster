@@ -31,6 +31,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Redirect;
 
 class SettingController extends Controller
 {
@@ -341,21 +342,17 @@ class SettingController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+            return Redirect::back()->withErrors($validator)->withInput();
         }
 
         // Perform the update operation
-        $updateSuccess = ExamRoom::query()->update(['limit' => (int) $limit]);
+        $updatedRows = ExamRoom::query()->update(['limit' => (int) $limit]);
 
-        if (!$updateSuccess) {
-            return response()->json(['error' => 'Failed to update exam rooms.'], 409);
+        if ($updatedRows < 1) {
+            return Redirect::back()->with('error', 'No exam rooms were updated.');
         }
 
-        
-        // Send back a success message to the frontend
-        //return response()->json(['message' => 'Limit updated successfully.']);
+        // Redirect back with a success message
+        return Redirect::back()->with('success', 'Limit updated successfully.');
     }
-
-
-
 }
