@@ -68,4 +68,20 @@ class PermitController extends Controller
         ]);
     }
 
+    public function repermit_print($applicant_id)
+    {
+        $applicant = Applicant::findOrFail($applicant_id);
+        
+        $exam_date_name = $applicant->examDate->exam_date;
+        $exam_room_name = $applicant->examRoom->exam_room;
+        $image_capture = $applicant->image_capture;
+
+        return Inertia::render('PDF/Print', [
+            'applicant' => new ApplicantPermitResource($applicant),
+            'exam_date_name' => $exam_date_name,
+            'exam_room_name' => $exam_room_name,
+            'image_capture' => $image_capture,
+        ]);
+    }
+
 }

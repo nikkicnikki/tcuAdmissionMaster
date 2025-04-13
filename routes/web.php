@@ -78,6 +78,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Permit PDF then you can print there
     Route::get('/PDF/{applicant_id}/permit_print', [PermitController::class, 'permit_print'])->name('permit.print');
+    Route::get('/PDF/{applicant_id}/permit_reprint', [PermitController::class, 'repermit_print'])->name('permit.reprint');
     
 
     // reports PDF

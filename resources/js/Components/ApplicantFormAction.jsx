@@ -65,7 +65,7 @@ export default function ApplicantFormAction({
             {role == 1 && status == 4 && (
                 <td className="px-3 py-2 text-right flex flex-nowrap">
                     <a
-                        href={route('permit.print', {applicant_id: applicantId})}
+                        href={route('permit.print', { applicant_id: applicantId })}
                         className="p-2 shadow-inner bg-gray-100 hover:shadow-md"
                         title="REPRINT"
                         target="_blank"
@@ -92,8 +92,16 @@ export default function ApplicantFormAction({
             )}
 
             {/* ADMIN Role 1 - Status 5 */}
-            {role == 1 && status == 5 && (
+            {(role == 1 && status == 5) || ( role == 2 && (status == 4 || status == 5)) && (
                 <td className="px-3 py-2 text-right flex flex-nowrap">
+                    <a
+                        href={route('permit.reprint', { applicant_id: applicantId })}
+                        className="p-2 shadow-inner bg-gray-100 hover:shadow-md"
+                        title="REPRINT"
+                        target="_blank"
+                    >
+                        <PrinterIcon className="w-5 h-3 text-gray-900" />
+                    </a>
                     <Link
                         href={route("applicant.edit", applicantId)}
                         className="font-medium rounded flex-1 px-2 py-2 text-white bg-[rgb(153,217,234)] dark:text-red-500 hover:bg-blue-500 mx-1 flex flex-nowrap items-center justify-center"
@@ -108,6 +116,7 @@ export default function ApplicantFormAction({
             {/* SCORING STAFF Role 4 - Status 4 */}
             {role == 4 && status == 4 && (
                 <td className="px-3 py-2 text-right flex flex-nowrap">
+
                     <Link
                         //href={route('applicant.score', applicantId)}
                         className="font-medium rounded flex-1 px-1 py-1 text-yellow-500 bg-[rgb(136,0,21)] dark:text-red-500 hover:bg-red-700 mx-1 flex flex-nowrap items-center justify-center"
