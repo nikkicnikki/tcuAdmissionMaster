@@ -41,6 +41,7 @@ class Applicant extends Model
                 "validate_by"   ,
                 "printed_by"    ,
                 "score_by"      ,
+                "score"         ,
                 
                 "image_capture" ,
                 "printed_date"  ,

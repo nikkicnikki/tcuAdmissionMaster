@@ -12,7 +12,7 @@ export default function Score({auth, applicant }) {
         score: applicant.score || '',
         exam_date: applicant.exam_date.exam_date || '',
         exam_room: applicant.exam_room.exam_room || '',
-        image_capture: ''+ 
+        image_capture: '/storage/'+applicant.image_capture || '', 
 
 
     });

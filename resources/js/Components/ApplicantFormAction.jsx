@@ -80,7 +80,7 @@ export default function ApplicantFormAction({
                         <ArrowPathIcon className="w-5 h-3" />
                     </Link>
                     <Link
-                        //href={route('applicant.score', applicantId)}
+                        href={route('applicant.scoring', applicantId)}
                         className="font-medium rounded flex-1 px-1 py-1 text-yellow-500 bg-[rgb(136,0,21)] dark:text-red-500 hover:bg-red-700 mx-1 flex flex-nowrap items-center justify-center"
                         title="SCORE"
                     >

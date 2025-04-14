@@ -61,11 +61,8 @@ return new class extends Migration
             $table->string('image_capture')->nullable();
             $table->timestamp('printed_date')->nullable();
             
-            $table->double('score');
+            $table->double('score')->nullable();
         
-
-
-
 
         });
         

@@ -18,9 +18,6 @@ class DatabaseSeeder extends Seeder
         //$this->call(BarangaySeeder::class); // NO BARANGAY @ GOOGLE FORM
         
         $this->call(ProgramSeeder::class);
-
-        
-        Applicant::factory(300)->create();
         
         User::factory()->create([
             'name' => 'asper',
@@ -28,5 +25,8 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('asper@dante'),
             'role' => 1,
         ]);
+        
+        // Applicant::factory(300)->create();
+        
     }
 }
