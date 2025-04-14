@@ -19,6 +19,7 @@ class ProgramResource extends JsonResource
             'id'        => $this->id ,
             "name"      => $this->name ,
             "acronym"   => $this->acronym ,
+            "passing_grade" => $this->passing_grade,
             "create_at" => (new Carbon($this->created_at))->format('Y-m-d') ,
         ];
     }

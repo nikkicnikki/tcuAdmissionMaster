@@ -320,6 +320,7 @@ export default function Index({ auth, examDates, examRooms, programs, users, app
                                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
                                     <tr className="text-nowrap">
                                         <th className="px-3 py-3">PROGRAM</th>
+                                        <th className="px-3 py-3">PASSING GRADE</th>
                                         <th className="px-3 py-3">CREATE</th>
                                         <th className="px-3 py-3">ACTION</th>
                                     </tr>
@@ -330,6 +331,9 @@ export default function Index({ auth, examDates, examRooms, programs, users, app
                                         <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={program.id}>
                                             <td className="px-3 py-2">
                                                 {program.name.toUpperCase() + " - " + program.acronym.toUpperCase()}
+                                            </td>
+                                            <td className="px-3 py-2 text-center">
+                                                {program.passing_grade ? program.passing_grade : "-" }
                                             </td>
                                             <td className="px-3 py-2">
                                                 {new Date(program.created_at).toLocaleDateString("en-US", {

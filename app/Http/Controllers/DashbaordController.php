@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Applicant;
 use App\Models\ExamDate;
 use App\Models\ExamRoom;
+use App\Models\Program;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,8 +14,12 @@ class DashbaordController extends Controller
 {
     public function index()
     {
-        //$user = auth()->user();
 
+        $program = Program::orderBy("created_at","asc")->get();
+
+
+        //$user = auth()->user();
+        //----------------HAS PERMIT MODULE-----------------------
         $totalApplicant = Applicant::count();
         $totalApplicantPending = Applicant::query()->where('status', 1)->count();
         $totalApplicantIncomplete = Applicant::query()->where('status', 2)->count();
@@ -42,7 +47,7 @@ class DashbaordController extends Controller
 
         $applicants = Applicant::with(['examDate', 'examRoom', 'validateBy', 'printedBy'])
             ->where('status', '=', 4)
-            ->orderBy('status')
+            ->orderBy('exam_date')
             ->get();
 
         $havePermitApplicants = $applicants->groupBy(function ($item) {
@@ -68,6 +73,7 @@ class DashbaordController extends Controller
         });
 
         return inertia('Dashboard', [
+            //has permit
             'totalApplicant' => $totalApplicant,
             'totalApplicantPending' => $totalApplicantPending,
             'totalApplicantIncomplete' => $totalApplicantIncomplete,
@@ -77,6 +83,9 @@ class DashbaordController extends Controller
             'havePermitApplicants' => $havePermitApplicants,  // Pass the grouped applicants here
             'roomLimit' => $roomLimit,
             'scheduleListCount' => $scheduleListCount,
+
+            //score
+            'programs' => $program,
         ]);
     }
 

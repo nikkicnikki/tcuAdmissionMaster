@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ApplicantScoringResource;
 use App\Models\Applicant;
 use App\Models\Program;
 use App\Models\User;
@@ -167,6 +168,14 @@ class ApplicantController extends Controller
             'users'      => User::all() ,    
             'examdates'  => ExamDate::all() ,
             'examrooms'  => ExamRoom::all() ,
+        ]);
+    }
+
+    public function scoring(Applicant $applicantId)
+    {
+
+        return inertia('Applicant/Score',[
+            'applicant' => new ApplicantScoringResource( $applicantId),
         ]);
     }
 

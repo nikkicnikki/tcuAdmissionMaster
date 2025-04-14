@@ -310,7 +310,7 @@ export default function Index({
             </div>
 
 
-
+            
 
         </AuthenticatedLayout>
     )

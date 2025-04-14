@@ -26,6 +26,7 @@ return new class extends Migration
             $table->integer('status')->default(2);
             $table->integer('set_user')->nullable();
             $table->text('des')->nullable();
+            $table->integer( 'limit')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

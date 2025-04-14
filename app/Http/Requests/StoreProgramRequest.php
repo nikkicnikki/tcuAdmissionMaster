@@ -21,9 +21,11 @@ class StoreProgramRequest extends FormRequest
      */
     public function rules(): array
     {
+    
         return [
             "name"      => ['string', 'required'],
-            "acronym"   => ['string', 'nullable'],
+            "acronym"   => ['string', 'required'],
+            "passing_grade"   => ['integer', 'nullable'],
         ];
     }
 }

@@ -9,13 +9,14 @@ export default function ProgramCreate({ auth }) {
     const { data, setData, post, errors, reset } = useForm({
         name: '',
         acronym: '',
+        passing_grade: '',
     })
 
     const onSubmit = (e) => {
         e.preventDefault();
 
         // Log the data before submitting
-        //console.log("Form Data before submit:", data);
+        // console.log("Form Data before submit:", data);
 
         post(route('program.add'));
     }
@@ -58,6 +59,7 @@ export default function ProgramCreate({ auth }) {
                                     value={data.name}
                                     onChange={(e) => setData("name", e.target.value)}
                                     placeholder="Enter Program name"
+                                    required
                                 />
                                 <InputError message={errors.name} className="mt-2" />
                             </div>
@@ -74,8 +76,26 @@ export default function ProgramCreate({ auth }) {
                                     value={data.acronym}
                                     onChange={(e) => setData("acronym", e.target.value)}
                                     placeholder="e.g: MPA"
+                                    required
                                 />
                                 <InputError message={errors.acronym} className="mt-2" />
+                            </div>
+                            <div className="mt-4">
+                                <InputLabel
+                                    htmlFor="set_passing_grade"
+                                    value="Setting Program Passsing Grade"
+                                />
+
+                                <TextInput
+                                    id="set_passing_grade"
+                                    className="mt-2 block w-full uppercase"
+                                    name="passing_grade"
+                                    type="number"
+                                    value={data.passing_grade}
+                                    onChange={(e) => setData("passing_grade", e.target.value)}
+                                    placeholder="enter whole number"
+                                />
+                                <InputError message={errors.passing_grade} className="mt-2" />
                             </div>
                             <div className="mt-4 text-right">
                                 <Link

@@ -23,7 +23,8 @@ class UpdateProgramRequest extends FormRequest
     {
         return [
             "name"      => ['string', 'required'],
-            "acronym"   => ['string', 'nullable'],
+            "acronym"   => ['string', 'required'],
+            "passing_grade"   => ['integer', 'nullable'],
         ];
     }
 }

@@ -9,6 +9,7 @@ export default function ProgramCreate({ auth, program }) {
     const { data, setData, put, errors, reset } = useForm({
         name: program.data.name || '',
         acronym: program.data.acronym || '',
+        passing_grade: program.data.passing_grade || '',
     })
 
     const onSubmit = (e) => {
@@ -58,6 +59,7 @@ export default function ProgramCreate({ auth, program }) {
                                     value={data.name}
                                     onChange={(e) => setData("name", e.target.value)}
                                     placeholder="Enter Program name"
+                                    required
                                 />
                                 <InputError message={errors.name} className="mt-2" />
                             </div>
@@ -74,9 +76,28 @@ export default function ProgramCreate({ auth, program }) {
                                     value={data.acronym}
                                     onChange={(e) => setData("acronym", e.target.value)}
                                     placeholder="e.g: MPA"
+                                    required
                                 />
                                 <InputError message={errors.acronym} className="mt-2" />
                             </div>
+                            <div className="mt-4">
+                                <InputLabel
+                                    htmlFor="set_passing_grade"
+                                    value="Setting Program Acronym"
+                                />
+
+                                <TextInput
+                                    id="set_passing_grade"
+                                    className="mt-2 block w-full uppercase"
+                                    name="passing_grade"
+                                    type="number"
+                                    value={data.passing_grade}
+                                    onChange={(e) => setData("passing_grade", e.target.value)}
+                                    placeholder="e.g: MPA"
+                                />
+                                <InputError message={errors.passing_grade} className="mt-2" />
+                            </div>
+                            
                             <div className="mt-4 text-right">
                                 <Link
                                     href={route("setting.index")}

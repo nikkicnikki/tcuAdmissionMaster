@@ -66,6 +66,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Validation Valid
     Route::put('/applicant/valid/{applicant}', [ApplicantController::class, 'valid'])->name('applicant.valid');
     
+    // Score
+    Route::get('/applicant/{applicantId}/scoring', [ApplicantController::class,'scoring'])->name('applicant.scoring');
 
     // Import Applicant data from Excel file
     Route::get('/excel', [ImportApplicantController::class, 'import' ])->name('import.applicant');

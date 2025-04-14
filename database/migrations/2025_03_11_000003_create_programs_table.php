@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('acronym');
+            $table->integer('passing_grade')->nullable();
             $table->timestamps();
         });
         

@@ -14,6 +14,7 @@ export default function Dashboard({
     havePermitApplicants,
     roomLimit,
     scheduleListCount,
+    programs,
 }) {
     // console.log(havePermitApplicants);
 
@@ -75,7 +76,9 @@ export default function Dashboard({
         >
             <Head title="Dashboard" />
 
-            <div className="py-5">
+
+            <div className="py-5 relative">
+
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 grid grid-cols-6 gap-2">
 
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
@@ -120,10 +123,44 @@ export default function Dashboard({
                         </div>
                     </div>
 
+
+
+
                 </div>
             </div>
 
-            <div className="mt-2">
+
+            <div className="mt-2 relative ">
+
+            <div className="hidden 2xl:block absolute top-0 left-0 w-48 h-full overflow-y-auto min-h-screen">
+
+                    <div className="mx-auto max-w-7xl sm:px-4 lg:px-6 grid grid-cols-6 gap-2 py-4">
+                        <h2 className='font-semibold'>PROGRAMS</h2>
+                        {programs.map((program) => (
+                            <div
+                                key={program.id}
+                                className="col-span-6 overflow-hidden shadow-inner bg-[rgb(136,0,21)] sm:rounded-lg dark:bg-gray-800 flex justify-between items-center w-full"
+                            >
+                                <div className="p-2 text-gray-900 dark:text-gray-100 shadow-inner">
+                                    <h3 className="text-yellow-500 text-[9px] font-semibold text-wrap">
+                                        <span className="text-sm text-white">{program.acronym}</span>
+                                        <br />
+                                        {program.name}
+                                    </h3>
+                                </div>
+                                <div 
+                                    className="p-2 bg-white text-gray-900 dark:text-gray-100 shadow-lg border h-full flex items-center justify-center"
+                                >
+                                    <p className="text-gray-700 text-center">
+                                        {program.passing_grade ? program.passing_grade + "%" : "N/A"}
+                                    </p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 ">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
                         <div className="p-2 text-gray-900 dark:text-gray-100">
@@ -145,12 +182,12 @@ export default function Dashboard({
                                     }
                                     <div className='flex gap-2 ml-5'>
                                         <button
-                                            onClick={ () => window.open(route('dateRoomList.pdf', {
-                                                exam_date_id: havePermitApplicants[groupKey][0].exam_date_id, 
-                                                exam_room_id: havePermitApplicants[groupKey][0].exam_room_id, 
-                                                exam_date: havePermitApplicants[groupKey][0].exam_date, 
-                                                exam_room: havePermitApplicants[groupKey][0].exam_room, 
-                                            }), 
+                                            onClick={() => window.open(route('dateRoomList.pdf', {
+                                                exam_date_id: havePermitApplicants[groupKey][0].exam_date_id,
+                                                exam_room_id: havePermitApplicants[groupKey][0].exam_room_id,
+                                                exam_date: havePermitApplicants[groupKey][0].exam_date,
+                                                exam_room: havePermitApplicants[groupKey][0].exam_room,
+                                            }),
                                                 '_blank')}
                                             className="hover:text-blue-500"
                                             title="PDF file">

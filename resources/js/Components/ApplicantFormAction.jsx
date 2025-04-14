@@ -65,7 +65,7 @@ export default function ApplicantFormAction({
             {role == 1 && status == 4 && (
                 <td className="px-3 py-2 text-right flex flex-nowrap">
                     <a
-                        href={route('permit.print', { applicant_id: applicantId })}
+                        href={route('permit.reprint', { applicant_id: applicantId })}
                         className="p-2 shadow-inner bg-gray-100 hover:shadow-md"
                         title="REPRINT"
                         target="_blank"
@@ -118,7 +118,7 @@ export default function ApplicantFormAction({
                 <td className="px-3 py-2 text-right flex flex-nowrap">
 
                     <Link
-                        //href={route('applicant.score', applicantId)}
+                        href={route('applicant.scoring', applicantId)}
                         className="font-medium rounded flex-1 px-1 py-1 text-yellow-500 bg-[rgb(136,0,21)] dark:text-red-500 hover:bg-red-700 mx-1 flex flex-nowrap items-center justify-center"
                         title="SCORE"
                     >
