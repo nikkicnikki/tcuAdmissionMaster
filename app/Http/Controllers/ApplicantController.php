@@ -20,6 +20,7 @@ use App\Http\Resources\ApplicantPermitResource;
 use App\Http\Resources\ExamDateResource;
 use App\Http\Resources\ExamRoomResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ApplicantController extends Controller
 {
@@ -176,6 +177,24 @@ class ApplicantController extends Controller
 
         return inertia('Applicant/Score',[
             'applicant' => new ApplicantScoringResource( $applicantId),
+        ]);
+    }
+
+    public function score( $applicantId, $applicantScore , $applicantName)
+    {
+
+        $userID = Auth::user()->id;
+        // dd($applicantId." ".$applicantName." ".$applicantScore );
+        $applicant = Applicant::findOrFail($applicantId);
+        $applicant->score = $applicantScore;
+        $applicant->score_by = $userID;
+        $applicant->status = 5;
+        $applicant->save();
+
+        return to_route( 'applicant.index')->with([
+            'success' => "Scored Applicant: \"$applicantName\"" ,
+            'sucType' => 'score',
+        
         ]);
     }
 

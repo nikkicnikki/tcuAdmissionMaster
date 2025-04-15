@@ -60,10 +60,11 @@ export default function Index({
     }
 
     const alertClasses = {
-        success: 'bg-emerald-500 text-white',
-        edit: 'bg-blue-500 text-white',
-        delete: 'bg-red-500 text-white',
-        print: 'bg-[rgb(250,245,226)] text-gray-500',
+        success: ' bg-emerald-500 text-white ',
+        edit: ' bg-blue-500 text-white ',
+        delete: ' bg-red-500 text-white ',
+        print: ' bg-[rgb(250,245,226)] text-gray-500 ',
+        score: ' bg-[rgb(136,0,21)] text-yellow-500 ',
     };
 
 

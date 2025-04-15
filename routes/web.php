@@ -66,8 +66,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Validation Valid
     Route::put('/applicant/valid/{applicant}', [ApplicantController::class, 'valid'])->name('applicant.valid');
     
-    // Score
+    // Scoring
     Route::get('/applicant/{applicantId}/scoring', [ApplicantController::class,'scoring'])->name('applicant.scoring');
+    // Score
+    Route::put('/applicant/score/{applicantId}/{applicantScore}/{applicantName}', [ApplicantController::class, 'score'])->name('applicant.score');
+
 
     // Import Applicant data from Excel file
     Route::get('/excel', [ImportApplicantController::class, 'import' ])->name('import.applicant');
@@ -81,6 +84,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Permit PDF then you can print there
     Route::get('/PDF/{applicant_id}/permit_print', [PermitController::class, 'permit_print'])->name('permit.print');
     Route::get('/PDF/{applicant_id}/permit_reprint', [PermitController::class, 'repermit_print'])->name('permit.reprint');
+    
     
 
     // reports PDF
