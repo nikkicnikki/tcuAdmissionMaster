@@ -251,6 +251,7 @@ export default function Dashboard({
 
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 ">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
+                        <h2 className="font-bold p-2 bg-[rgb(239,228,176)] text-gray-900">HAS PERMIT LIST</h2>
                         <div className="p-2 text-gray-900 dark:text-gray-100">
                             <div className='flex'>
                                 {scheduleListCount.map((schedList, index) => (
