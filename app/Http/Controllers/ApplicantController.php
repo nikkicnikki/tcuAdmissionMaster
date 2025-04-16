@@ -174,9 +174,20 @@ class ApplicantController extends Controller
 
     public function scoring(Applicant $applicantId)
     {
+        
+        $userID = Auth::user()->id;
+        // $userRole = Auth::user()->role;
+        $userJobList = Applicant::where('score_by', $userID)->with('program:id,name,acronym,passing_grade')
+                                ->select('id', 'sr_name' ,'f_name', 'm_name' , 'status' , 'score' , 'prog' )
+                                ->get()
+                                ->map(function ($item) {
+                                    $item->name = strtoupper("{$item->sr_name}, {$item->f_name} {$item->m_name}");
+                                    return $item;
+                                }); 
 
         return inertia('Applicant/Score',[
             'applicant' => new ApplicantScoringResource( $applicantId),
+            'userJobList' => $userJobList,
         ]);
     }
 

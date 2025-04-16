@@ -14,7 +14,18 @@ class DashbaordController extends Controller
 {
     public function index()
     {
+        
+        $withScoreList = Applicant::whereNotNull('score_by')->with('program:id,name,acronym,passing_grade', 'scoreBy:id,name,role')
+        ->select('id', 'sr_name' ,'f_name', 'm_name' , 'status' , 'score' , 'prog', 'score_by' )
+        ->orderBy('score', 'desc')
+        ->get()
+        ->map(function ($item) {
+            $item->name = strtoupper("{$item->sr_name}, {$item->f_name} {$item->m_name}");
+            return $item;
+        });
 
+       
+        // LIST OF PROGRAM 
         $program = Program::orderBy("created_at","asc")->get();
 
 
@@ -86,6 +97,8 @@ class DashbaordController extends Controller
 
             //score
             'programs' => $program,
+            'withScoreList' => $withScoreList,
+
         ]);
     }
 

@@ -6,7 +6,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, useForm } from "@inertiajs/react";
 import { useEffect, useRef } from "react";
 
-export default function Score({ auth, applicant }) {
+export default function Score({ auth, applicant, userJobList }) {
 
     const { data, setData, errors, put } = useForm({
         scorer: auth.user.id || '',
@@ -41,7 +41,7 @@ export default function Score({ auth, applicant }) {
     const scoreHandle = (e) => {
         e.preventDefault();
 
-        put(route('applicant.score', {applicantId: data.applicant_id, applicantScore: data.score , applicantName: `${data.sr_name}, ${data.f_name} ${data.m_name}`.toUpperCase() }));
+        put(route('applicant.score', { applicantId: data.applicant_id, applicantScore: data.score, applicantName: `${data.sr_name}, ${data.f_name} ${data.m_name}`.toUpperCase() }));
     }
 
     return (
@@ -66,28 +66,34 @@ export default function Score({ auth, applicant }) {
 
             <div className="pt-8 pb-2">
                 <div className="mx-auto max-w-7xl sm:px- lg:px-8">
-                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
-                        <div className="p-4">
-                            <p className="text-[11px]">
-                                <b>VALIDATOR:</b> {data.validator.name.toUpperCase()}  
-                                <span className={' ml-2 text-white p-0.5 rounded text-[9px] '+USER_STATUS_CLASS_MAP[data.validator.role]}>{USER_STATUS_TEXT_MAP[data.validator.role] }</span>
+                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 flex">
+                        <div className="p-4 flex-1 text-[11px]">
+                            <p>
+                                <b>VALIDATOR:</b> {data.validator.name.toUpperCase()}
+                                <span className={' ml-2 text-white p-0.5 rounded text-[9px] ' + USER_STATUS_CLASS_MAP[data.validator.role]}>{USER_STATUS_TEXT_MAP[data.validator.role]}</span>
                             </p>
-                            <p className="text-[11px]">
-                                <b>PRINTED BY:</b> {data.printed.name.toUpperCase()}  
-                                <span className={' ml-2 text-white p-0.5 rounded text-[9px] '+USER_STATUS_CLASS_MAP[data.printed.role]}>{USER_STATUS_TEXT_MAP[data.printed.role] }</span>
+                            <p>
+                                <b>PRINTED BY:</b> {data.printed.name.toUpperCase()}
+                                <span className={' ml-2 text-white p-0.5 rounded text-[9px] ' + USER_STATUS_CLASS_MAP[data.printed.role]}>{USER_STATUS_TEXT_MAP[data.printed.role]}</span>
                             </p>
-                            <p className="text-[11px]">
-                                <b>SCORED BY:</b> {auth.user.name.toUpperCase()}  
-                                <span className={' ml-2 text-white p-0.5 rounded text-[9px] '+USER_STATUS_CLASS_MAP[auth.user.role]}>{USER_STATUS_TEXT_MAP[auth.user.role] }</span>
+                            <p>
+                                <b>SCORED BY:</b> {auth.user.name.toUpperCase()}
+                                <span className={' ml-2 text-white p-0.5 rounded text-[9px] ' + USER_STATUS_CLASS_MAP[auth.user.role]}>{USER_STATUS_TEXT_MAP[auth.user.role]}</span>
                             </p>
                             <br />
-                            <p className="text-[11px]"><b>APPLIED:</b> {applicant.created_at}</p>
-                            <p className="text-[11px]"><b>PERMIT ISSUED:</b> {applicant.printed_date}</p>
+                            <p><b>APPLIED:</b> {applicant.created_at}</p>
+                            <p><b>PERMIT ISSUED:</b> {applicant.printed_date}</p>
                         </div>
+
+                        <div className="p-4 justify-end text-[11px] text-right">
+                            <p> <b>{data.prog.acronym}</b> {"-" + data.prog.name} <b>:PROGRAM</b></p>
+                            <p> <b>{data.prog.passing_grade}</b>.00 % <b>:PASSING GRADE</b></p>
+                        </div>
+
                     </div>
                 </div>
             </div>
-            
+
             <div className="pt-1 pb-2">
                 <div className="mx-auto max-w-7xl sm:px- lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 flex">
@@ -151,6 +157,53 @@ export default function Score({ auth, applicant }) {
                     </div>
                 </div>
             </div>
+
+            <div className="pt-1 pb-2">
+                <div className="mx-auto max-w-7xl sm:px- lg:px-8">
+                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 justify-center items-center">
+                        <h2 className="font-bold p-2 bg-[rgb(136,0,21)] text-white">JOB LIST</h2>
+                        <div className="overflow-auto ">
+                            <table className=" w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 mb-10">
+                                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-[rgb(136,0,21)]">
+                                    <tr className="text-nowrap">
+                                        <th className="px-3 py-3">#</th>
+                                        <th className="px-3 py-3">ID</th>
+                                        <th className="px-3 py-3">NAME</th>
+                                        <th className="px-3 py-3">PROGRAM</th>
+                                        <th className="px-3 py-3">SCORE</th>
+                                        <th className="px-3 py-3">PASSING GRADE</th>
+                                        <th className="px-3 py-3">RESULT</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {userJobList.map((jobList, index) => (
+                                        <tr>
+                                            <th className="px-3 py-2">{index + 1}</th>
+                                            <td className="px-3 py-2">{jobList.id}</td>
+                                            <td className="px-3 py-2">{jobList.name}</td>
+                                            <td className="px-3 py-2">{jobList.program.acronym}</td>
+                                            <td className="px-3 py-2">{jobList.score} <span>%</span></td>
+                                            <td className="px-3 py-2">{jobList.program.passing_grade}.00 %</td>
+                                            <td className="px-3 py-2">
+                                                {jobList.score >= jobList.program.passing_grade ? (
+                                                    <span className="bg-green-500 text-white p-1 rounded">pass</span>
+                                                ) : (
+                                                    <span className="bg-red-500 text-white p-1 rounded">fail</span>
+                                                )}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* <pre>{console.log(userJobList)}
+                {JSON.stringify(userJobList, null, 2)}
+            </pre>
+            <hr /> */}
             {/* <pre>
                 {JSON.stringify(applicant, null, 2)}
             </pre> */}

@@ -15,8 +15,9 @@ export default function Dashboard({
     roomLimit,
     scheduleListCount,
     programs,
+    withScoreList,
 }) {
-    // console.log(havePermitApplicants);
+    console.log(withScoreList);
 
     const DateRoomExcelButton = ({ exam_date_room }) => {
         const handleDownload = () => {
@@ -79,6 +80,34 @@ export default function Dashboard({
 
             <div className="py-5 relative">
 
+                <div className="hidden 2xl:block absolute top-20 left-0 w-48 h-full overflow-y-auto min-h-screen">
+
+                    <div className="mx-auto max-w-7xl sm:px-4 lg:px-6 grid grid-cols-6 gap-2 py-4">
+                        <h2 className='font-semibold'>PROGRAMS</h2>
+                        {programs.map((program) => (
+                            <div
+                                key={program.id}
+                                className="col-span-6 overflow-hidden shadow-inner bg-[rgb(136,0,21)] sm:rounded-lg dark:bg-gray-800 flex justify-between items-center w-full"
+                            >
+                                <div className="p-2 text-gray-900 dark:text-gray-100 shadow-inner">
+                                    <h3 className="text-yellow-500 text-[9px] font-semibold text-wrap">
+                                        <span className="text-sm text-white">{program.acronym}</span>
+                                        <br />
+                                        {program.name}
+                                    </h3>
+                                </div>
+                                <div
+                                    className="p-2 bg-white text-gray-900 dark:text-gray-100 shadow-lg border h-full flex items-center justify-center"
+                                >
+                                    <p className="text-gray-700 text-center">
+                                        {program.passing_grade ? program.passing_grade + "%" : "N/A"}
+                                    </p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 grid grid-cols-6 gap-2">
 
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
@@ -129,37 +158,96 @@ export default function Dashboard({
                 </div>
             </div>
 
-
-            <div className="mt-2 relative ">
-
-            <div className="hidden 2xl:block absolute top-0 left-0 w-48 h-full overflow-y-auto min-h-screen">
-
-                    <div className="mx-auto max-w-7xl sm:px-4 lg:px-6 grid grid-cols-6 gap-2 py-4">
-                        <h2 className='font-semibold'>PROGRAMS</h2>
-                        {programs.map((program) => (
-                            <div
-                                key={program.id}
-                                className="col-span-6 overflow-hidden shadow-inner bg-[rgb(136,0,21)] sm:rounded-lg dark:bg-gray-800 flex justify-between items-center w-full"
-                            >
-                                <div className="p-2 text-gray-900 dark:text-gray-100 shadow-inner">
-                                    <h3 className="text-yellow-500 text-[9px] font-semibold text-wrap">
-                                        <span className="text-sm text-white">{program.acronym}</span>
-                                        <br />
-                                        {program.name}
-                                    </h3>
-                                </div>
-                                <div 
-                                    className="p-2 bg-white text-gray-900 dark:text-gray-100 shadow-lg border h-full flex items-center justify-center"
-                                >
-                                    <p className="text-gray-700 text-center">
-                                        {program.passing_grade ? program.passing_grade + "%" : "N/A"}
-                                    </p>
-                                </div>
-                            </div>
-                        ))}
+            {/* CURRENT USER SCORE LIST */}
+            <div className="pt-1 pb-2">
+                <div className="mx-auto max-w-7xl sm:px- lg:px-8">
+                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 justify-center items-center">
+                        <h2 className="font-bold p-2 bg-[rgb(136,0,21)] text-white">YOUR JOB SCORE LIST</h2>
+                        <div className="overflow-auto ">
+                            <table className=" w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 mb-10">
+                                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-[rgb(136,0,21)]">
+                                    <tr className="text-nowrap">
+                                        <th className="px-3 py-3">#</th>
+                                        <th className="px-3 py-3">ID</th>
+                                        <th className="px-3 py-3">NAME</th>
+                                        <th className="px-3 py-3">PROGRAM</th>
+                                        <th className="px-3 py-3">SCORE</th>
+                                        <th className="px-3 py-3">PASSING GRADE</th>
+                                        <th className="px-3 py-3">RESULT</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {withScoreList
+                                        .filter(scoreList => scoreList.score_by.id === auth.user.id)
+                                        .map((scoreList, index) => (
+                                            <tr key={scoreList.id}>
+                                                <th className="px-3 py-2">{index + 1}</th>
+                                                <td className="px-3 py-2">{scoreList.id}</td>
+                                                <td className="px-3 py-2">{scoreList.name}</td>
+                                                <td className="px-3 py-2">{scoreList.program.acronym}</td>
+                                                <td className="px-3 py-2">{scoreList.score} <span>%</span></td>
+                                                <td className="px-3 py-2">{scoreList.program.passing_grade}.00 %</td>
+                                                <td className="px-3 py-2">
+                                                    {scoreList.score >= scoreList.program.passing_grade ? (
+                                                        <span className="bg-green-500 text-white p-1 rounded">pass</span>
+                                                    ) : (
+                                                        <span className="bg-red-500 text-white p-1 rounded">fail</span>
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
+            </div>
 
+
+            {/* ALL SCORE LIST */}
+            <div className="pt-1 pb-2">
+                <div className="mx-auto max-w-7xl sm:px- lg:px-8">
+                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 justify-center items-center">
+                        <h2 className="font-bold p-2 bg-[rgb(136,0,21)] text-white">SCORE LIST</h2>
+                        <div className="overflow-auto ">
+                            <table className=" w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 mb-10">
+                                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-[rgb(136,0,21)]">
+                                    <tr className="text-nowrap">
+                                        <th className="px-3 py-3">#</th>
+                                        <th className="px-3 py-3">ID</th>
+                                        <th className="px-3 py-3">NAME</th>
+                                        <th className="px-3 py-3">PROGRAM</th>
+                                        <th className="px-3 py-3">SCORE</th>
+                                        <th className="px-3 py-3">PASSING GRADE</th>
+                                        <th className="px-3 py-3">RESULT</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {withScoreList.map((scoreList, index) => (
+                                        <tr>
+                                            <th className="px-3 py-2">{index + 1}</th>
+                                            <td className="px-3 py-2">{scoreList.id}</td>
+                                            <td className="px-3 py-2">{scoreList.name}</td>
+                                            <td className="px-3 py-2">{scoreList.program.acronym}</td>
+                                            <td className="px-3 py-2">{scoreList.score} <span>%</span></td>
+                                            <td className="px-3 py-2">{scoreList.program.passing_grade}.00 %</td>
+                                            <td className="px-3 py-2">
+                                                {scoreList.score >= scoreList.program.passing_grade ? (
+                                                    <span className="bg-green-500 text-white p-1 rounded">pass</span>
+                                                ) : (
+                                                    <span className="bg-red-500 text-white p-1 rounded">fail</span>
+                                                )}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="mt-2 relative ">
 
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 ">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
