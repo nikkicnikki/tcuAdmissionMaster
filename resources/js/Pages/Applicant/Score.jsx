@@ -178,17 +178,17 @@ export default function Score({ auth, applicant, userJobList }) {
                                 <tbody>
                                     {userJobList.map((jobList, index) => (
                                         <tr>
-                                            <th className="px-3 py-2">{index + 1}</th>
-                                            <td className="px-3 py-2">{jobList.id}</td>
-                                            <td className="px-3 py-2">{jobList.name}</td>
-                                            <td className="px-3 py-2">{jobList.program.acronym}</td>
-                                            <td className="px-3 py-2">{jobList.score} <span>%</span></td>
-                                            <td className="px-3 py-2">{jobList.program.passing_grade}.00 %</td>
-                                            <td className="px-3 py-2">
+                                            <th className="px-3 py-0">{index + 1}</th>
+                                            <td className="px-3 py-0">{jobList.id}</td>
+                                            <td className="px-3 py-0">{jobList.name}</td>
+                                            <td className="px-3 py-0">{jobList.program.acronym}</td>
+                                            <td className="px-3 py-0">{jobList.score} <span>%</span></td>
+                                            <td className="px-3 py-0">{jobList.program.passing_grade}.00 %</td>
+                                            <td className="px-3 py-0">
                                                 {jobList.score >= jobList.program.passing_grade ? (
-                                                    <span className="bg-green-500 text-white p-1 rounded">pass</span>
+                                                    <span className="bg-green-500 text-white p-0.5 text-[10px] rounded">pass</span>
                                                 ) : (
-                                                    <span className="bg-red-500 text-white p-1 rounded">fail</span>
+                                                    <span className="bg-red-500 text-white p-0.5 text-[10px] rounded">fail</span>
                                                 )}
                                             </td>
                                         </tr>

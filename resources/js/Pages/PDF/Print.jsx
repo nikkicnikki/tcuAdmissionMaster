@@ -199,7 +199,7 @@ export default function Print({ auth }) {
             <Head title={"PDF PRINT"} />
 
             <div className="flex items-center justify-center">
-                <div className="w-full h-[780px]">
+                <div className="w-full h-screen">
                     <PDFViewer width={"100%"} height={"100%"}>
                         {memoizedPDF}
                     </PDFViewer>

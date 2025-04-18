@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
         position: 'relative',
         padding: 40,
         paddingTop: 30,
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
     },
     watermarkImageTop: {
         position: 'absolute',

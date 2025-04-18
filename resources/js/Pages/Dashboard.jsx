@@ -21,7 +21,73 @@ export default function Dashboard({
     validatedApplicant,
     pendingApplicant,
 }) {
-    // console.log(pendingApplicant);
+    // console.log(programs);
+    const ProgramExcelButton = ({ with_score_list, program_acronym, titleProg }) => {
+
+        const handleDownload = () => {
+            const typeOfExcel = program_acronym ? `${program_acronym}-OverallExamResult.xlsx` : "OverallExamResult.xlsx";
+            const cleanedData = program_acronym ?
+                with_score_list.filter(applicant => applicant.program.acronym === program_acronym).map(({
+                    // (applicant => applicant.print_by_id === auth.user.id)
+                    id, f_name, m_name, sr_name, score, program, ...rest }) => {
+
+                    const firstName = f_name ? f_name.toUpperCase() : '';
+                    const middleName = m_name ? m_name.toUpperCase() : '';
+                    const surname = sr_name ? sr_name.toUpperCase() : '';
+                    const ID = id;
+                    const PROGRAM = program.acronym;
+                    const PASSING = program.passing_grade;
+
+
+                    return {
+                        // ...rest,
+                        'ID': ID,
+                        'NAME': `${surname}, ${firstName} ${middleName}`.trim(),
+                        'PROGRAM': PROGRAM,
+                        'SCORE': score,
+                        'PASSING GRADE': PASSING,
+                        'RESULT': (score >= PASSING ? 'pass' : 'fail'),
+                    };
+
+                })
+
+                : with_score_list.map(({
+
+                    id, f_name, m_name, sr_name, score, program, ...rest }) => {
+
+                    const firstName = f_name ? f_name.toUpperCase() : '';
+                    const middleName = m_name ? m_name.toUpperCase() : '';
+                    const surname = sr_name ? sr_name.toUpperCase() : '';
+                    const ID = id;
+                    const PROGRAM = program.acronym;
+                    const PASSING = program.passing_grade;
+
+                    return {
+                        // ...rest,
+                        'ID': ID,
+                        'NAME': `${surname}, ${firstName} ${middleName}`.trim(),
+                        'PROGRAM': PROGRAM,
+                        'SCORE': score,
+                        'PASSING GRADE': PASSING,
+                        'RESULT': (score >= PASSING ? 'pass' : 'fail'),
+                    };
+                });
+
+            var wb = XLSX.utils.book_new(),
+                ws = XLSX.utils.json_to_sheet(cleanedData);
+
+            XLSX.utils.book_append_sheet(wb, ws, "ExamResult");
+
+            XLSX.writeFile(wb, typeOfExcel);
+        };
+
+
+        return (
+            <button onClick={handleDownload} className="hover:text-blue-500 flex ml-4" title="EXCEL FILE" >
+                <ClipboardDocumentListIcon className='h-[20px] w-[20px]' /> {titleProg}
+            </button>
+        );
+    }
 
     const DateRoomExcelButton = ({ exam_date_room }) => {
         const handleDownload = () => {
@@ -61,14 +127,8 @@ export default function Dashboard({
 
 
         return (
-            <button
-                onClick={handleDownload}
-                className="hover:text-blue-500"
-                title="excel file"
-            >
-                <ClipboardDocumentListIcon
-                    className='h-[20px] w-[20px]'
-                />
+            <button onClick={handleDownload} className="hover:text-blue-500" title="excel file" >
+                <ClipboardDocumentListIcon className='h-[20px] w-[20px]' />
             </button>
         );
     };
@@ -437,6 +497,7 @@ export default function Dashboard({
                         <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 justify-center items-center">
                             <h2 className="font-bold p-2 bg-[rgb(136,0,21)] text-white">YOUR JOB LIST</h2>
                             <div className="overflow-auto ">
+
                                 <table className=" w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 mb-10">
                                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-[rgb(136,0,21)]">
                                         <tr className="text-nowrap">
@@ -485,6 +546,12 @@ export default function Dashboard({
                 {/* ALL SCORE LIST */}
                 <div className="pt-1 pb-2">
                     <div className="mx-auto max-w-7xl sm:px- lg:px-8">
+                        <div className='flex my-2'>
+                            <ProgramExcelButton with_score_list={withScoreList} titleProg={"ALL"} />
+                            {programs.map(prog => (
+                                <ProgramExcelButton with_score_list={withScoreList} program_acronym={prog.acronym} titleProg={prog.acronym} />
+                            ))}
+                        </div>
                         <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 justify-center items-center">
                             <h2 className="font-bold p-2 bg-[rgb(136,0,21)] text-white">SCORE LIST</h2>
                             <div className="overflow-auto ">
@@ -596,11 +663,11 @@ export default function Dashboard({
                             <button
                                 key={label}
                                 onClick={label === 'Pending' ? undefined : () => setActiveTab(label)}
-                                
+
                                 className={`px-4 py-2 rounded font-medium transition border ${activeTab === label
                                     ? `${bg} ${text} border-b-[6px] border-[#d4b106] `
                                     : label === 'Pending' ? `${bg} ${text}  opacity-50 cursor-not-allowed `
-                                    : `${bg} ${text} shadow hover:border-[#d4b106] border-b-[6px] border-transparent`
+                                        : `${bg} ${text} shadow hover:border-[#d4b106] border-b-[6px] border-transparent`
                                     }`}
                             >
                                 <b>{label}</b>
