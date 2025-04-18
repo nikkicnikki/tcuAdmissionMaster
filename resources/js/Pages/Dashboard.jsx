@@ -83,8 +83,8 @@ export default function Dashboard({
 
 
         return (
-            <button onClick={handleDownload} className="hover:text-blue-500 flex ml-4" title="EXCEL FILE" >
-                <ClipboardDocumentListIcon className='h-[20px] w-[20px]' /> {titleProg}
+            <button onClick={handleDownload} className="hover:text-blue-500 flex" title="EXCEL FILE" >
+                <ClipboardDocumentListIcon className=' h-[20px] w-[20px]' /> {titleProg}
             </button>
         );
     }
@@ -393,7 +393,7 @@ export default function Dashboard({
                                                 <tr key={applicant.id}>
                                                     <th className="px-3 py-0">{index + 1}</th>
                                                     <td className="px-3 py-0">{applicant.id}</td>
-                                                    <td className="px-3 py-0">{`${applicant.f_name} ${applicant.m_name} ${applicant.sr_name}`}</td>
+                                                    <td className="px-3 py-0 uppercase">{`${applicant.f_name} ${applicant.m_name} ${applicant.sr_name}`}</td>
                                                     <td className="px-3 py-0">{applicant.schedule_key}</td>
                                                     <td className="px-3 py-0">
                                                         <span className={"rounded text-[11px] p-1 " + APPLICANT_STATUS_CLASS_MAP[applicant.status]}>
@@ -547,9 +547,31 @@ export default function Dashboard({
                 <div className="pt-1 pb-2">
                     <div className="mx-auto max-w-7xl sm:px- lg:px-8">
                         <div className='flex my-2'>
+                            <button
+                                onClick={() => window.open(route('examResult.pdf', "all"),
+                                    '_blank')}
+                                className="hover:text-blue-500"
+                                title="PDF file">
+                                <DocumentArrowDownIcon
+                                    className='ml-5 h-[20px] w-[20px]'
+                                />
+                            </button>
                             <ProgramExcelButton with_score_list={withScoreList} titleProg={"ALL"} />
                             {programs.map(prog => (
-                                <ProgramExcelButton with_score_list={withScoreList} program_acronym={prog.acronym} titleProg={prog.acronym} />
+                                <>
+                                    <button
+                                        onClick={() => window.open(route('examResult.pdf', {
+                                            program_acronym: prog.acronym
+                                        }),
+                                            '_blank')}
+                                        className="hover:text-blue-500"
+                                        title="PDF file">
+                                        <DocumentArrowDownIcon
+                                            className='ml-5 h-[20px] w-[20px]'
+                                        />
+                                    </button>
+                                    <ProgramExcelButton with_score_list={withScoreList} program_acronym={prog.acronym} titleProg={prog.acronym} />
+                                </>
                             ))}
                         </div>
                         <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 justify-center items-center">

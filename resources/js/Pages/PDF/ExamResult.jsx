@@ -6,18 +6,9 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 export default function Print({ auth }) {
 
-    const { exam_date_id, exam_room_id, exam_date, exam_room, roomDateApplicants, } = usePage().props;
-    // console.log(roomDateApplicants)
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('en-US', {
-            month: 'long',
-            day: 'numeric',
-            year: 'numeric',
-        });
-    };
-
-    const formattedDate = formatDate(exam_date);
+    const { exam_result, type } = usePage().props;
+    // console.log(type)
+    // console.log(exam_result)
 
     const HeadTitle = () => (
         <View style={styles.viewHead}>
@@ -25,36 +16,52 @@ export default function Print({ auth }) {
             <Text style={styles.head2}>Gen. Santos Ave., Central Bicutan, Taguig City</Text>
             <Text style={styles.head3}>TAGUIG CITY UNIVERSITY GRADUATE STUDIES ENTRANCE EXAM</Text>
             <Text style={styles.head4}>AY 2025-2026</Text>
-            <Text style={styles.head5}>APPLICANTS LIST</Text>
+            {type === 'all' ?
+                <Text style={styles.head5}>ALL EXAM RESULT FROM ADMISSION</Text>
+                :
+                <Text style={styles.head5}>EXAM RESULT FROM ADMISSION</Text>
+            }
         </View>
     );
 
     const ApplicantINFO = ({ applicant }) => (
         <View>
 
+            {type === 'all' ?
+                <Text></Text>
+                :
+                <View style={styles.content}>
+                    <Text style={styles.contField}>{type} - {applicant[0].program_name} </Text>
+                    <Text style={styles.contField}> {"("+ applicant[0].passing +"%)" } </Text>
+                </View>
+            }
 
-            <View style={styles.content}>
-                <Text style={styles.contField}>DATE OF EXAMINATION :</Text>
-                <Text style={styles.contValue2}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{formattedDate}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</Text>
-                <Text style={styles.contField}>ROOM NO. :</Text>
-                <Text style={styles.contValue2}>{exam_room}</Text>
-            </View>
+            {/* <Text style={styles.contValue2}>{""}</Text> */}
 
-            <View style={styles.table}>
+
+            <View style={styles.scoretable}>
                 {/* Table Header */}
-                <View style={styles.tableRow}>
-                    <Text style={styles.tableColHeader}>#</Text>
-                    <Text style={styles.tableColHeader1}>ID</Text>
-                    <Text style={styles.tableColHeader2}>NAME</Text>
+                <View style={styles.scoretableRow}>
+                    <Text style={styles.scoretableColHeader}>#</Text>
+                    <Text style={styles.scoretableColHeaderID}>ID</Text>
+                    <Text style={styles.scoretableColHeaderNAME}>NAME</Text>
+                    {type === 'all' ? <Text style={styles.scoretableColHeaderPROGRAM}>PROGRAM</Text> : null}
+                    <Text style={styles.scoretableColHeaderSCORE}>SCORE</Text>
+                    {type === 'all' ? <Text style={styles.scoretableColHeaderPASSING}>PASSING GRADE</Text> : null}
+                    <Text style={styles.scoretableColHeaderRESULT}>RESULT</Text>
                 </View>
 
-            {applicant.map((app ,index) => (
-                <View style={styles.tableRow} key={index}>
-                    <Text style={styles.tableCol}> {index+1} </Text>
-                    <Text style={styles.tableCol1}> {app.id} </Text>
-                    <Text style={styles.tableCol2}> {app.NAME} </Text>
-                </View>
-            ))}
+                {applicant.map((app, index) => (
+                    <View style={styles.scoretableRow} key={index}>
+                        <Text style={styles.scoretableCol}> {index + 1} </Text>
+                        <Text style={styles.scoretableColID}> {app.id} </Text>
+                        <Text style={styles.scoretableColNAME}> {app.name} </Text>
+                        {type === 'all' ? <Text style={styles.scoretableColPROGRAM}> {app.program_acronym} </Text> : null}
+                        <Text style={styles.scoretableColSCORE}> {app.score} </Text>
+                        {type === 'all' ? <Text style={styles.scoretableColPASSING}> {app.passing} </Text> : null}
+                        <Text style={styles.scoretableColRESULT}> {app.result} </Text>
+                    </View>
+                ))}
 
             </View>
 
@@ -77,18 +84,18 @@ export default function Print({ auth }) {
                 />
 
                 <HeadTitle />
-                {roomDateApplicants ? <ApplicantINFO applicant={roomDateApplicants} /> : <View><Text>NO DATA INPUT</Text></View>}
+                {exam_result ? <ApplicantINFO applicant={exam_result} /> : <View><Text>NO DATA INPUT</Text></View>}
 
 
             </Page>
         </Document>
     );
 
-    if (!exam_date_id || !exam_room_id || !exam_date || !exam_room || !roomDateApplicants) {
+    if (!exam_result) {
         return <p>Loading...</p>;
     }
 
-    const memoizedPDF = useMemo(() => <PermitPrintPDF />, [exam_date_id, exam_room_id, exam_date, exam_room, roomDateApplicants]);
+    const memoizedPDF = useMemo(() => <PermitPrintPDF />, [exam_result]);
 
     return (
 
@@ -107,7 +114,7 @@ export default function Print({ auth }) {
                 </div>
             }
         >
-            <Head title={"SCHED LIST PRINT"} />
+            <Head title={"EXAM RESULT"} />
 
             <div className="flex items-center justify-center">
                 <div className="w-full h-screen">

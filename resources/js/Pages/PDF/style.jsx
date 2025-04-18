@@ -169,4 +169,126 @@ export const styles = StyleSheet.create({
     tableCell: {
         margin: "auto",
     },
+
+
+
+    scoretable: {
+        display: "table",
+        width: "auto",
+        // borderStyle: "solid",
+        // borderWidth: 1,
+        borderRightWidth: 0,
+        borderBottomWidth: 0,
+        marginTop: 10,
+        marginLeft: "auto",
+        marginRight: "auto",
+    },
+    scoretableRow: {
+        flexDirection: "row",
+    },
+    scoretableColHeader: {
+        width: "30px",
+        borderStyle: "solid",
+        borderBottomWidth: 1,
+        marginBottom: 5,
+        backgroundColor: '#f0f0f0',
+        fontWeight: 'bold',
+        fontSize: 8,
+    },
+    scoretableColHeaderID: {
+        width: "30px",
+        borderStyle: "solid",
+        borderBottomWidth: 1,
+        marginBottom: 5,
+        backgroundColor: '#f0f0f0',
+        fontWeight: 'bold',
+        fontSize: 8,
+    },
+    scoretableColHeaderNAME: {
+        width: "200px",
+        borderStyle: "solid",
+        borderBottomWidth: 1,
+        marginBottom: 5,
+        backgroundColor: '#f0f0f0',
+        fontWeight: 'bold',
+        fontSize: 8,
+    },
+    scoretableColHeaderPROGRAM: {
+        width: "50px",
+        borderStyle: "solid",
+        borderBottomWidth: 1,
+        marginBottom: 5,
+        backgroundColor: '#f0f0f0',
+        fontWeight: 'bold',
+        fontSize: 7,
+    },
+    scoretableColHeaderSCORE: {
+        width: "50px",
+        borderStyle: "solid",
+        borderBottomWidth: 1,
+        marginBottom: 5,
+        backgroundColor: '#f0f0f0',
+        fontWeight: 'bold',
+        fontSize: 8,
+    },
+    scoretableColHeaderPASSING: {
+        width: "50px",
+        borderStyle: "solid",
+        borderBottomWidth: 1,
+        marginBottom: 5,
+        backgroundColor: '#f0f0f0',
+        fontWeight: 'bold',
+        fontSize: 8,
+    },
+    scoretableColHeaderRESULT: {
+        width: "50px",
+        borderStyle: "solid",
+        borderBottomWidth: 1,
+        marginBottom: 5,
+        backgroundColor: '#f0f0f0',
+        fontWeight: 'bold',
+        fontSize: 8,
+    },
+
+
+
+
+    scoretableCol: {
+        width: "30px",
+        marginBottom: 2,
+        fontSize: 8,
+    },
+    scoretableColID: {
+        width: "30px",
+        marginBottom: 2,
+        fontSize: 8,
+    },
+    scoretableColNAME: {
+        width: "200px",
+        marginBottom: 2,
+        fontSize: 8,
+    },
+    scoretableColPROGRAM: {
+        width: "50px",
+        marginBottom: 2,
+        fontSize: 8,
+    },
+    scoretableColSCORE: {
+        width: "50px",
+        marginBottom: 2,
+        fontSize: 8,
+    },
+    scoretableColPASSING: {
+        width: "50px",
+        marginBottom: 2,
+        fontSize: 8,
+    },
+    scoretableColRESULT: {
+        width: "50px",
+        marginBottom: 2,
+        fontSize: 8,
+    },
+    scoretableCell: {
+        margin: "auto",
+    },
 });
