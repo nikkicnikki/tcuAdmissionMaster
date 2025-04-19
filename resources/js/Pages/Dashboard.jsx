@@ -19,9 +19,10 @@ export default function Dashboard({
     programs,
     withScoreList,
     validatedApplicant,
-    pendingApplicant,
+    incompleteApplicant,
+    program_count_perc,
 }) {
-    // console.log(programs);
+    console.log(program_count_perc);
     const ProgramExcelButton = ({ with_score_list, program_acronym, titleProg }) => {
 
         const handleDownload = () => {
@@ -201,7 +202,43 @@ export default function Dashboard({
 
 
     const contentMap = {
-        Overall: <div className='h-screen'></div>,
+        Overall:
+            <div className='h-screen'>
+
+                <div className="pt-1 pb-2 ">
+                    <div className="mx-auto max-h max-w-7xl sm:px- lg:px-8">
+                        <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 justify-center items-center">
+                            <div className='flex gap-2'>
+                                {program_count_perc.map((prog) => (
+                                    <div className='w-[300px] '>
+                                        <p className='px-2 pt-2 text-white bg-[rgb(136,0,21)] rounded-tr-lg rounded-tl-lg '><b>{prog.prog_acronym}</b></p>
+                                        <p className='px-2 text-[11px] text-yellow-500 bg-[rgb(136,0,21)]'>{prog.prog_name}</p>
+                                        <p className='bg-yellow-100 px-2 pt-1 uppercase text-[13px]'>passing grade: {prog.prog_passing} %</p>
+
+                                        <div className='shadow-inner-lg'>
+                                            <p className='bg-gray-200 px-2 pt-1 uppercase text-[13px]'>applied: {prog.applied} ( {prog.percentage} % )</p>
+                                            <p className='bg-gray-200 px-2 pt-1 uppercase text-[13px]'>examined: {prog.examined} ( {prog.examined_perc} % )</p>
+                                        </div>
+
+                                        <div className='flex justify-between'>
+                                            <div className='rounded-bl-lg bg-gray-100 text-gray-800 p-2 w-1/2 shadow-lg'>
+                                                pass: <span className='text-yellow-500'>{prog.pass}</span>
+                                                <p className='text-yellow-500'>{prog.pass_perc} %</p>
+                                            </div>
+                                            <div className='rounded-br-lg bg-gray-300 text-gray-800 p-2  w-1/2 shadow-lg'>
+                                                fail: {prog.failed}
+                                                <p>{prog.failed_perc} %</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                            {/* <pre>{JSON.stringify(program_count_perc, null, 2)}</pre> */}
+                        </div>
+                    </div>
+                </div>
+
+            </div>,
         Pending: <div className='h-screen'></div>,
 
         Incomplete:
@@ -224,18 +261,18 @@ export default function Dashboard({
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {pendingApplicant
-                                            .filter(pendingList => pendingList.validate_by.id === auth.user.id)
-                                            .map((pendingList, index) => (
-                                                <tr key={pendingList.id}>
+                                        {incompleteApplicant
+                                            .filter(incompleteList => incompleteList.validate_by.id === auth.user.id)
+                                            .map((incompleteList, index) => (
+                                                <tr key={incompleteList.id}>
                                                     <th className="px-3 py-0">{index + 1}</th>
-                                                    <td className="px-3 py-0">{pendingList.id}</td>
-                                                    <td className="px-3 py-0">{pendingList.name}</td>
-                                                    <td className="px-3 py-0">{pendingList.remarks}</td>
-                                                    <td className="px-3 py-0">{pendingList.program.acronym}</td>
+                                                    <td className="px-3 py-0">{incompleteList.id}</td>
+                                                    <td className="px-3 py-0">{incompleteList.name}</td>
+                                                    <td className="px-3 py-0">{incompleteList.remarks}</td>
+                                                    <td className="px-3 py-0">{incompleteList.program.acronym}</td>
                                                     <td className="px-3 py-0">
-                                                        {pendingList.validate_by.name}
-                                                        <span className={"ml-1 rounded text-[9px] p-1 text-white" + USER_STATUS_CLASS_MAP[pendingList.validate_by.role]}>{USER_STATUS_TEXT_MAP[pendingList.validate_by.role]}</span>
+                                                        {incompleteList.validate_by.name}
+                                                        <span className={"ml-1 rounded text-[9px] p-1 text-white" + USER_STATUS_CLASS_MAP[incompleteList.validate_by.role]}>{USER_STATUS_TEXT_MAP[incompleteList.validate_by.role]}</span>
                                                     </td>
                                                 </tr>
                                             ))}
@@ -264,16 +301,16 @@ export default function Dashboard({
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {pendingApplicant.map((pendingList, index) => (
+                                        {incompleteApplicant.map((incompleteList, index) => (
                                             <tr>
                                                 <th className="px-3 py-0">{index + 1}</th>
-                                                <td className="px-3 py-0">{pendingList.id}</td>
-                                                <td className="px-3 py-0">{pendingList.name}</td>
-                                                <td className="px-3 py-0">{pendingList.remarks}</td>
-                                                <td className="px-3 py-0">{pendingList.program.acronym}</td>
+                                                <td className="px-3 py-0">{incompleteList.id}</td>
+                                                <td className="px-3 py-0">{incompleteList.name}</td>
+                                                <td className="px-3 py-0">{incompleteList.remarks}</td>
+                                                <td className="px-3 py-0">{incompleteList.program.acronym}</td>
                                                 <td className="px-3 py-0">
-                                                    {pendingList.validate_by.name}
-                                                    <span className={"ml-1 rounded text-[9px] p-1 text-white" + USER_STATUS_CLASS_MAP[pendingList.validate_by.role]}>{USER_STATUS_TEXT_MAP[pendingList.validate_by.role]}</span>
+                                                    {incompleteList.validate_by.name}
+                                                    <span className={"ml-1 rounded text-[9px] p-1 text-white" + USER_STATUS_CLASS_MAP[incompleteList.validate_by.role]}>{USER_STATUS_TEXT_MAP[incompleteList.validate_by.role]}</span>
                                                 </td>
                                             </tr>
                                         ))}

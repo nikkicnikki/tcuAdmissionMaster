@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class DashbaordController extends Controller
 {
@@ -18,26 +19,62 @@ class DashbaordController extends Controller
         // LIST OF PROGRAM 
         $program = Program::orderBy("created_at", "asc")->get();
 
-        $pendingApplicant = Applicant::where('status', '=', 2)
-                                    ->with('program:id,acronym', 'validateBy:id,name,role' )
-                                    ->select('id', 'sr_name', 'f_name', 'm_name', 'status','prog', 'remarks', 'validate_by')
-                                    ->get()
-                                    ->map(function ($item) {
-                                        $item->name = strtoupper("{$item->sr_name}, {$item->f_name} {$item->m_name}");
-                                        return $item;
-                                    });
+        //$user = auth()->user();
+        $totalApplicant = Applicant::count();
+        $totalApplicantPending = Applicant::query()->where('status', 1)->count();
+        $totalApplicantIncomplete = Applicant::query()->where('status', 2)->count();
+        $totalApplicantValid = Applicant::query()->where('status', 3)->count();
+        $totalApplicantHasPermit = Applicant::query()->where('status', 4)->count();
+        $totalApplicantScored = Applicant::query()->where('status', 5)->count();
 
-       
+        $program_count_perc = Applicant::join('programs', 'applicants.prog', '=', 'programs.id')
+            ->select(
+                'applicants.prog',
+                DB::raw('count(*) as applied'),
+                DB::raw('count(applicants.score) as examined'),
+                DB::raw("count(CASE WHEN applicants.score >= programs.passing_grade THEN 1 END) as pass"),
+                DB::raw("count(CASE WHEN applicants.score < programs.passing_grade THEN 1 END) as failed")
+            )
+            ->groupBy('applicants.prog')
+            ->orderByDesc('examined')
+            ->with('program:id,acronym,name,passing_grade') // eager load still works for mapping later
+            ->get()
+            ->map(function ($item) use ($totalApplicant) {
+                $item->prog_id = $item->program->id;
+                $item->prog_acronym = $item->program->acronym;
+                $item->prog_name = $item->program->name;
+                $item->prog_passing = $item->program->passing_grade;
+                unset($item->program);
+                unset($item->prog);
+
+                $item->examined_perc = round(($item->examined / $item->applied) *100, 2);
+                $item->pass_perc = round( ($item->pass / $item->examined) *100,2);
+                $item->failed_perc = round( ($item->failed / $item->examined) *100,2);
+                $item->percentage = round(($item->applied / $totalApplicant) * 100, 2);
+                return $item;
+            });
+
+        // INCOMPLETE
+        $incompleteApplicant = Applicant::where('status', '=', 2)
+            ->with('program:id,acronym', 'validateBy:id,name,role')
+            ->select('id', 'sr_name', 'f_name', 'm_name', 'status', 'prog', 'remarks', 'validate_by')
+            ->get()
+            ->map(function ($item) {
+                $item->name = strtoupper("{$item->sr_name}, {$item->f_name} {$item->m_name}");
+                return $item;
+            });
+
+
         // VALID
         $validatedApplicant = Applicant::whereNotNull('validate_by')
-                                ->with('program:id,acronym', 'validateBy:id,name,role' )        
-                                ->select('id', 'sr_name', 'f_name', 'm_name', 'status', 'prog', 'validate_by')
-                                ->get()
-                                ->map(function ($item) {
-                                    $item->name = strtoupper("{$item->sr_name}, {$item->f_name} {$item->m_name}");
-                                    return $item;
-                                });
-        
+            ->with('program:id,acronym', 'validateBy:id,name,role')
+            ->select('id', 'sr_name', 'f_name', 'm_name', 'status', 'prog', 'validate_by')
+            ->get()
+            ->map(function ($item) {
+                $item->name = strtoupper("{$item->sr_name}, {$item->f_name} {$item->m_name}");
+                return $item;
+            });
+
 
         // SCORE
         $withScoreList = Applicant::whereNotNull('score_by')->with('program:id,name,acronym,passing_grade', 'scoreBy:id,name,role')
@@ -51,16 +88,7 @@ class DashbaordController extends Controller
 
 
 
-
-        //$user = auth()->user();
-        $totalApplicant = Applicant::count();
-        $totalApplicantPending = Applicant::query()->where('status', 1)->count();
-        $totalApplicantIncomplete = Applicant::query()->where('status', 2)->count();
-        $totalApplicantValid = Applicant::query()->where('status', 3)->count();
-        $totalApplicantHasPermit = Applicant::query()->where('status', 4)->count();
-        $totalApplicantScored = Applicant::query()->where('status', 5)->count();
-
-        //----------------HAS PERMIT MODULE-----------------------
+        // HAS PERMIT 
         $scheduleListCount = Applicant::with('examDate')
             ->whereNotNull('exam_date')
             // ->where('status', '=' , 4)
@@ -111,7 +139,7 @@ class DashbaordController extends Controller
         });
 
         return inertia('Dashboard', [
-            
+
             'programs' => $program,
             'totalApplicant' => $totalApplicant,
             'totalApplicantPending' => $totalApplicantPending,
@@ -120,8 +148,10 @@ class DashbaordController extends Controller
             'totalApplicantHasPermit' => $totalApplicantHasPermit,
             'totalApplicantScored' => $totalApplicantScored,
 
-            // pending
-            'pendingApplicant' => $pendingApplicant,
+            'program_count_perc' => $program_count_perc,
+
+            // incomplete
+            'incompleteApplicant' => $incompleteApplicant,
 
             // valid
             'validatedApplicant' => $validatedApplicant,
