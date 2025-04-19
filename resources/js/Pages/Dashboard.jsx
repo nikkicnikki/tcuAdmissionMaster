@@ -216,8 +216,8 @@ export default function Dashboard({
                                         <p className='bg-yellow-100 px-2 pt-1 shadow-inner shadow-gray-200 uppercase text-[13px] text-gray-400'>passing grade: <span className='pl-3 text-gray-800'>{prog.prog_passing} %</span></p>
 
                                         <div className='border bg-white pt-1 uppercase text-[13px] text-gray-400'>
-                                            <p className=' px-2 '>applied: <span className='pl-16 text-gray-800'>{prog.applied}</span> ({prog.percentage} %)</p>
-                                            <p className=' px-2 '>examined: <span className='pl-12 text-gray-800'>{prog.examined}</span> ({prog.examined_perc} %)</p>
+                                            <p className=' px-2 '>applied: <span className='pl-16 text-gray-800'>{prog.applied}</span> ({prog.percentage} % / overall)</p>
+                                            <p className=' px-2 '>examined: <span className='pl-12 text-gray-800'>{prog.examined}</span> ({prog.examined_perc} % / applied)</p>
                                         </div>
 
                                         <div className='flex justify-between'>
