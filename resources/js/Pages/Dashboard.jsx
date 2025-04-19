@@ -22,7 +22,7 @@ export default function Dashboard({
     incompleteApplicant,
     program_count_perc,
 }) {
-    console.log(program_count_perc);
+    // console.log(program_count_perc);
     const ProgramExcelButton = ({ with_score_list, program_acronym, titleProg }) => {
 
         const handleDownload = () => {
@@ -213,11 +213,11 @@ export default function Dashboard({
                                     <div className='w-[300px] '>
                                         <p className='px-2 pt-2 text-white bg-[rgb(136,0,21)] rounded-tr-lg rounded-tl-lg '><b>{prog.prog_acronym}</b></p>
                                         <p className='px-2 text-[11px] text-yellow-500 bg-[rgb(136,0,21)]'>{prog.prog_name}</p>
-                                        <p className='bg-yellow-100 px-2 pt-1 uppercase text-[13px]'>passing grade: {prog.prog_passing} %</p>
+                                        <p className='bg-yellow-100 px-2 pt-1 shadow-inner shadow-gray-200 uppercase text-[13px]'>passing grade: {prog.prog_passing} %</p>
 
-                                        <div className='shadow-inner-lg'>
-                                            <p className='bg-gray-200 px-2 pt-1 uppercase text-[13px]'>applied: {prog.applied} ( {prog.percentage} % )</p>
-                                            <p className='bg-gray-200 px-2 pt-1 uppercase text-[13px]'>examined: {prog.examined} ( {prog.examined_perc} % )</p>
+                                        <div className='shadow-inner shadow-gray-400 bg-white'>
+                                            <p className=' px-2 pt-1 uppercase text-[13px]'>applied: {prog.applied} ( {prog.percentage} % )</p>
+                                            <p className=' px-2 pt-1 uppercase text-[13px]'>examined: {prog.examined} ( {prog.examined_perc} % )</p>
                                         </div>
 
                                         <div className='flex justify-between'>
