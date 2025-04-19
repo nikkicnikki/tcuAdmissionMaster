@@ -213,11 +213,11 @@ export default function Dashboard({
                                     <div className='w-[300px] '>
                                         <p className='px-2 pt-2 text-white bg-[rgb(136,0,21)] rounded-tr-lg rounded-tl-lg '><b>{prog.prog_acronym}</b></p>
                                         <p className='px-2 text-[11px] text-yellow-500 bg-[rgb(136,0,21)] h-10'>{prog.prog_name}</p>
-                                        <p className='bg-yellow-100 px-2 pt-1 shadow-inner shadow-gray-200 uppercase text-[13px] text-gray-400'>passing grade: <span className='pl-3 text-gray-800'>{prog.prog_passing} %</span></p>
+                                        <p className='bg-yellow-100 px-2 pt-1 shadow-inner shadow-gray-200 uppercase text-[13px] text-gray-400'>passing grade: <span className='pl-0 text-gray-800'>{prog.prog_passing} %</span></p>
 
                                         <div className='border bg-white pt-1 uppercase text-[13px] text-gray-400'>
-                                            <p className=' px-2 '>applied: <span className='pl-16 text-gray-800'>{prog.applied}</span> ({prog.percentage} % / overall)</p>
-                                            <p className=' px-2 '>examined: <span className='pl-12 text-gray-800'>{prog.examined}</span> ({prog.examined_perc} % / applied)</p>
+                                            <p className=' px-2 '>applied: <span className='pl-12 text-gray-800'>{prog.applied}</span> ({prog.percentage} % / overall)</p>
+                                            <p className=' px-2 '>examined: <span className='pl-9 text-gray-800'>{prog.examined}</span> ({prog.examined_perc} % / applied)</p>
                                         </div>
 
                                         <div className='flex justify-between'>
