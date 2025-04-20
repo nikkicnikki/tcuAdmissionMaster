@@ -160,6 +160,10 @@ export default function Dashboard({
             }));
         });
 
+    const round = (value, decimals) => {
+        return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
+    };
+
     const [activeTab, setActiveTab] = useState("Overall");
     const navItems = [
         {
@@ -173,37 +177,93 @@ export default function Dashboard({
             bg: "bg-gray-300",
             text: "text-gray-900",
             count: totalApplicantPending,
+            perc: round((totalApplicantPending / totalApplicant) * 100, 2),
         },
         {
             label: "Incomplete",
             bg: "bg-[rgb(153,217,234)]",
             text: "text-gray-900",
             count: totalApplicantIncomplete,
+            perc: round((totalApplicantIncomplete / totalApplicant) * 100, 2),
+
         },
         {
             label: "Valid",
             bg: "bg-green-500",
             text: "text-white",
             count: totalApplicantValid,
+            perc: round((totalApplicantValid / totalApplicant) * 100, 2),
+
         },
         {
             label: "Has permit",
             bg: "bg-[rgb(239,228,176)]",
             text: "text-gray-900",
             count: totalApplicantHasPermit,
+            perc: round((totalApplicantHasPermit / totalApplicant) * 100, 2),
+
         },
         {
             label: "Scored",
             bg: "bg-[rgb(136,0,21)]",
             text: "text-yellow-500",
             count: totalApplicantScored,
+            perc: round((totalApplicantScored / totalApplicant) * 100, 2),
+
         },
     ];
+
+    // TOTAL AVERAGE OF ALL EXAMINED APPLICANT
+    const totalAverage = program_count_perc.reduce((sum, program) => sum + program.average, 0);
+    const averageOfAverages = totalAverage / program_count_perc.length;
+    // TOTAL NO. OF PASS, FAIL AND EXAMINED APPLICANT
+    const totalExamined = program_count_perc.reduce((sum, program) => sum + program.examined, 0);
+    const totalPass = program_count_perc.reduce((sum, program) => sum + program.pass, 0);
+    const percPass = round((totalPass / totalExamined) * 100, 2);
+    const totalFail = program_count_perc.reduce((sum, program) => sum + program.failed, 0);
+    const percFail = round((totalFail / totalExamined) * 100, 2);
 
 
     const contentMap = {
         Overall:
             <div className='h-screen'>
+
+                <div className="pt-1 pb-2 mb-10">
+                    <div className="mx-auto max-h max-w-7xl sm:px- lg:px-8">
+                        <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 justify-start items-center flex gap-2">
+                            
+                            <div className='bg-gray-200 border border-gray-200 ml-4 block-flex rounded w-44 h-32'>
+                                <b className='text-gray-400 pl-3 pt-2 block'>AVR. GRADE</b>
+                                <div className=' flex justify-center items-center py-6 '>
+                                    {averageOfAverages.toFixed(2)}%
+                                </div>
+                            </div>
+                            
+                            <div className='bg-gray-200 border border-gray-200 block-flex rounded w-44 h-32'>
+                                <b className='text-gray-400 pl-3 pt-2 block'>EXAMINEE</b>
+                                <div className=' flex justify-center items-center py-6'>
+                                    {totalExamined}
+                                </div>
+                            </div>
+
+                            <div className='bg-gray-200 border border-gray-200 block-flex rounded w-44 h-32'>
+                                <b className='text-gray-400 pl-3 pt-2 block'>PASS</b>
+                                <div className=' flex justify-center items-center py-6 '>
+                                    {totalPass} ({percPass}%)
+                                </div>
+                            </div>
+
+                            <div className='bg-gray-200 border border-gray-200 block-flex rounded w-44 h-32'>
+                                <b className='text-gray-400 pl-3 pt-2 block'>FAIL</b>
+                                <div className=' flex justify-center items-center py-6 '>
+                                    {totalFail} ({percFail}%)
+                                </div>
+                            </div>
+
+                            {/* <pre>{JSON.stringify(program_count_perc, null, 2)}</pre> */}
+                        </div>
+                    </div>
+                </div>
 
                 <div className="pt-1 pb-2 ">
                     <div className="mx-auto max-h max-w-7xl sm:px- lg:px-8">
@@ -228,13 +288,13 @@ export default function Dashboard({
                                                     <p>fail: <span className='pl-3'>{prog.failed}</span> <span className='text-gray-400'>({prog.failed_perc}%)</span></p>
                                                 </div>
                                             </div>
-                                        <div className='w-[300px] p-2 rounded bg-gray-200 mt-2'><b className='text-gray-400'>AVERAGE SCORE:</b> {prog.average}%</div>
+                                            <div className='w-[300px] p-2 rounded bg-gray-200 mt-2'><b className='text-gray-400'>AVERAGE SCORE:</b> {prog.average}%</div>
                                         </div>
 
                                     </>
                                 ))}
                             </div>
-                            {/* <pre>{JSON.stringify(program_count_perc, null, 2)}</pre> */}
+
                         </div>
                     </div>
                 </div>
@@ -719,20 +779,23 @@ export default function Dashboard({
 
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 gap-2 ">
                     <div className="flex gap-4 mb-6 flex-wrap">
-                        {navItems.map(({ label, bg, text, count }) => (
-                            <button
-                                key={label}
-                                onClick={label === 'Pending' ? undefined : () => setActiveTab(label)}
+                        {navItems.map(({ label, bg, text, count, perc }) => (
+                            <div className='w-32'>
+                                <button
+                                    key={label}
+                                    onClick={label === 'Pending' ? undefined : () => setActiveTab(label)}
 
-                                className={`px-4 py-2 rounded font-medium transition border ${activeTab === label
-                                    ? `${bg} ${text} border-b-[6px] border-[#d4b106] `
-                                    : label === 'Pending' ? `${bg} ${text}  opacity-50 cursor-not-allowed `
-                                        : `${bg} ${text} shadow hover:border-[#d4b106] border-b-[6px] border-transparent`
-                                    }`}
-                            >
-                                <b>{label}</b>
-                                <p className=''>{count}</p>
-                            </button>
+                                    className={`w-full px-4 py-2 rounded font-medium transition border ${activeTab === label
+                                        ? `${bg} ${text} border-b-[6px] border-[#d4b106] `
+                                        : label === 'Pending' ? `${bg} ${text}  opacity-50 cursor-not-allowed `
+                                            : `${bg} ${text} shadow hover:border-[#d4b106] border-b-[6px] border-transparent`
+                                        }`}
+                                >
+                                    <b>{label}</b>
+                                    <p className=''>{count}</p>
+                                </button>
+                                {perc ? <div className='bg-white text-gray-400 shadow rounded flex justify-center items-center p-2'> ( {perc} %) </div> : ""}
+                            </div>
 
                         ))}
                     </div>

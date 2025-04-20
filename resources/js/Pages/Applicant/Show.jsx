@@ -27,7 +27,10 @@ export default function Show({ auth, applicant }) {
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
                         <div className="p-6 text-gray-900 dark:text-gray-100 shadow-lg ">
 
+                            <img className="rounded w-40 h-40 border border-gray-900 border-4"
+                                src={applicant.image_capture ? "/storage/" + applicant.image_capture : "/storage/source/default.jpg"} alt="" />
                             <div className="mt-1 flex flex-nowrap">
+
 
                                 <div className="flex-1">
                                     <p className="mt-1">
@@ -98,9 +101,9 @@ export default function Show({ auth, applicant }) {
                                 </div>
                                 <div className="flex-1 text-right">
                                     <p className=" text-[11px]">
-                                        <p><b>Validate by :</b> {applicant.validate_by?.name?.toUpperCase()} <span className={"p-0.5 text-white rounded text-[8px]"+USER_STATUS_CLASS_MAP[applicant.validate_by?.role]}>{USER_STATUS_TEXT_MAP[applicant.validate_by?.role]}</span>    </p>
-                                        <p><b>Printed by :</b> {applicant.printed_by?.name?.toUpperCase()} <span className={"p-0.5 text-white rounded text-[8px]"+USER_STATUS_CLASS_MAP[applicant.printed_by?.role]}>{USER_STATUS_TEXT_MAP[applicant.printed_by?.role]}</span></p>
-                                        <p><b>Score by :</b> {applicant.score_by?.name?.toUpperCase()} <span className={"p-0.5 text-white rounded text-[8px]"+USER_STATUS_CLASS_MAP[applicant.score_by?.role]}>{USER_STATUS_TEXT_MAP[applicant.score_by?.role]}</span></p>
+                                        <p><b>Validate by :</b> {applicant.validate_by?.name?.toUpperCase()} <span className={"p-0.5  rounded text-[8px]" + USER_STATUS_CLASS_MAP[applicant.validate_by?.role]}>{USER_STATUS_TEXT_MAP[applicant.validate_by?.role]}</span>    </p>
+                                        <p><b>Printed by :</b> {applicant.printed_by?.name?.toUpperCase()} <span className={"p-0.5 rounded text-[8px]" + USER_STATUS_CLASS_MAP[applicant.printed_by?.role]}>{USER_STATUS_TEXT_MAP[applicant.printed_by?.role]}</span></p>
+                                        <p><b>Score by :</b> {applicant.score_by?.name?.toUpperCase()} <span className={"p-0.5  rounded text-[8px]" + USER_STATUS_CLASS_MAP[applicant.score_by?.role]}>{USER_STATUS_TEXT_MAP[applicant.score_by?.role]}</span></p>
                                     </p>
                                 </div>
                             </div>

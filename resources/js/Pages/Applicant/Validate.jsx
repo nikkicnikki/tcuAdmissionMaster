@@ -62,7 +62,7 @@ export default function Validate({ auth, applicant }) {
                             <TextInput name="sr_name" value={data.sr_name} type="hidden" />
                             <InputError message={errors.sr_name} className="text-red-500 mt-2" />
 
-                            <button className="bg-emerald-500 py-1 px-3 text-white rounded shadow transition-all hover:bg-emerald-600">
+                            <button className="bg-emerald-500 py-1 px-3 text-white rounded shadow-lg transition-all hover:bg-emerald-600">
                                 <CheckIcon className="" />VALID
                             </button>
 
@@ -107,7 +107,7 @@ export default function Validate({ auth, applicant }) {
                                 <div className="flex-1 text-right">
                                     <div className="mt-1 ">
                                         <p className="mt-1 text-[11px]">
-                                            <label className="font-bold ">Create : </label>
+                                            <label className="font-bold ">Applied : </label>
                                             {new Date(applicant.created_at).toLocaleDateString("en-US", {
                                                 year: "numeric",
                                                 month: "long",
