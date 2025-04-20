@@ -33,11 +33,12 @@ class DashbaordController extends Controller
                 DB::raw('count(*) as applied'),
                 DB::raw('count(applicants.score) as examined'),
                 DB::raw("count(CASE WHEN applicants.score >= programs.passing_grade THEN 1 END) as pass"),
-                DB::raw("count(CASE WHEN applicants.score < programs.passing_grade THEN 1 END) as failed")
+                DB::raw("count(CASE WHEN applicants.score < programs.passing_grade THEN 1 END) as failed"),
+                DB::raw("ROUND(AVG(applicants.score), 2) as average"),
             )
             ->groupBy('applicants.prog')
             ->orderByDesc('examined')
-            ->with('program:id,acronym,name,passing_grade') // eager load still works for mapping later
+            ->with('program:id,acronym,name,passing_grade') 
             ->get()
             ->map(function ($item) use ($totalApplicant) {
                 $item->prog_id = $item->program->id;
@@ -132,7 +133,9 @@ class DashbaordController extends Controller
                     'exam_date' => $applicant->examDate->exam_date,
                     'exam_room' => $applicant->examRoom->exam_room,
                     'valid_by' => $applicant->validateBy->name,
+                    'valid_by_role' => $applicant->validateBy->role,
                     'print_by' => $applicant->printedBy->name,
+                    'print_by_role' => $applicant->printedBy->role,
                     'print_by_id' => $applicant->printedBy->id,
                 ];
             });

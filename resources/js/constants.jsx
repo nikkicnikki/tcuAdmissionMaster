@@ -26,10 +26,10 @@ export const EXAM_STATUS_TEXT_MAP ={
 }
 
 export const USER_STATUS_CLASS_MAP = {
-    '1' : ' bg-yellow-500 ',
-    '2' : ' bg-green-800 ',
-    '3' : ' bg-green-600 ',
-    '4' : ' bg-green-400 ',
+    '1' : ' text-white bg-yellow-500 ',
+    '2' : ' text-gray-600 bg-[rgb(239,228,176)] ',
+    '3' : ' text-white bg-green-500 ',
+    '4' : ' text-white bg-[rgb(136,0,21)] ',
 }
 
 export const USER_STATUS_TEXT_MAP ={

@@ -93,11 +93,14 @@ export default function Index({
                             {(auth.user.role == 1 || auth.user.role == 2) ?
                                 <div>
                                     <label className="font-bold">YOUR ASSIGN ROOM: </label>
-                                    <label className="bg-[rgb(250,245,226)] shadow-inner p-5">{assign_room ? assign_room : "no assign room"}</label>
+                                    <label className="bg-[rgb(250,245,226)] shadow-inner p-5">{assign_room ? assign_room : "N/A"}</label>
                                     <label className="ml-4 font-bold">STATUS: </label>
-                                    { examRoomLimitStatus >= examRoomLimit ? 
+                                    {assign_room ? 
+                                        examRoomLimitStatus >= examRoomLimit ? 
                                         <label className="bg-red-500 text-white shadow-inner p-5">{examRoomLimitStatus + "/" + examRoomLimit + "FULL"}</label>
                                         : <label className="bg-[rgb(250,245,226)] shadow-inner p-5">{examRoomLimitStatus + "/" + examRoomLimit}</label>
+                                        : "N/A"
+                                     
                                     }
                                     
                                 </div> : ""

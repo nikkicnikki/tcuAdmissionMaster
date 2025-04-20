@@ -1,4 +1,4 @@
-import { APPLICANT_STATUS_CLASS_MAP, APPLICANT_STATUS_TEXT_MAP } from "@/constants";
+import { APPLICANT_STATUS_CLASS_MAP, APPLICANT_STATUS_TEXT_MAP, USER_STATUS_CLASS_MAP, USER_STATUS_TEXT_MAP } from "@/constants";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
 
@@ -60,7 +60,7 @@ export default function Show({ auth, applicant }) {
                                 <div className="flex-1 text-right">
                                     <div className="mt-1 ">
                                         <p className="mt-1 text-[11px]">
-                                            <label className="font-bold ">Create : </label>
+                                            <label className="font-bold ">Applied : </label>
                                             {new Date(applicant.created_at).toLocaleDateString("en-US", {
                                                 year: "numeric",
                                                 month: "long",
@@ -98,9 +98,9 @@ export default function Show({ auth, applicant }) {
                                 </div>
                                 <div className="flex-1 text-right">
                                     <p className=" text-[11px]">
-                                        <label className="font-bold "> Validate By :_</label>{applicant.validate_by?.name?.toUpperCase()}
-                                        <label className="font-bold ">_ Printed By :_</label>{applicant.printed_by?.name?.toUpperCase()}
-                                        <label className="font-bold ">_ Score By :_</label>{applicant.score_by?.name?.toUpperCase()}
+                                        <p><b>Validate by :</b> {applicant.validate_by?.name?.toUpperCase()} <span className={"p-0.5 text-white rounded text-[8px]"+USER_STATUS_CLASS_MAP[applicant.validate_by?.role]}>{USER_STATUS_TEXT_MAP[applicant.validate_by?.role]}</span>    </p>
+                                        <p><b>Printed by :</b> {applicant.printed_by?.name?.toUpperCase()} <span className={"p-0.5 text-white rounded text-[8px]"+USER_STATUS_CLASS_MAP[applicant.printed_by?.role]}>{USER_STATUS_TEXT_MAP[applicant.printed_by?.role]}</span></p>
+                                        <p><b>Score by :</b> {applicant.score_by?.name?.toUpperCase()} <span className={"p-0.5 text-white rounded text-[8px]"+USER_STATUS_CLASS_MAP[applicant.score_by?.role]}>{USER_STATUS_TEXT_MAP[applicant.score_by?.role]}</span></p>
                                     </p>
                                 </div>
                             </div>

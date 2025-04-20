@@ -210,24 +210,28 @@ export default function Dashboard({
                         <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 justify-center items-center">
                             <div className='flex gap-2'>
                                 {program_count_perc.map((prog) => (
-                                    <div className='w-[300px] '>
-                                        <p className='px-2 pt-2 text-white bg-[rgb(136,0,21)] rounded-tr-lg rounded-tl-lg '><b>{prog.prog_acronym}</b></p>
-                                        <p className='px-2 text-[11px] text-yellow-500 bg-[rgb(136,0,21)] h-10'>{prog.prog_name}</p>
-                                        <p className='bg-yellow-100 px-2 pt-1 shadow-inner shadow-gray-200 uppercase text-[13px] text-gray-400'>passing grade: <span className='pl-0 text-gray-800'>{prog.prog_passing} %</span></p>
+                                    <>
+                                        <div className='w-[300px] '>
+                                            <p className='px-2 pt-2 text-white bg-[rgb(136,0,21)] rounded-tr-lg rounded-tl-lg '><b>{prog.prog_acronym}</b></p>
+                                            <p className='px-2 text-[11px] text-yellow-500 bg-[rgb(136,0,21)] h-10'>{prog.prog_name}</p>
+                                            <p className='bg-yellow-100 px-2 pt-1 shadow-inner shadow-gray-200 uppercase text-[13px] text-gray-400'>passing grade: <span className='pl-0 text-gray-800'>{prog.prog_passing} %</span></p>
 
-                                        <div className='border bg-white pt-1 uppercase text-[13px] text-gray-400'>
-                                            <p className=' px-2 '>applied: <span className='pl-12 text-gray-800'>{prog.applied}</span> ({prog.percentage} % / overall)</p>
-                                            <p className=' px-2 '>examined: <span className='pl-9 text-gray-800'>{prog.examined}</span> ({prog.examined_perc} % / applied)</p>
-                                        </div>
-
-                                        <div className='flex justify-between'>
-                                            <div className='flex justify-center items-center h-16 w-1/2 rounded-bl-lg border text-gray-400 font-semibold'>RESULT</div>
-                                            <div className='rounded-br-lg bg-gray-200 text-gray-800 h-16 p-2 w-1/2 shadow-lg text-[14px]'>
-                                                <p className='shadow-text'>pass: <span className='pl-1 text-yellow-500'>{prog.pass}</span>  <span className='text-gray-400'>({prog.pass_perc}%)</span></p>
-                                                <p>fail: <span className='pl-3'>{prog.failed}</span> <span className='text-gray-400'>({prog.failed_perc}%)</span></p>
+                                            <div className='border bg-white pt-1 uppercase text-[13px] text-gray-400'>
+                                                <p className=' px-2 '>applied: <span className='pl-12 text-gray-800'>{prog.applied}</span> ({prog.percentage} % / overall)</p>
+                                                <p className=' px-2 '>examined: <span className='pl-9 text-gray-800'>{prog.examined}</span> ({prog.examined_perc} % / applied)</p>
                                             </div>
+
+                                            <div className='flex justify-between'>
+                                                <div className='flex justify-center items-center h-16 w-1/2 rounded-bl-lg border text-gray-400 font-semibold'>RESULT</div>
+                                                <div className='rounded-br-lg bg-gray-200 text-gray-800 h-16 p-2 w-1/2 shadow-lg text-[14px]'>
+                                                    <p className='shadow-text'>pass: <span className='pl-1 text-yellow-500'>{prog.pass}</span>  <span className='text-gray-400'>({prog.pass_perc}%)</span></p>
+                                                    <p>fail: <span className='pl-3'>{prog.failed}</span> <span className='text-gray-400'>({prog.failed_perc}%)</span></p>
+                                                </div>
+                                            </div>
+                                        <div className='w-[300px] p-2 rounded bg-gray-200 mt-2'><b className='text-gray-400'>AVERAGE SCORE:</b> {prog.average}%</div>
                                         </div>
-                                    </div>
+
+                                    </>
                                 ))}
                             </div>
                             {/* <pre>{JSON.stringify(program_count_perc, null, 2)}</pre> */}
@@ -434,8 +438,8 @@ export default function Dashboard({
                                                             {APPLICANT_STATUS_TEXT_MAP[applicant.status]}
                                                         </span>
                                                     </td>
-                                                    <td className="px-3 py-0">{applicant.valid_by}</td>
-                                                    <td className="px-3 py-0">{applicant.print_by}</td>
+                                                    <td className={"px-3 py-0 "}>{applicant.valid_by} <span className={"text-[9px] text-white p-1 rounded" + USER_STATUS_CLASS_MAP[applicant.valid_by_role]}>{USER_STATUS_TEXT_MAP[applicant.valid_by_role]}</span></td>
+                                                    <td className={"px-3 py-0 "}>{applicant.print_by} <span className={"text-[9px] p-1 rounded" + USER_STATUS_CLASS_MAP[applicant.print_by_role]}>{USER_STATUS_TEXT_MAP[applicant.print_by_role]}</span></td>
                                                 </tr>
                                             ))}
                                     </tbody>
@@ -508,8 +512,8 @@ export default function Dashboard({
                                                         <td className="px-3 py-0">&nbsp;&nbsp;&nbsp;{applicant.id}&nbsp;&nbsp;&nbsp;</td>
                                                         <td className="px-3 py-0">{applicant.sr_name.toUpperCase() + ", " + applicant.f_name.toUpperCase() + " " + applicant.m_name.toUpperCase()}</td>
                                                         <td className={"px-3 py-0 "}>&nbsp;&nbsp;&nbsp;<span className={" rounded text-[11px] p-1" + APPLICANT_STATUS_CLASS_MAP[applicant.status]}>{APPLICANT_STATUS_TEXT_MAP[applicant.status]}</span>&nbsp;&nbsp;&nbsp;</td>
-                                                        <td className="px-3 py-0">&nbsp;&nbsp;&nbsp;{applicant.valid_by}&nbsp;&nbsp;&nbsp;</td>
-                                                        <td className="px-3 py-0">&nbsp;&nbsp;&nbsp;{applicant.print_by}&nbsp;&nbsp;&nbsp;</td>
+                                                        <td className="px-3 py-0">&nbsp;&nbsp;&nbsp;{applicant.valid_by} <span className={"text-[9px] text-white p-1 rounded" + USER_STATUS_CLASS_MAP[applicant.valid_by_role]}>{USER_STATUS_TEXT_MAP[applicant.valid_by_role]}</span>&nbsp;&nbsp;&nbsp;</td>
+                                                        <td className="px-3 py-0">&nbsp;&nbsp;&nbsp;{applicant.print_by} <span className={"text-[9px] p-1 rounded" + USER_STATUS_CLASS_MAP[applicant.print_by_role]}>{USER_STATUS_TEXT_MAP[applicant.print_by_role]}</span>&nbsp;&nbsp;&nbsp;</td>
                                                     </tr>
                                                 ))}
                                             </tbody>
