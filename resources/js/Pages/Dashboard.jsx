@@ -231,14 +231,14 @@ export default function Dashboard({
                 <div className="pt-1 pb-2 mb-10">
                     <div className="mx-auto max-h max-w-7xl sm:px- lg:px-8">
                         <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 justify-start items-center flex gap-2">
-                            
+
                             <div className='bg-gray-200 border border-gray-200 ml-4 block-flex rounded w-44 h-32'>
                                 <b className='text-gray-400 pl-3 pt-2 block'>AVR. GRADE</b>
                                 <div className=' flex justify-center items-center py-6 '>
                                     {averageOfAverages.toFixed(2)}%
                                 </div>
                             </div>
-                            
+
                             <div className='bg-gray-200 border border-gray-200 block-flex rounded w-44 h-32'>
                                 <b className='text-gray-400 pl-3 pt-2 block'>EXAMINEE</b>
                                 <div className=' flex justify-center items-center py-6'>
@@ -309,6 +309,9 @@ export default function Dashboard({
                     <div className="mx-auto max-h max-w-7xl sm:px- lg:px-8">
                         <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 justify-center items-center">
                             <h2 className="font-bold p-2 bg-[rgb(153,217,234)] text-white">YOUR JOB LIST</h2>
+                            <p className='p-1 pl-2'>
+                                <b>TOTAL:</b> {incompleteApplicant.filter(incompleteList => incompleteList.validate_by.id === auth.user.id).length}
+                            </p>
                             <div className="overflow-auto ">
                                 <table className=" w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 mb-10">
                                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-[rgb(136,0,21)]">
@@ -349,6 +352,7 @@ export default function Dashboard({
                     <div className="mx-auto max-w-7xl sm:px- lg:px-8">
                         <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 justify-center items-center">
                             <h2 className="font-bold p-2 bg-[rgb(153,217,234)] text-white">PENDING LIST</h2>
+                            <p className='p-1 pl-2'><b>TOTAL:</b> {incompleteApplicant.length}</p>
                             <div className="overflow-auto ">
                                 <table className=" w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 mb-10">
                                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-[rgb(136,0,21)]">
@@ -390,6 +394,7 @@ export default function Dashboard({
                     <div className="mx-auto max-w-7xl sm:px- lg:px-8">
                         <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 justify-center items-center">
                             <h2 className="font-bold p-2 bg-green-500 text-white">YOUR JOB LIST</h2>
+                            <p className='p-1 pl-2'><b>TOTAL:</b> {validatedApplicant.filter(validList => validList.validate_by.id === auth.user.id).length}</p>
                             <div className="overflow-auto ">
                                 <table className=" w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 mb-10">
                                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-[rgb(136,0,21)]">
@@ -430,6 +435,7 @@ export default function Dashboard({
                     <div className="mx-auto max-w-7xl sm:px- lg:px-8">
                         <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 justify-center items-center">
                             <h2 className="font-bold p-2 bg-green-500 text-white">VALID LIST</h2>
+                            <p className='p-1 pl-2'><b>TOTAL:</b> {validatedApplicant.length}</p>
                             <div className="overflow-auto ">
                                 <table className=" w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 mb-10">
                                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-[rgb(136,0,21)]">
@@ -471,6 +477,7 @@ export default function Dashboard({
                     <div className="mx-auto max-w-7xl sm:px- lg:px-8">
                         <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 justify-center items-center">
                             <h2 className="font-bold p-2 bg-[rgb(239,228,176)] text-gray-900">YOUR JOB LIST</h2>
+                            <p className='p-1 pl-2'><b>TOTAL:</b> {flatApplicants.filter(applicant => applicant.print_by_id === auth.user.id).length}</p>
                             <div className="overflow-auto ">
                                 <table className=" w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 mb-10">
                                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-[rgb(136,0,21)]">
@@ -594,6 +601,7 @@ export default function Dashboard({
                     <div className="mx-auto max-w-7xl sm:px- lg:px-8">
                         <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 justify-center items-center">
                             <h2 className="font-bold p-2 bg-[rgb(136,0,21)] text-white">YOUR JOB LIST</h2>
+                            <p className='p-1 pl-2'><b>TOTAL:</b> {withScoreList.filter(scoreList => scoreList.score_by.id === auth.user.id).length}</p>
                             <div className="overflow-auto ">
 
                                 <table className=" w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 mb-10">
@@ -674,6 +682,7 @@ export default function Dashboard({
                         </div>
                         <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 justify-center items-center">
                             <h2 className="font-bold p-2 bg-[rgb(136,0,21)] text-white">SCORE LIST</h2>
+                            <p className='p-1 pl-2'><b>TOTAL:</b> {withScoreList.length}</p>
                             <div className="overflow-auto ">
                                 <table className=" w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 mb-10">
                                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-[rgb(136,0,21)]">
@@ -794,7 +803,7 @@ export default function Dashboard({
                                     <b>{label}</b>
                                     <p className=''>{count}</p>
                                 </button>
-                                {perc ? <div className='bg-white text-gray-400 shadow rounded flex justify-center items-center p-2'> ( {perc} %) </div> : ""}
+                                {perc ? <div className='bg-gray-200 text-gray-400 shadow-inner shadow-gray-300 rounded flex justify-center items-center p-2'> ( {perc} %) </div> : ""}
                             </div>
 
                         ))}

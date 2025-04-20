@@ -78,9 +78,9 @@ class SettingController extends Controller
 
 
 
-        $examDates = $examDateQuery->paginate(50)->onEachSide(1);
-        $examRooms = $examRoomQuery->paginate(50)->onEachSide(1);
-        $programs = $programQuery->paginate(50)->onEachSide(1);
+        $examDates = $examDateQuery->paginate(200)->onEachSide(1);
+        $examRooms = $examRoomQuery->paginate(200)->onEachSide(1);
+        $programs = $programQuery->paginate(200)->onEachSide(1);
         $users = User::all();
 
         return inertia('Setting/Index', [

@@ -12,7 +12,6 @@ export const APPLICANT_STATUS_TEXT_MAP ={
     '3' : 'Valid',
     '4' : 'Has Permit',
     '5' : 'Scored',
-
 }
 
 export const EXAM_STATUS_CLASS_MAP = {
@@ -30,6 +29,7 @@ export const USER_STATUS_CLASS_MAP = {
     '2' : ' text-gray-600 bg-[rgb(239,228,176)] ',
     '3' : ' text-white bg-green-500 ',
     '4' : ' text-white bg-[rgb(136,0,21)] ',
+    '5' : ' text-white bg-[#1E3A8A] ',
 }
 
 export const USER_STATUS_TEXT_MAP ={
@@ -37,5 +37,5 @@ export const USER_STATUS_TEXT_MAP ={
     '2' : ' MIS ' ,
     '3' : ' VALIDATOR ' ,
     '4' : ' SCORING STAFF ' ,
-
+    '5' : ' MANAGER ',
 }
