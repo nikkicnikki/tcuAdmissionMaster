@@ -266,9 +266,9 @@ export default function Dashboard({
                 </div>
 
                 <div className="pt-1 ">
-                    <div className="mx-auto max-h max-w-7xl">
+                    <div className="mx-auto max-h max-w-8xl">
                         <div className="overflow-hidden bg-white sm:rounded-lg dark:bg-gray-800 justify-center items-center">
-                            <div className="flex flex-wrap gap-4 justify-center">
+                            <div className="flex flex-wrap gap-4 justify-center ml-[62px]">
                                 {program_count_perc.map((prog) => (
                                     <>
                                         <div className="w-full sm:w-[300px]">
