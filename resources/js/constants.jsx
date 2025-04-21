@@ -39,3 +39,9 @@ export const USER_STATUS_TEXT_MAP ={
     '4' : ' SCORING STAFF ' ,
     '5' : ' MANAGER ',
 }
+
+export const ACTION_CLASS_MAP = {
+    'reprint' : ' text-gray-600 bg-[rgb(239,228,176)] ',
+    'rescore' :  ' text-white bg-[rgb(136,0,21)] ',
+    'update'  : ' text-gray-600 bg-blue-300 ',
+}

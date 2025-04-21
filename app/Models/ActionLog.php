@@ -19,5 +19,8 @@ class ActionLog extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    
+    public function target()
+    {
+        return $this->belongsTo( Applicant::class, 'target_id');
+    }
 }

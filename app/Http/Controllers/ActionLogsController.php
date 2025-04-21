@@ -11,7 +11,9 @@ class ActionLogsController extends Controller
     public function index()
     {
 
-        $logs = ActionLog::with('user')->latest()->get();
+        $logs = ActionLog::with('user')
+                ->latest()
+                ->get();
 
         return inertia('ActionLogs', [
             'logs' => $logs,

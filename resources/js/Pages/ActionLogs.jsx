@@ -1,8 +1,9 @@
+import { ACTION_CLASS_MAP, USER_STATUS_CLASS_MAP, USER_STATUS_TEXT_MAP } from "@/constants";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 
 export default function Dashboard({ auth, logs }) {
-
+    console.log(logs);
     return (
         <AuthenticatedLayout
             header={
@@ -41,8 +42,11 @@ export default function Dashboard({ auth, logs }) {
                                         return (
                                             <tr key={log.id} className="text-sm">
                                                 <td className="p-2 border">{new Date(log.created_at).toLocaleString()}</td>
-                                                <td className="p-2 border">{log.user?.name || 'System'}</td>
-                                                <td className="p-2 border">{log.action}</td>
+                                                <td className="p-2 border">
+                                                    {log.user?.name || 'System'}
+                                                    <span className={"text-[9px] rounded p-1 ml-1"+USER_STATUS_CLASS_MAP[log.user.role]}>{USER_STATUS_TEXT_MAP[log.user.role]}</span>
+                                                </td>
+                                                <td className="p-2 border"> <span className={"p-1 rounded text-[11px]"+ACTION_CLASS_MAP[log.action]}>{log.action}</span></td>
                                                 <td className="p-2 border">{log.target_id}</td>
                                                 <td className="p-2 border">
                                                     {meta.changed_fields?.length ? (
@@ -71,7 +75,7 @@ export default function Dashboard({ auth, logs }) {
                 </div>
             </div>
 
-            <pre>{JSON.stringify(logs, null, 3)}</pre>
+            {/* <pre>{JSON.stringify(logs, null, 3)}</pre> */}
 
         </AuthenticatedLayout>
     );
