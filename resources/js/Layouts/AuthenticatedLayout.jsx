@@ -31,7 +31,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                     Dashboard
                                 </NavLink>
 
-                                {(user.role == 1 || user.role == 2) && (
+                                {((user.role == 1 || user.role == 2) || user.role == 5) && (
                                     <NavLink
                                         href={route('user.index')}
                                         active={route().current('user.index')}
@@ -49,12 +49,21 @@ export default function AuthenticatedLayout({ header, children }) {
                                 </NavLink>
 
                                 {user.role == 1 && (
-                                    <NavLink
-                                        href={route('setting.index')}
-                                        active={route().current('setting.index')}
-                                    >
-                                        SETTINGS
-                                    </NavLink>
+                                    <>
+                                        <NavLink
+                                            href={route('actionLogs.index')}
+                                            active={route().current('actionLogs.index')}
+                                        >
+                                            ACTION LOGS
+                                        </NavLink>
+
+                                        <NavLink
+                                            href={route('setting.index')}
+                                            active={route().current('setting.index')}
+                                        >
+                                            SETTINGS
+                                        </NavLink>
+                                    </>
                                 )}
 
 

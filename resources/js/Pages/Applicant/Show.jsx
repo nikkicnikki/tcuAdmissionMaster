@@ -27,7 +27,7 @@ export default function Show({ auth, applicant }) {
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
                         <div className="p-6 text-gray-900 dark:text-gray-100 shadow-lg ">
 
-                            <img className="rounded w-40 h-40 border border-gray-900 border-4"
+                            <img className="rounded h-[100px] w-[120px] border border-gray-900 border-1"
                                 src={applicant.image_capture ? "/storage/" + applicant.image_capture : "/storage/source/default.jpg"} alt="" />
                             <div className="mt-1 flex flex-nowrap">
 

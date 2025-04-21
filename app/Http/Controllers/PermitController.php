@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActionLog;
 use Illuminate\Http\Request;
 use App\Models\Applicant;
 use App\Models\Program;
@@ -70,11 +71,24 @@ class PermitController extends Controller
 
     public function repermit_print($applicant_id)
     {
+        $userID = auth()->id();
+
         $applicant = Applicant::findOrFail($applicant_id);
         
         $exam_date_name = $applicant->examDate->exam_date;
         $exam_room_name = $applicant->examRoom->exam_room;
         $image_capture = $applicant->image_capture;
+
+        $applicantName = "$applicant->f_name $applicant->m_name $applicant->sr_name";
+
+        ActionLog::create([
+            'action' => 'reprint',
+            'user_id' => $userID,
+            'target_id' => $applicant->id,
+            'metadata' => json_encode([
+                'description' => "Re-print Applicant: \"$applicantName\""
+            ]),
+        ]);
 
         return Inertia::render('PDF/Print', [
             'applicant' => new ApplicantPermitResource($applicant),

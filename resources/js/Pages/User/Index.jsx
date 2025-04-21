@@ -179,10 +179,11 @@ export default function Index({ auth, users, queryParams = null, success, sucTyp
                                                     defaultValue={queryParams.role}
                                                     onChange={e => searchFieldChanged('role', e.target.value)}>
                                                     <option value="">Select Role</option>
-                                                    <option value="1">ADMIN</option>
+                                                    {auth.user.role == 1 && <option value="1">ADMIN</option> } 
                                                     <option value="2">MIS</option>
                                                     <option value="3">VALIDATOR</option>
                                                     <option value="4">SCORING STAFF</option>
+                                                    <option value="5">MANAGER</option>
                                                 </SelectInput>
                                             </th>
                                             <th className="px-3 py-3">
@@ -203,6 +204,8 @@ export default function Index({ auth, users, queryParams = null, success, sucTyp
                                     <tbody>
 
                                         {users.data.map(user => (
+
+                                            (user.role == 1 && auth.user.role != 1) ? "" :
                                             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={user.id}>
                                                 <th className="px-3 py-2">{user.id}</th>
                                                 <td className="px-3 py-2 uppercase text-nowrap text-blue-600">
@@ -256,7 +259,7 @@ export default function Index({ auth, users, queryParams = null, success, sucTyp
                                                         </button>
                                                     </td>
                                                 )}
-                                            </tr>
+                                            </tr> 
                                         ))}
                                     </tbody>
                                 </table>

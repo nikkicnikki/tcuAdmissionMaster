@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActionLogsController;
 use App\Http\Controllers\DashbaordController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ApplicantController;
@@ -90,6 +91,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // reports PDF
     Route::get('/PDF/date_room/{exam_date_id}/{exam_room_id}/{exam_date}/{exam_room}', [ReportController::class, 'dateRoomList'])->name('dateRoomList.pdf');
     Route::get('/PDF/exam_result/{program_acronym}', [ReportController::class, 'examResult'])->name('examResult.pdf');
+
+
+    Route::get('/action-logs', [ActionLogsController::class,'index'])->name('actionLogs.index');
+
 
     //Route::get('/PDF/{applicant_id}/permit_generate', [PermitController::class, 'permit_generate'])->name('permit.generate');
     //Route::get('/PDF/{applicant}/permit_pdf', [PermitController::class, 'permit_pdf'])->name('permit.pdf');

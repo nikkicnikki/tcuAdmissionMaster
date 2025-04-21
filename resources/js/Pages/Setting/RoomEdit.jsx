@@ -87,7 +87,7 @@ export default function RoomCreate({ auth, examroom, users }) {
                                     }}>
                                     <option value="">Select User</option>
                                     {users.map(user => (
-                                        (user.role == 1 || user.role == 2) && (
+                                        ((user.role == 1 || user.role == 2) || user.role == 5) && (
                                             <option className="text-white bg-gray-500" key={user.id} value={user.id}>
                                                 {`${user.name} - ${USER_STATUS_TEXT_MAP[user.role]}`}
                                             </option>

@@ -23,6 +23,7 @@ class ApplicantScoringResource extends JsonResource
     {
         return [
             'id'            => $this->id,
+            'status'        => $this->status,
             'sr_name'       => $this->sr_name,
             'f_name'        => $this->f_name,
             'm_name'        => $this->m_name,

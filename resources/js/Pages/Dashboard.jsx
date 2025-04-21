@@ -230,31 +230,31 @@ export default function Dashboard({
 
                 <div className="pt-1 pb-2 mb-10">
                     <div className="mx-auto max-h max-w-7xl sm:px- lg:px-8">
-                        <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 justify-start items-center flex gap-2">
+                        <div className="overflow-hidden sm:rounded-lg dark:bg-gray-800 justify-start items-center flex gap-2">
 
-                            <div className='bg-gray-200 border border-gray-200 ml-4 block-flex rounded w-44 h-32'>
-                                <b className='text-gray-400 pl-3 pt-2 block'>AVR. GRADE</b>
+                            <div className='bg-gray-300 shadow-sm mb-2 shadow-gray-500 border border-gray-200 ml-4 block-flex rounded w-44 h-32'>
+                                <b className=' pl-3 pt-2 block'>AVR. GRADE</b>
                                 <div className=' flex justify-center items-center py-6 '>
                                     {averageOfAverages.toFixed(2)}%
                                 </div>
                             </div>
 
-                            <div className='bg-gray-200 border border-gray-200 block-flex rounded w-44 h-32'>
-                                <b className='text-gray-400 pl-3 pt-2 block'>EXAMINEE</b>
+                            <div className='bg-gray-300 shadow-sm mb-2 shadow-gray-500  border border-gray-200 block-flex rounded w-44 h-32'>
+                                <b className=' pl-3 pt-2 block'>EXAMINEE</b>
                                 <div className=' flex justify-center items-center py-6'>
                                     {totalExamined}
                                 </div>
                             </div>
 
-                            <div className='bg-gray-200 border border-gray-200 block-flex rounded w-44 h-32'>
-                                <b className='text-gray-400 pl-3 pt-2 block'>PASS</b>
+                            <div className='bg-gray-300 shadow-sm mb-2 shadow-gray-500  border border-gray-200 block-flex rounded w-44 h-32'>
+                                <b className=' pl-3 pt-2 block'>PASS</b>
                                 <div className=' flex justify-center items-center py-6 '>
                                     {totalPass} ({percPass}%)
                                 </div>
                             </div>
 
-                            <div className='bg-gray-200 border border-gray-200 block-flex rounded w-44 h-32'>
-                                <b className='text-gray-400 pl-3 pt-2 block'>FAIL</b>
+                            <div className='bg-gray-300 shadow-sm mb-2 shadow-gray-500 border border-gray-200 block-flex rounded w-44 h-32'>
+                                <b className=' pl-3 pt-2 block'>FAIL</b>
                                 <div className=' flex justify-center items-center py-6 '>
                                     {totalFail} ({percFail}%)
                                 </div>
@@ -265,13 +265,13 @@ export default function Dashboard({
                     </div>
                 </div>
 
-                <div className="pt-1 pb-2 ">
-                    <div className="mx-auto max-h max-w-7xl sm:px- lg:px-8">
-                        <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 justify-center items-center">
-                            <div className='flex gap-2'>
+                <div className="pt-1 ">
+                    <div className="mx-auto max-h max-w-7xl">
+                        <div className="overflow-hidden bg-white sm:rounded-lg dark:bg-gray-800 justify-center items-center">
+                            <div className="flex flex-wrap gap-4 justify-center">
                                 {program_count_perc.map((prog) => (
                                     <>
-                                        <div className='w-[300px] '>
+                                        <div className="w-full sm:w-[300px]">
                                             <p className='px-2 pt-2 text-white bg-[rgb(136,0,21)] rounded-tr-lg rounded-tl-lg '><b>{prog.prog_acronym}</b></p>
                                             <p className='px-2 text-[11px] text-yellow-500 bg-[rgb(136,0,21)] h-10'>{prog.prog_name}</p>
                                             <p className='bg-yellow-100 px-2 pt-1 shadow-inner shadow-gray-200 uppercase text-[13px] text-gray-400'>passing grade: <span className='pl-0 text-gray-800'>{prog.prog_passing} %</span></p>
@@ -281,14 +281,14 @@ export default function Dashboard({
                                                 <p className=' px-2 '>examined: <span className='pl-9 text-gray-800'>{prog.examined}</span> ({prog.examined_perc} % / applied)</p>
                                             </div>
 
-                                            <div className='flex justify-between'>
+                                            <div className='flex justify-between shadow  rounded shadow-gray-500'>
                                                 <div className='flex justify-center items-center h-16 w-1/2 rounded-bl-lg border text-gray-400 font-semibold'>RESULT</div>
                                                 <div className='rounded-br-lg bg-gray-200 text-gray-800 h-16 p-2 w-1/2 shadow-lg text-[14px]'>
                                                     <p className='shadow-text'>pass: <span className='pl-1 text-yellow-500'>{prog.pass}</span>  <span className='text-gray-400'>({prog.pass_perc}%)</span></p>
                                                     <p>fail: <span className='pl-3'>{prog.failed}</span> <span className='text-gray-400'>({prog.failed_perc}%)</span></p>
                                                 </div>
                                             </div>
-                                            <div className='w-[300px] p-2 rounded bg-gray-200 mt-2'><b className='text-gray-400'>AVERAGE SCORE:</b> {prog.average}%</div>
+                                            <div className='w-[300px] shadow-sm mb-10 shadow-gray-500 p-2 rounded bg-gray-200 mt-2'><b className='text-gray-800'>AVERAGE SCORE:</b> {prog.average}%</div>
                                         </div>
 
                                     </>
@@ -539,23 +539,26 @@ export default function Dashboard({
                                             <span className='bg-red-500 text-white text-xs px-2 ml-2 top-[20px] left-[-15px] absolute ' >full</span>
                                             : ""
                                         }
-                                        <div className='flex gap-2 ml-5'>
-                                            <button
-                                                onClick={() => window.open(route('dateRoomList.pdf', {
-                                                    exam_date_id: havePermitApplicants[groupKey][0].exam_date_id,
-                                                    exam_room_id: havePermitApplicants[groupKey][0].exam_room_id,
-                                                    exam_date: havePermitApplicants[groupKey][0].exam_date,
-                                                    exam_room: havePermitApplicants[groupKey][0].exam_room,
-                                                }),
-                                                    '_blank')}
-                                                className="hover:text-blue-500"
-                                                title="PDF file">
-                                                <DocumentArrowDownIcon
-                                                    className='h-[20px] w-[20px]'
-                                                />
-                                            </button>
-                                            <DateRoomExcelButton exam_date_room={havePermitApplicants[groupKey]} />
-                                        </div>
+                                        {(auth.user.role == 1 || auth.user.role == 5) &&
+                                            <div className='flex gap-2 ml-5'>
+                                                <button
+                                                    onClick={() => window.open(route('dateRoomList.pdf', {
+                                                        exam_date_id: havePermitApplicants[groupKey][0].exam_date_id,
+                                                        exam_room_id: havePermitApplicants[groupKey][0].exam_room_id,
+                                                        exam_date: havePermitApplicants[groupKey][0].exam_date,
+                                                        exam_room: havePermitApplicants[groupKey][0].exam_room,
+                                                    }),
+                                                        '_blank')}
+                                                    className="hover:text-blue-500"
+                                                    title="PDF file">
+                                                    <DocumentArrowDownIcon
+                                                        className='h-[20px] w-[20px]'
+                                                    />
+                                                </button>
+                                                <DateRoomExcelButton exam_date_room={havePermitApplicants[groupKey]} />
+                                            </div>
+                                        }
+
                                         <h2 className='bg-white text-gray-900 p-2 shadow shadow-md border-b-2 border-red-400'>
                                             {groupKey} ({havePermitApplicants[groupKey].length}/{roomLimit})
 
@@ -652,34 +655,37 @@ export default function Dashboard({
                 {/* ALL SCORE LIST */}
                 <div className="pt-1 pb-2">
                     <div className="mx-auto max-w-7xl sm:px- lg:px-8">
-                        <div className='flex my-2'>
-                            <button
-                                onClick={() => window.open(route('examResult.pdf', "all"),
-                                    '_blank')}
-                                className="hover:text-blue-500"
-                                title="PDF file">
-                                <DocumentArrowDownIcon
-                                    className='ml-5 h-[20px] w-[20px]'
-                                />
-                            </button>
-                            <ProgramExcelButton with_score_list={withScoreList} titleProg={"ALL"} />
-                            {programs.map(prog => (
-                                <>
-                                    <button
-                                        onClick={() => window.open(route('examResult.pdf', {
-                                            program_acronym: prog.acronym
-                                        }),
-                                            '_blank')}
-                                        className="hover:text-blue-500"
-                                        title="PDF file">
-                                        <DocumentArrowDownIcon
-                                            className='ml-5 h-[20px] w-[20px]'
-                                        />
-                                    </button>
-                                    <ProgramExcelButton with_score_list={withScoreList} program_acronym={prog.acronym} titleProg={prog.acronym} />
-                                </>
-                            ))}
-                        </div>
+                        {(auth.user.role == 1 || auth.user.role == 5) &&
+                            <div className='flex my-2'>
+                                <button
+                                    onClick={() => window.open(route('examResult.pdf', "all"),
+                                        '_blank')}
+                                    className="hover:text-blue-500"
+                                    title="PDF file">
+                                    <DocumentArrowDownIcon
+                                        className='ml-5 h-[20px] w-[20px]'
+                                    />
+                                </button>
+                                <ProgramExcelButton with_score_list={withScoreList} titleProg={"ALL"} />
+                                {programs.map(prog => (
+                                    <>
+                                        <button
+                                            onClick={() => window.open(route('examResult.pdf', {
+                                                program_acronym: prog.acronym
+                                            }),
+                                                '_blank')}
+                                            className="hover:text-blue-500"
+                                            title="PDF file">
+                                            <DocumentArrowDownIcon
+                                                className='ml-5 h-[20px] w-[20px]'
+                                            />
+                                        </button>
+                                        <ProgramExcelButton with_score_list={withScoreList} program_acronym={prog.acronym} titleProg={prog.acronym} />
+                                    </>
+                                ))}
+                            </div>
+                        }
+
                         <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 justify-center items-center">
                             <h2 className="font-bold p-2 bg-[rgb(136,0,21)] text-white">SCORE LIST</h2>
                             <p className='p-1 pl-2'><b>TOTAL:</b> {withScoreList.length}</p>
@@ -739,7 +745,7 @@ export default function Dashboard({
             <Head title="Dashboard" />
 
             {/* HEADER AND SIDEBAR */}
-            <div className="py-5 relative">
+            <div className="py-5 relative bg-white">
                 <button
                     onClick={() => setIsOpen(!isOpen)}
                     className="m-4 p-2 bg-white shadow text-gray-900 rounded z-20 absolute left-0 top-[-10px]
@@ -755,7 +761,7 @@ export default function Dashboard({
                         [@media(min-width:1500px)]:translate-x-0
                         `}>
 
-                    <div className="absolute top-[50px] mx-auto max-w-5xl sm:px-2 lg:px-4 grid grid-cols-6 gap-1 ">
+                    <div className="absolute top-[50px] mx-auto max-w-5xl sm:px-2 lg:px-4 grid grid-cols-6 gap-1">
                         <h2 className='font-semibold'>PROGRAMS</h2>
                         {programs.map((program) => (
                             <div
@@ -781,12 +787,12 @@ export default function Dashboard({
                     </div>
                 </div>
 
-                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 grid grid-cols-1">
+                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 grid grid-cols-1 ">
                     <h2 className='font-semibold p-2'>CURRENT APPLICANTS STATUS</h2>
                 </div>
 
 
-                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 gap-2 ">
+                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 gap-2  ">
                     <div className="flex gap-4 mb-6 flex-wrap">
                         {navItems.map(({ label, bg, text, count, perc }) => (
                             <div className='w-32'>
@@ -803,7 +809,7 @@ export default function Dashboard({
                                     <b>{label}</b>
                                     <p className=''>{count}</p>
                                 </button>
-                                {perc ? <div className='bg-gray-200 text-gray-400 shadow-inner shadow-gray-300 rounded flex justify-center items-center p-2'> ( {perc} %) </div> : ""}
+                                {perc ? <div className='bg-gray-200 text-gray-800 shadow-inner shadow-gray-300 rounded flex justify-center items-center p-2'> ( {perc} %) </div> : ""}
                             </div>
 
                         ))}
@@ -817,7 +823,7 @@ export default function Dashboard({
 
 
             {/* Dynamic Content */}
-            <div className="p-4 bg-white shadow rounded-xl">{contentMap[activeTab]}</div>
+            <div className="p-4 bg-white rounded-xl">{contentMap[activeTab]}</div>
 
 
 

@@ -90,7 +90,7 @@ export default function Index({
                                 <label className="font-bold">ACTIVE SCHEDULE: </label>
                                 <label className="bg-[rgb(250,245,226)] shadow-inner p-5">{active_schedule ? new Date(active_schedule).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }) : "no schedule"}</label>
                             </div>
-                            {(auth.user.role == 1 || auth.user.role == 2) ?
+                            {((auth.user.role == 1 || auth.user.role == 2) || auth.user.role == 5) ?
                                 <div>
                                     <label className="font-bold">YOUR ASSIGN ROOM: </label>
                                     <label className="bg-[rgb(250,245,226)] shadow-inner p-5">{assign_room ? assign_room : "N/A"}</label>

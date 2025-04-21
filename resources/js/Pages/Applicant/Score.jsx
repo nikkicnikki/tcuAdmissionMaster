@@ -1,7 +1,7 @@
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
-import { USER_STATUS_CLASS_MAP, USER_STATUS_TEXT_MAP } from "@/constants";
+import { APPLICANT_STATUS_CLASS_MAP, APPLICANT_STATUS_TEXT_MAP, USER_STATUS_CLASS_MAP, USER_STATUS_TEXT_MAP } from "@/constants";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, useForm } from "@inertiajs/react";
 import { useEffect, useRef } from "react";
@@ -10,6 +10,9 @@ export default function Score({ auth, applicant, userJobList }) {
 
     const { data, setData, errors, put } = useForm({
         scorer: auth.user.id || '',
+
+        status: applicant.status || '',
+
         applicant_id: applicant.id || '',
         f_name: applicant.f_name || '',
         m_name: applicant.m_name || '',
@@ -24,8 +27,9 @@ export default function Score({ auth, applicant, userJobList }) {
         applied: applicant.created_at || '',
         permit_issued: applicant.printed_date || '',
 
-    });
 
+    });
+    console.log(applicant);
     const formattedDate = new Date(data.exam_date).toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'long',
@@ -70,15 +74,20 @@ export default function Score({ auth, applicant, userJobList }) {
                         <div className="p-4 flex-1 text-[11px]">
                             <p>
                                 <b>VALIDATOR:</b> {data.validator.name.toUpperCase()}
-                                <span className={' ml-2 text-white p-0.5 rounded text-[9px] ' + USER_STATUS_CLASS_MAP[data.validator.role]}>{USER_STATUS_TEXT_MAP[data.validator.role]}</span>
+                                <span className={' ml-2 p-0.5 rounded text-[9px] ' + USER_STATUS_CLASS_MAP[data.validator.role]}>{USER_STATUS_TEXT_MAP[data.validator.role]}</span>
                             </p>
                             <p>
                                 <b>PRINTED BY:</b> {data.printed.name.toUpperCase()}
-                                <span className={' ml-2 text-white p-0.5 rounded text-[9px] ' + USER_STATUS_CLASS_MAP[data.printed.role]}>{USER_STATUS_TEXT_MAP[data.printed.role]}</span>
+                                <span className={' ml-2 p-0.5 rounded text-[9px] ' + USER_STATUS_CLASS_MAP[data.printed.role]}>{USER_STATUS_TEXT_MAP[data.printed.role]}</span>
                             </p>
                             <p>
                                 <b>SCORED BY:</b> {auth.user.name.toUpperCase()}
-                                <span className={' ml-2 text-white p-0.5 rounded text-[9px] ' + USER_STATUS_CLASS_MAP[auth.user.role]}>{USER_STATUS_TEXT_MAP[auth.user.role]}</span>
+                                <span className={' ml-2 p-0.5 rounded text-[9px] ' + USER_STATUS_CLASS_MAP[auth.user.role]}>{USER_STATUS_TEXT_MAP[auth.user.role]}</span>
+                            </p>
+                            <br />
+                            <p>
+                                <b>STATUS:</b>
+                                <span className={"ml-1 p-0.5 rounded" + APPLICANT_STATUS_CLASS_MAP[data.status]}>{APPLICANT_STATUS_TEXT_MAP[data.status]}</span>
                             </p>
                             <br />
                             <p><b>APPLIED:</b> {applicant.created_at}</p>
@@ -87,7 +96,7 @@ export default function Score({ auth, applicant, userJobList }) {
 
                         <div className="p-4 justify-end text-[11px] text-right">
                             <p> <b>{data.prog.acronym}</b> {"-" + data.prog.name} <b>:PROGRAM</b></p>
-                            <p> <b>{data.prog.passing_grade}</b>.00 % <b>:PASSING GRADE</b></p>
+                            <p className="text-green-700"> <b >{data.prog.passing_grade}</b>.00 % <b className="text-black">:PASSING GRADE</b></p>
                         </div>
 
                     </div>
@@ -95,9 +104,9 @@ export default function Score({ auth, applicant, userJobList }) {
             </div>
 
             <div className="pt-1 pb-2">
-                <div className="mx-auto max-w-7xl sm:px- lg:px-8">
+                <div className="mx-auto max-w-7xl sm:px- lg:px-8 relative">
+                    {data.status == 5 && <div className="block bg-[rgb(136,0,21)] text-white p-2 absolute top-[-8px] left-[5px]">RE-SCORE</div>}
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 flex">
-
                         <div className="m-5 ">
                             <img
                                 src={data.image_capture}

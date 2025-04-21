@@ -5,6 +5,7 @@ import TextAreaInput from "@/Components/TextAreaInput";
 import TextInput from "@/Components/TextInput";
 import { APPLICANT_STATUS_CLASS_MAP, APPLICANT_STATUS_TEXT_MAP, USER_STATUS_CLASS_MAP, USER_STATUS_TEXT_MAP } from "@/constants";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import { ChevronDoubleDownIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { Head, Link, useForm } from "@inertiajs/react";
 
 export default function Edit({ auth, applicants, programs }) {
@@ -100,7 +101,7 @@ export default function Edit({ auth, applicants, programs }) {
                                 <label className="font-bold text-lg ml-2">STATUS :</label>
                                 <span
                                     className={
-                                        "px-1 py-1 ml-1 rounded text-white " +
+                                        "px-1 py-1 ml-1 rounded " +
                                         APPLICANT_STATUS_CLASS_MAP[data.status]
                                     }
                                 >
@@ -113,7 +114,7 @@ export default function Edit({ auth, applicants, programs }) {
 
                             <div className="mt-1 flex-1 text-right ">
                                 <p className="text-[11px]">
-                                    <label className="font-bold ml-2 ">CREATE : </label>
+                                    <label className="font-bold ml-2 ">APPLIED : </label>
                                     {new Date(data.created_at).toLocaleDateString("en-US", {
                                         year: "numeric",
                                         month: "long",
@@ -149,7 +150,12 @@ export default function Edit({ auth, applicants, programs }) {
 
             {/* EDITABLE APPLICANT INFO */}
             <div className="py-2">
-                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+
+                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 relative">
+                    <div className="bg-blue-500 text-white p-2 hover:bg-blue-700 rounded mb-2 inline-block ">
+                        <a href="#REMARKS" className="flex"><ChevronDoubleDownIcon className="w-4 h-4 mt-1 "/> REMARKS</a>
+                        
+                    </div>
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
                         <form
                             onSubmit={onSubmit}
@@ -570,7 +576,7 @@ export default function Edit({ auth, applicants, programs }) {
 
                             </div>
 
-                            <div className="mt-4">
+                            <div className="mt-4" id="REMARKS">
                                 <InputLabel htmlFor="app_remarks" value="Remaks" />
                                 <TextAreaInput
                                     id="app_remarks"

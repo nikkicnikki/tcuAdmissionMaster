@@ -10,8 +10,8 @@ export default function ApplicantFormAction({
 }) {
     return (
         <>
-            {/* ADMIN Role 1 or VALIDATOR Role 3 - Status 1 or Status 2 */}
-            {(role == 1 || role == 3) && (status == 1 || status == 2) && (
+            {/* ADMIN Role 1, MANAGER Role 5 or VALIDATOR Role 3 - Status 1 or Status 2 */}
+            {(((role == 1 || role == 3) || role == 5) && (status == 1 || status == 2)) && (
                 <td className="px-3 py-2 text-right flex flex-nowrap">
                     <Link
                         href={route("applicant.edit", applicantId)}
@@ -32,8 +32,8 @@ export default function ApplicantFormAction({
                 </td>
             )}
 
-            {/* ADMIN Role 1 or MIS Role 2 - Status 3 */}
-            {(role == 1 || role == 2) && status == 3 && (
+            {/* ADMIN Role 1, MANAGER Role 5 or MIS Role 2 - Status 3 */}
+            {(((role == 1 || role == 2) || role == 5)  && status == 3) && (
                 <td className="px-3 py-2 text-right flex flex-nowrap">
                     <Link
                         href={route("applicant.edit", applicantId)}
@@ -61,8 +61,8 @@ export default function ApplicantFormAction({
                 </td>
             )}
 
-            {/* ADMIN Role 1 - Status 4 */}
-            {role == 1 && status == 4 && (
+            {/* ADMIN Role 1, MANAGER Role 5 - Status 4 */}
+            {((role == 1 || role == 5) && status == 4) && (
                 <td className="px-3 py-2 text-right flex flex-nowrap">
                     <a
                         href={route('permit.reprint', { applicant_id: applicantId })}
@@ -91,8 +91,8 @@ export default function ApplicantFormAction({
                 </td>
             )}
 
-            {/* ADMIN Role 1 - Status 5 */}
-            {(role == 1 && status == 5) || ( role == 2 && (status == 4 || status == 5)) && (
+            {/* ADMIN Role 1 , MANAGER Role 5 - Status 5 */}
+            {(((role == 1 || role == 5) && status == 5) || ( role == 2 && (status == 4 || status == 5))) && (
                 <td className="px-3 py-2 text-right flex flex-nowrap">
                     <a
                         href={route('permit.reprint', { applicant_id: applicantId })}
@@ -109,18 +109,40 @@ export default function ApplicantFormAction({
                     >
                         <ArrowPathIcon className="w-5 h-3" />
                     </Link>
+
+                    <Link
+                        href={route('applicant.scoring', applicantId)}
+                        className="font-medium rounded flex-1 px-1 py-1 text-yellow-500 bg-white dark:text-red-500 hover:shadow mx-1 flex flex-nowrap items-center justify-center"
+                        title="RE-SCORE"
+                    >
+                        <PercentBadgeIcon className="w-5 h-5" />
+                    </Link>
                 </td>
             )}
 
 
             {/* SCORING STAFF Role 4 - Status 4 */}
-            {role == 4 && status == 4 && (
+            {role == 4 && status == 4  && (
                 <td className="px-3 py-2 text-right flex flex-nowrap">
 
                     <Link
                         href={route('applicant.scoring', applicantId)}
                         className="font-medium rounded flex-1 px-1 py-1 text-yellow-500 bg-[rgb(136,0,21)] dark:text-red-500 hover:bg-red-700 mx-1 flex flex-nowrap items-center justify-center"
                         title="SCORE"
+                    >
+                        <PercentBadgeIcon className="w-5 h-5" />
+                    </Link>
+                </td>
+            )}
+
+            {/* SCORING STAFF Role 4 - Status 5 */}
+            {role == 4 && status == 5 && (
+                <td className="px-3 py-2 text-right flex flex-nowrap">
+
+                    <Link
+                        href={route('applicant.scoring', applicantId)}
+                        className="font-medium rounded flex-1 px-1 py-1 text-yellow-500 bg-white dark:text-red-500 hover:shadow mx-1 flex flex-nowrap items-center justify-center"
+                        title="RE-SCORE"
                     >
                         <PercentBadgeIcon className="w-5 h-5" />
                     </Link>

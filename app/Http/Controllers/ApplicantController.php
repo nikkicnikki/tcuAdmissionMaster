@@ -21,6 +21,7 @@ use App\Http\Resources\ExamDateResource;
 use App\Http\Resources\ExamRoomResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\ActionLog;
 
 class ApplicantController extends Controller
 {
@@ -126,12 +127,45 @@ class ApplicantController extends Controller
     public function update(UpdateApplicantRequest $request, Applicant $applicant)
     {
         $data = $request->validated();
+
+        // Set status to 2 if it's 1 or 2 for STATUS = INCOMPLETE min for Using UPDATE
         if ($data['status'] == 1 || $data['status'] == 2) {
             $data['status'] = 2;
         }
 
-        $applicant->update($data);
+        // Detect changes
+        $original = $applicant->only(array_keys($data));
+        $changedFields = [];
+        $previousValues = [];
+
+
+
+        foreach ($data as $key => $value) {
+            if (array_key_exists($key, $original) && $original[$key] != $value) {
+                $changedFields[] = $key;
+                $previousValues[$key] = $original[$key];
+            }
+        }
+
         $name = ($data['f_name'] ?? '') . ' ' . ($data['m_name'] ?? '') . ' ' . ($data['sr_name'] ?? '');
+
+        // Only log if something actually changed
+        if (!empty($changedFields)) {
+            ActionLog::create([
+                'action' => 'update',
+                'user_id' => auth()->id(),
+                'target_id' => $applicant->id,
+                'metadata' => json_encode([
+                    'changed_fields' => $changedFields,
+                    'previous_values' => $previousValues,
+                    'new_values' => collect($data)->only($changedFields),
+                    'description' => "Updated \"$name\" applicant  info"
+                ]),
+            ]);
+        }
+
+        $applicant->update($data);
+
 
         return to_route('applicant.index')->with([
             'success' => "Applicant \"$name\" was Updated" ,
@@ -191,23 +225,55 @@ class ApplicantController extends Controller
         ]);
     }
 
-    public function score( $applicantId, $applicantScore , $applicantName)
+    public function score($applicantId, $applicantScore, $applicantName)
     {
-
-        $userID = Auth::user()->id;
-        // dd($applicantId." ".$applicantName." ".$applicantScore );
+        $userID = auth()->id();
         $applicant = Applicant::findOrFail($applicantId);
+
+        // Store original values for comparison
+        $original = $applicant->only(['score', 'score_by', 'status']);
+
+        // Set new values
         $applicant->score = $applicantScore;
         $applicant->score_by = $userID;
         $applicant->status = 5;
+
+        // Detect changes
+        $changedFields = [];
+        $previousValues = [];
+
+        foreach (['score', 'score_by', 'status'] as $field) {
+            if ($applicant->$field != $original[$field]) {
+                $changedFields[] = $field;
+                $previousValues[$field] = $original[$field];
+            }
+        }
+
+        // Save changes
         $applicant->save();
 
-        return to_route( 'applicant.index')->with([
-            'success' => "Scored Applicant: \"$applicantName\"" ,
-            'sucType' => 'score',
+        // Log if changes were made
         
+        if (!is_null($original['status']) && !empty($changedFields)) {
+            ActionLog::create([
+                'action' => 'rescore',
+                'user_id' => $userID,
+                'target_id' => $applicant->id,
+                'metadata' => json_encode([
+                    'changed_fields' => $changedFields,
+                    'previous_values' => $previousValues,
+                    'new_values' => $applicant->only($changedFields),
+                    'description' => "Re-Score Applicant: \"$applicantName\""
+                ]),
+            ]);
+        }
+
+        return to_route('applicant.index')->with([
+            'success' => "Scored Applicant: \"$applicantName\"",
+            'sucType' => 'score',
         ]);
     }
+
 
 
 }
