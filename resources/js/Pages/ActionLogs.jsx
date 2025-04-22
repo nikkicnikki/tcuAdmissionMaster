@@ -15,8 +15,7 @@ export default function Dashboard({ auth, logs }) {
             <Head title="Action logs" />
 
             <div className="pt-10">
-                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 p-4 flex justify-between">
+                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 bg-white p-4 rounded">
 
                         <div className="overflow-x-auto">
                             <table className="table-auto w-full border">
@@ -71,7 +70,6 @@ export default function Dashboard({ auth, logs }) {
                             </table>
                         </div>
 
-                    </div>
                 </div>
             </div>
 
