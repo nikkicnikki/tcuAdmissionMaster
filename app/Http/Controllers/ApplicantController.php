@@ -138,8 +138,6 @@ class ApplicantController extends Controller
         $changedFields = [];
         $previousValues = [];
 
-
-
         foreach ($data as $key => $value) {
             if (array_key_exists($key, $original) && $original[$key] != $value) {
                 $changedFields[] = $key;

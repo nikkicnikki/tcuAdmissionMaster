@@ -228,32 +228,32 @@ export default function Dashboard({
         Overall:
             <div className='h-screen'>
 
-                <div className="pt-1 pb-2 mb-10">
+                <div className="pt-0 pb-2 mb-2">
                     <div className="mx-auto max-h max-w-7xl sm:px- lg:px-8">
-                        <div className="overflow-hidden sm:rounded-lg dark:bg-gray-800 justify-start items-center flex gap-2">
-
-                            <div className='bg-gray-300 shadow-sm mb-2 shadow-gray-500 border border-gray-200 ml-4 block-flex rounded w-44 h-32'>
+                        <h2 className='font-bold mb-2'>OVERALL STATUS</h2>
+                        <div className="overflow-hidden sm:rounded-lg dark:bg-gray-800 justify-start items-center flex gap-4">
+                            <div className='bg-white shadow-sm mb-2 shadow-gray-500 border border-gray-200 ml-6 block-flex rounded w-[280px] h-32'>
                                 <b className=' pl-3 pt-2 block'>AVR. GRADE</b>
                                 <div className=' flex justify-center items-center py-6 '>
                                     {averageOfAverages.toFixed(2)}%
                                 </div>
                             </div>
 
-                            <div className='bg-gray-300 shadow-sm mb-2 shadow-gray-500  border border-gray-200 block-flex rounded w-44 h-32'>
+                            <div className='bg-white shadow-sm mb-2 shadow-gray-500  border border-gray-200 block-flex rounded w-[280px] h-32'>
                                 <b className=' pl-3 pt-2 block'>EXAMINEE</b>
                                 <div className=' flex justify-center items-center py-6'>
                                     {totalExamined}
                                 </div>
                             </div>
 
-                            <div className='bg-gray-300 shadow-sm mb-2 shadow-gray-500  border border-gray-200 block-flex rounded w-44 h-32'>
+                            <div className='bg-white shadow-sm mb-2 shadow-gray-500  border border-gray-200 block-flex rounded w-[280px] h-32'>
                                 <b className=' pl-3 pt-2 block'>PASS</b>
                                 <div className=' flex justify-center items-center py-6 '>
                                     {totalPass} ({percPass}%)
                                 </div>
                             </div>
 
-                            <div className='bg-gray-300 shadow-sm mb-2 shadow-gray-500 border border-gray-200 block-flex rounded w-44 h-32'>
+                            <div className='bg-white shadow-sm mb-2 shadow-gray-500 border border-gray-200 block-flex rounded w-[280px] h-32'>
                                 <b className=' pl-3 pt-2 block'>FAIL</b>
                                 <div className=' flex justify-center items-center py-6 '>
                                     {totalFail} ({percFail}%)
@@ -265,13 +265,14 @@ export default function Dashboard({
                     </div>
                 </div>
 
-                <div className="pt-1 ">
-                    <div className="mx-auto max-h max-w-8xl">
-                        <div className="overflow-hidden bg-white sm:rounded-lg dark:bg-gray-800 justify-center items-center">
-                            <div className="flex flex-wrap gap-4 justify-center ml-[62px]">
+                <div className="pt-1">
+                    <div className="mx-auto max-h max-w-7xl ">
+                        <div className="overflow-hidden sm:rounded-lg dark:bg-gray-800 justify-center items-center">
+                            <h2 className='font-bold mb-2 ml-8'>PROGRAM STATUS</h2>
+                            <div className="flex flex-wrap gap-4 justify-center">
                                 {program_count_perc.map((prog) => (
                                     <>
-                                        <div className="w-full sm:w-[300px]">
+                                        <div className="w-full sm:w-[280px]">
                                             <p className='px-2 pt-2 text-white bg-[rgb(136,0,21)] rounded-tr-lg rounded-tl-lg '><b>{prog.prog_acronym}</b></p>
                                             <p className='px-2 text-[11px] text-yellow-500 bg-[rgb(136,0,21)] h-10'>{prog.prog_name}</p>
                                             <p className='bg-yellow-100 px-2 pt-1 shadow-inner shadow-gray-200 uppercase text-[13px] text-gray-400'>passing grade: <span className='pl-0 text-gray-800'>{prog.prog_passing} %</span></p>
@@ -288,7 +289,7 @@ export default function Dashboard({
                                                     <p>fail: <span className='pl-3'>{prog.failed}</span> <span className='text-gray-400'>({prog.failed_perc}%)</span></p>
                                                 </div>
                                             </div>
-                                            <div className='w-[300px] shadow-sm mb-10 shadow-gray-500 p-2 rounded bg-gray-200 mt-2'><b className='text-gray-800'>AVERAGE SCORE:</b> {prog.average}%</div>
+                                            <div className='sm:w-[280px] shadow-sm mb-10 shadow-gray-500 p-2 rounded bg-gray-200 mt-2'><b className='text-gray-800'>AVERAGE SCORE:</b> {prog.average}%</div>
                                         </div>
 
                                     </>
@@ -745,7 +746,7 @@ export default function Dashboard({
             <Head title="Dashboard" />
 
             {/* HEADER AND SIDEBAR */}
-            <div className="py-5 relative bg-white">
+            <div className="pt-5 relative ">
                 <button
                     onClick={() => setIsOpen(!isOpen)}
                     className="m-4 p-2 bg-white shadow text-gray-900 rounded z-20 absolute left-0 top-[-10px]
@@ -793,7 +794,7 @@ export default function Dashboard({
 
 
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 gap-2  ">
-                    <div className="flex gap-4 mb-6 flex-wrap">
+                    <div className="flex gap-4 flex-wrap">
                         {navItems.map(({ label, bg, text, count, perc }) => (
                             <div className='w-32'>
                                 <button
@@ -823,7 +824,7 @@ export default function Dashboard({
 
 
             {/* Dynamic Content */}
-            <div className="p-4 bg-white rounded-xl">{contentMap[activeTab]}</div>
+            <div className="p-4 rounded-xl">{contentMap[activeTab]}</div>
 
 
 
