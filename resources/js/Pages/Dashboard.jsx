@@ -40,7 +40,7 @@ export default function Dashboard({
                     const PASSING = program.passing_grade;
 
 
-                    return {
+                    return { 
                         // ...rest,
                         'ID': ID,
                         'NAME': `${surname}, ${firstName} ${middleName}`.trim(),
