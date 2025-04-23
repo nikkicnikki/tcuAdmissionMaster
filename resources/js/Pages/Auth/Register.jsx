@@ -6,7 +6,7 @@ import TextInput from '@/Components/TextInput';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import SelectInput from '@/Components/SelectInput';
-//import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 export default function Register() {
     /* old code
@@ -53,7 +53,7 @@ export default function Register() {
 //----------------------------------
     return (
         //<GuestLayout>AuthenticatedLayout
-        <GuestLayout>
+        <AuthenticatedLayout>
             <Head title="Register" />
 
             <form onSubmit={submit}>
@@ -168,6 +168,6 @@ export default function Register() {
 
                 
             </form>
-        </GuestLayout>
+        </AuthenticatedLayout>
     );
 }

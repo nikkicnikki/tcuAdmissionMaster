@@ -27,33 +27,62 @@ class DashbaordController extends Controller
         $totalApplicantHasPermit = Applicant::query()->where('status', 4)->count();
         $totalApplicantScored = Applicant::query()->where('status', 5)->count();
 
+        $averages = DB::table('applicants')
+            ->whereNotNull('score') // filters out null scores
+            ->select('prog', DB::raw('ROUND(AVG(score), 2) as average'))
+            ->groupBy('prog')
+            ->pluck('average', 'prog'); // [prog_id => avg]
+
+
         $program_count_perc = Applicant::join('programs', 'applicants.prog', '=', 'programs.id')
             ->select(
                 'applicants.prog',
                 DB::raw('count(*) as applied'),
                 DB::raw('count(applicants.score) as examined'),
-                DB::raw("count(CASE WHEN applicants.score >= programs.passing_grade THEN 1 END) as pass"),
-                DB::raw("count(CASE WHEN applicants.score < programs.passing_grade THEN 1 END) as failed"),
-                DB::raw("ROUND(AVG(applicants.score), 2) as average"),
+                DB::raw('count(CASE WHEN applicants.score >= programs.passing_grade THEN 1 END) as pass'),
+                DB::raw('count(CASE WHEN applicants.score < programs.passing_grade THEN 1 END) as failed')
             )
             ->groupBy('applicants.prog')
             ->orderByDesc('examined')
-            ->with('program:id,acronym,name,passing_grade') 
+            ->with('program:id,acronym,name,passing_grade')
             ->get()
-            ->map(function ($item) use ($totalApplicant) {
-                $item->prog_id = $item->program->id;
-                $item->prog_acronym = $item->program->acronym;
-                $item->prog_name = $item->program->name;
-                $item->prog_passing = $item->program->passing_grade;
+            ->filter(function ($item) use ($averages) {
+                return isset($averages[$item->prog]); // only keep those with valid averages
+            })
+            ->map(function ($item) use ($totalApplicant, $averages) {
+                $item->average = $averages[$item->prog];
+
+                $item->prog_id = $item->program->id ?? null;
+                $item->prog_acronym = $item->program->acronym ?? '';
+                $item->prog_name = $item->program->name ?? '';
+                $item->prog_passing = $item->program->passing_grade ?? 0;
+
                 unset($item->program);
                 unset($item->prog);
 
-                $item->examined_perc = round(($item->examined / $item->applied) *100, 2);
-                $item->pass_perc = round( ($item->pass / $item->examined) *100,2);
-                $item->failed_perc = round( ($item->failed / $item->examined) *100,2);
-                $item->percentage = round(($item->applied / $totalApplicant) * 100, 2);
+                $item->examined_perc = $item->applied > 0
+                    ? round(($item->examined / $item->applied) * 100, 2)
+                    : 0;
+
+                $item->pass_perc = $item->examined > 0
+                    ? round(($item->pass / $item->examined) * 100, 2)
+                    : 0;
+
+                $item->failed_perc = $item->examined > 0
+                    ? round(($item->failed / $item->examined) * 100, 2)
+                    : 0;
+
+                $item->percentage = $totalApplicant > 0
+                    ? round(($item->applied / $totalApplicant) * 100, 2)
+                    : 0;
+
                 return $item;
             });
+
+
+
+
+
 
         // INCOMPLETE
         $incompleteApplicant = Applicant::where('status', '=', 2)

@@ -22,7 +22,7 @@ export default function Dashboard({
     incompleteApplicant,
     program_count_perc,
 }) {
-    // console.log(program_count_perc);
+    // console.log(averagesOverall);
     const ProgramExcelButton = ({ with_score_list, program_acronym, titleProg }) => {
 
         const handleDownload = () => {
@@ -214,8 +214,11 @@ export default function Dashboard({
     ];
 
     // TOTAL AVERAGE OF ALL EXAMINED APPLICANT
-    const totalAverage = program_count_perc.reduce((sum, program) => sum + program.average, 0);
-    const averageOfAverages = totalAverage / program_count_perc.length;
+    const totalAverage = program_count_perc.reduce((sum, program) => sum + (program.average || 0), 0);
+    const averageOfAverages = program_count_perc.length > 0
+        ? (totalAverage / program_count_perc.length).toFixed(2)
+        : 0;
+
     // TOTAL NO. OF PASS, FAIL AND EXAMINED APPLICANT
     const totalExamined = program_count_perc.reduce((sum, program) => sum + program.examined, 0);
     const totalPass = program_count_perc.reduce((sum, program) => sum + program.pass, 0);
@@ -235,7 +238,7 @@ export default function Dashboard({
                             <div className='bg-white shadow-sm mb-2 shadow-gray-500 border border-gray-200 ml-6 block-flex rounded w-[280px] h-32'>
                                 <b className=' pl-3 pt-2 block'>AVR. GRADE</b>
                                 <div className=' flex justify-center items-center py-6 '>
-                                    {averageOfAverages.toFixed(2)}%
+                                    {averageOfAverages}%
                                 </div>
                             </div>
 
@@ -582,7 +585,7 @@ export default function Dashboard({
                                                         <th className="px-3 py-0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{index + 1}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                                         <td className="px-3 py-0">&nbsp;&nbsp;&nbsp;{applicant.id}&nbsp;&nbsp;&nbsp;</td>
                                                         <td className="px-3 py-0">{applicant.sr_name.toUpperCase() + ", " + applicant.f_name.toUpperCase() + " " + applicant.m_name.toUpperCase()}</td>
-                                                        <td className={"px-3 py-0 "}>&nbsp;&nbsp;&nbsp;<span className={" rounded text-[11px] p-1" + APPLICANT_STATUS_CLASS_MAP[applicant.status]}>{APPLICANT_STATUS_TEXT_MAP[applicant.status]}</span>&nbsp;&nbsp;&nbsp;</td>
+                                                        <td className={"px-3 py-0 "}>&nbsp;&nbsp;&nbsp;<span className={" rounded text-[9px] p-1" + APPLICANT_STATUS_CLASS_MAP[applicant.status]}>{APPLICANT_STATUS_TEXT_MAP[applicant.status]}</span>&nbsp;&nbsp;&nbsp;</td>
                                                         <td className="px-3 py-0">&nbsp;&nbsp;&nbsp;{applicant.valid_by} <span className={"text-[9px] text-white p-1 rounded" + USER_STATUS_CLASS_MAP[applicant.valid_by_role]}>{USER_STATUS_TEXT_MAP[applicant.valid_by_role]}</span>&nbsp;&nbsp;&nbsp;</td>
                                                         <td className="px-3 py-0">&nbsp;&nbsp;&nbsp;{applicant.print_by} <span className={"text-[9px] p-1 rounded" + USER_STATUS_CLASS_MAP[applicant.print_by_role]}>{USER_STATUS_TEXT_MAP[applicant.print_by_role]}</span>&nbsp;&nbsp;&nbsp;</td>
                                                     </tr>

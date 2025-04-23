@@ -16,15 +16,15 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
         //$this->call(BarangaySeeder::class); // NO BARANGAY @ GOOGLE FORM
-        
-        $this->call(ProgramSeeder::class);
-        
         User::factory()->create([
             'name' => 'asper',
             'email' => 'asper@dante',
             'password' => bcrypt('asper@dante'),
             'role' => 1,
         ]);
+        
+        $this->call(ProgramSeeder::class);
+        
         
         // Applicant::factory(300)->create();
         

@@ -83,7 +83,7 @@ export default function ProgramCreate({ auth, program }) {
                             <div className="mt-4">
                                 <InputLabel
                                     htmlFor="set_passing_grade"
-                                    value="Setting Program Acronym"
+                                    value="Setting Passing Grade"
                                 />
 
                                 <TextInput
@@ -93,7 +93,6 @@ export default function ProgramCreate({ auth, program }) {
                                     type="number"
                                     value={data.passing_grade}
                                     onChange={(e) => setData("passing_grade", e.target.value)}
-                                    placeholder="e.g: MPA"
                                 />
                                 <InputError message={errors.passing_grade} className="mt-2" />
                             </div>
