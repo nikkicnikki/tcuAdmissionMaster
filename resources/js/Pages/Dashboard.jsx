@@ -21,6 +21,7 @@ export default function Dashboard({
     validatedApplicant,
     incompleteApplicant,
     program_count_perc,
+    averagesOverall,
 }) {
     // console.log(averagesOverall);
     const ProgramExcelButton = ({ with_score_list, program_acronym, titleProg }) => {
@@ -40,7 +41,7 @@ export default function Dashboard({
                     const PASSING = program.passing_grade;
 
 
-                    return { 
+                    return {
                         // ...rest,
                         'ID': ID,
                         'NAME': `${surname}, ${firstName} ${middleName}`.trim(),
@@ -214,10 +215,8 @@ export default function Dashboard({
     ];
 
     // TOTAL AVERAGE OF ALL EXAMINED APPLICANT
-    const totalAverage = program_count_perc.reduce((sum, program) => sum + (program.average || 0), 0);
-    const averageOfAverages = program_count_perc.length > 0
-        ? (totalAverage / program_count_perc.length).toFixed(2)
-        : 0;
+    const totalAverage = Object.values(averagesOverall).reduce((acc, val) => acc + val, 0);
+    const averageOfAverages = totalAverage / Object.values(averagesOverall).length;
 
     // TOTAL NO. OF PASS, FAIL AND EXAMINED APPLICANT
     const totalExamined = program_count_perc.reduce((sum, program) => sum + program.examined, 0);

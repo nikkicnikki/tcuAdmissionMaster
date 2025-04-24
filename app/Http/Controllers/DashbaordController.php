@@ -27,11 +27,11 @@ class DashbaordController extends Controller
         $totalApplicantHasPermit = Applicant::query()->where('status', 4)->count();
         $totalApplicantScored = Applicant::query()->where('status', 5)->count();
 
-        $averages = DB::table('applicants')
-            ->whereNotNull('score') // filters out null scores
+        $averagesOverall = DB::table('applicants')
+            ->whereNotNull('score') // prevent null averages
             ->select('prog', DB::raw('ROUND(AVG(score), 2) as average'))
             ->groupBy('prog')
-            ->pluck('average', 'prog'); // [prog_id => avg]
+            ->pluck('average', 'prog'); // returns [prog_id => average]
 
 
         $program_count_perc = Applicant::join('programs', 'applicants.prog', '=', 'programs.id')
@@ -44,13 +44,10 @@ class DashbaordController extends Controller
             )
             ->groupBy('applicants.prog')
             ->orderByDesc('examined')
-            ->with('program:id,acronym,name,passing_grade')
+            ->with('program:id,acronym,name,passing_grade') // make sure Applicant has `program()` relationship
             ->get()
-            ->filter(function ($item) use ($averages) {
-                return isset($averages[$item->prog]); // only keep those with valid averages
-            })
-            ->map(function ($item) use ($totalApplicant, $averages) {
-                $item->average = $averages[$item->prog];
+            ->map(function ($item) use ($totalApplicant, $averagesOverall) {
+                $item->average = $averagesOverall[$item->prog] ?? 0;
 
                 $item->prog_id = $item->program->id ?? null;
                 $item->prog_acronym = $item->program->acronym ?? '';
@@ -78,6 +75,7 @@ class DashbaordController extends Controller
 
                 return $item;
             });
+
 
 
 
@@ -180,6 +178,7 @@ class DashbaordController extends Controller
             'totalApplicantHasPermit' => $totalApplicantHasPermit,
             'totalApplicantScored' => $totalApplicantScored,
 
+            'averagesOverall' => $averagesOverall,
             'program_count_perc' => $program_count_perc,
 
             // incomplete
