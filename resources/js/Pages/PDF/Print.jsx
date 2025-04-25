@@ -17,6 +17,13 @@ export default function Print({ auth }) {
         });
     };
 
+    const ucwords = (str) => {
+        return str
+            .split(" ") // Split the string into an array by spaces
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize the first letter of each word
+            .join(" "); // Join the words back into a string
+    };
+
     const formattedDate = formatDate(exam_date_name);
 
     const HeadTitle = () => (
@@ -44,7 +51,9 @@ export default function Print({ auth }) {
             </View>
             <View style={styles.content}>
                 <Text style={styles.contField2}> NAME : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</Text>
-                <Text style={styles.contValue}> {applicant.sr_name.toUpperCase() + ", " + applicant.f_name.toUpperCase() + " " + applicant.m_name.toUpperCase()} </Text>
+                <Text style={styles.contValue}>
+                    {ucwords(applicant.sr_name) + ", " + ucwords(applicant.f_name) + " " + ucwords(applicant.m_name)}
+                </Text>
             </View>
             <View style={styles.content}>
                 <Text style={styles.contField2}> PROGRAM : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</Text>

@@ -98,6 +98,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     //Route::get('/PDF/{applicant_id}/permit_generate', [PermitController::class, 'permit_generate'])->name('permit.generate');
     //Route::get('/PDF/{applicant}/permit_pdf', [PermitController::class, 'permit_pdf'])->name('permit.pdf');
+    
 
 });
 

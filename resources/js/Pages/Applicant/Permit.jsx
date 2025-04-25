@@ -119,7 +119,11 @@ export default function Permit({ auth, applicants, users, examdates, examrooms }
     }, [webcamRef, isWebcamReady]);
 
 
-
+    const ucwords = (str) => {
+        return str
+            .toLowerCase()
+            .replace(/\b\w/g, (char) => char.toUpperCase());
+    };
 
 
     return (
@@ -132,13 +136,14 @@ export default function Permit({ auth, applicants, users, examdates, examrooms }
                         className="text-xl cursor-pointer font-semibold leading-tight text-gray-800 dark:text-gray-200 cursor-pointer hover:underline transition-colors duration-200">
                         &laquo; back
                     </a>&nbsp;&nbsp;&nbsp;&nbsp;
+
                     <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                        Permit for {`Applicant "${`${data.f_name} ${data.m_name} ${data.sr_name}`.toUpperCase()}"`}
+                        Permit for {` "${ucwords(`${data.f_name} ${data.m_name} ${data.sr_name}`)}"`}
                     </h2>
                 </div>
             }
         >
-            <Head title={`Applicant "${`${data.f_name} ${data.m_name} ${data.sr_name}`.toUpperCase()}"`} />
+            <Head title={`Applicant "${ucwords(`${data.f_name} ${data.m_name} ${data.sr_name}`)}"`} />
 
 
             {/* APPLICANT STATUS */}
@@ -221,11 +226,11 @@ export default function Permit({ auth, applicants, users, examdates, examrooms }
                                     <tbody>
                                         <tr className="pb-20">
                                             <th className="text-gray-500 text-xs">APPLICANT NO. : </th>
-                                            <td className="border-b border-black px-3 text-xs">{applicants.id}</td>
+                                            <td className="border-b border-black px-3 text-md">{applicants.id}</td>
                                         </tr>
                                         <tr>
                                             <th className="text-gray-500 text-xs">DATE OF EXAMINATION : </th>
-                                            <td className="border-b border-black px-3 text-xs">
+                                            <td className="border-b border-black px-3 text-md">
                                                 {new Date(schedule_exam_date).toLocaleDateString("en-US", {
                                                     year: "numeric",
                                                     month: "long",
@@ -233,18 +238,18 @@ export default function Permit({ auth, applicants, users, examdates, examrooms }
                                                 })}
                                             </td>
                                             <th className="text-right text-gray-500 text-xs"> ROOM NO. : </th>
-                                            <td className="border-b border-black px-3 text-xs">{room_exam}</td>
+                                            <td className="border-b border-black px-3 text-md">{room_exam}</td>
                                         </tr>
 
                                         <tr>
                                             <th className="text-gray-500 text-xs">NAME : </th>
-                                            <td className="border-b border-black px-3 text-xs" colSpan="3">
-                                                {data.sr_name.toUpperCase() + ", " + data.f_name.toUpperCase() + " " + data.m_name.toUpperCase()}
+                                            <td className="border-b border-black px-3 text-md" colSpan="3">
+                                                {ucwords(data.sr_name) + ", " + ucwords(data.f_name) + " " + ucwords(data.m_name)}
                                             </td>
                                         </tr>
                                         <tr>
                                             <th className="text-gray-500 text-xs">PROGRAM : </th>
-                                            <td className="border-b border-black px-3 text-xs" colSpan="3">
+                                            <td className="border-b border-black px-3 text-md" colSpan="3">
                                                 {
                                                     data.prog.acronym + " - " +
                                                     data.prog.name
@@ -253,15 +258,15 @@ export default function Permit({ auth, applicants, users, examdates, examrooms }
                                         </tr>
                                         <tr>
                                             <th className="text-gray-500 text-xs">GENDER : </th>
-                                            <td className="border-b border-black px-3 text-xs" colSpan="3">{data.sex}</td>
+                                            <td className="border-b border-black px-3 text-md" colSpan="3">{data.sex}</td>
                                         </tr>
                                         <tr>
                                             <th className="text-gray-500 text-xs">CONTACT No. : </th>
-                                            <td className="border-b border-black px-3 text-xs" colSpan="3">{data.cont}</td>
+                                            <td className="border-b border-black px-3 text-md" colSpan="3">{data.cont}</td>
                                         </tr>
                                         <tr>
                                             <th className="text-gray-500 text-xs">ADDRESS : </th>
-                                            <td className="border-b border-black px-3 text-xs" colSpan="3">{data.curr_add}</td>
+                                            <td className="border-b border-black px-3 text-md" colSpan="3">{data.curr_add}</td>
                                         </tr>
                                     </tbody>
                                 </table>

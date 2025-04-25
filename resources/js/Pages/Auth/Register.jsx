@@ -147,6 +147,7 @@ export default function Register() {
                         <option value="2">MIS</option>
                         <option value="3">VALIDATOR</option>
                         <option value="4">SCORING STAFF</option>
+                        <option value="5">MANAGER</option>
                     </SelectInput>
                     
                     <InputError message={errors.role} className="mt-2" />

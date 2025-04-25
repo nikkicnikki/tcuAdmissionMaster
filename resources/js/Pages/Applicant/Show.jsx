@@ -3,6 +3,11 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
 
 export default function Show({ auth, applicant }) {
+    const ucwords = (str) => {
+        return str
+            .toLowerCase()
+            .replace(/\b\w/g, (char) => char.toUpperCase());
+    };
 
     return (
         <AuthenticatedLayout
@@ -15,12 +20,12 @@ export default function Show({ auth, applicant }) {
                         &laquo; back
                     </a>&nbsp;&nbsp;&nbsp;&nbsp;
                     <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                        {`Applicant "${`${applicant.f_name} ${applicant.m_name} ${applicant.sr_name}`.toUpperCase()}"`}
+                        {`Applicant "${ucwords(`${applicant.sr_name}, ${applicant.f_name} ${applicant.m_name} `)}"`}
                     </h2>
                 </div>
             }
         >
-            <Head title={`Applicant "${`${applicant.f_name} ${applicant.m_name} ${applicant.sr_name}`.toUpperCase()}"`} />
+            <Head title={`Applicant "${ucwords(`${applicant.sr_name}, ${applicant.f_name} ${applicant.m_name} `)}"`} />
 
             <div className="pt-12 ">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -128,7 +133,10 @@ export default function Show({ auth, applicant }) {
                                     </div>
 
                                     <div className="mt-1">
-                                        <p className="mt-1"><label className="font-bold text-lg">Name : </label> {`${applicant.f_name} ${applicant.m_name} ${applicant.sr_name}`.toUpperCase()}</p>
+                                        <p className="mt-1">
+                                            <label className="font-bold text-lg">Name : </label>
+                                            {ucwords(`${applicant.sr_name}, ${applicant.f_name} ${applicant.m_name} `)}
+                                        </p>
                                     </div>
 
                                     <div className="mt-1">

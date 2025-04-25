@@ -67,7 +67,11 @@ export default function Index({
         score: ' bg-[rgb(136,0,21)] text-yellow-500 ',
     };
 
-
+    const ucwords = (str) => {
+        return str
+            .toLowerCase()
+            .replace(/\b\w/g, (char) => char.toUpperCase());
+    };
 
     return (
 
@@ -95,14 +99,14 @@ export default function Index({
                                     <label className="font-bold">YOUR ASSIGN ROOM: </label>
                                     <label className="bg-[rgb(250,245,226)] shadow-inner p-5">{assign_room ? assign_room : "N/A"}</label>
                                     <label className="ml-4 font-bold">STATUS: </label>
-                                    {assign_room ? 
-                                        examRoomLimitStatus >= examRoomLimit ? 
-                                        <label className="bg-red-500 text-white shadow-inner p-5">{examRoomLimitStatus + "/" + examRoomLimit + "FULL"}</label>
-                                        : <label className="bg-[rgb(250,245,226)] shadow-inner p-5">{examRoomLimitStatus + "/" + examRoomLimit}</label>
+                                    {assign_room ?
+                                        examRoomLimitStatus >= examRoomLimit ?
+                                            <label className="bg-red-500 text-white shadow-inner p-5">{examRoomLimitStatus + "/" + examRoomLimit + "FULL"}</label>
+                                            : <label className="bg-[rgb(250,245,226)] shadow-inner p-5">{examRoomLimitStatus + "/" + examRoomLimit}</label>
                                         : "N/A"
-                                     
+
                                     }
-                                    
+
                                 </div> : ""
 
                             }
@@ -253,13 +257,13 @@ export default function Index({
 
 
                                                 {auth.user.role == 3 && (applicant.status == 1 || applicant.status == 2) ? (
-                                                    <td className="px-3 py-2 uppercase text-nowrap  text-gray-600">
-                                                        {applicant.f_name + " " + applicant.m_name + " " + applicant.sr_name}
+                                                    <td className="px-3 py-2 text-nowrap text-gray-600">
+                                                        {ucwords(`${applicant.sr_name}, ${applicant.f_name} ${applicant.m_name} `)}
                                                     </td>
                                                 ) :
-                                                    <td className="px-3 py-2 uppercase text-nowrap hover:underline text-blue-600">
+                                                    <td className="px-3 py-2 text-nowrap hover:underline text-blue-600">
                                                         <Link href={route('applicant.show', applicant.id)}>
-                                                            {applicant.f_name + " " + applicant.m_name + " " + applicant.sr_name}
+                                                            {ucwords(`${applicant.sr_name}, ${applicant.f_name} ${applicant.m_name} `)}
                                                         </Link>
                                                     </td>
                                                 }
@@ -314,7 +318,7 @@ export default function Index({
             </div>
 
 
-            
+
 
         </AuthenticatedLayout>
     )

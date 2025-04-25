@@ -48,6 +48,12 @@ export default function Score({ auth, applicant, userJobList }) {
         put(route('applicant.score', { applicantId: data.applicant_id, applicantScore: data.score, applicantName: `${data.sr_name}, ${data.f_name} ${data.m_name}`.toUpperCase() }));
     }
 
+    const ucwords = (str) => {
+        return str
+            .toLowerCase()
+            .replace(/\b\w/g, (char) => char.toUpperCase());
+    };
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -58,14 +64,15 @@ export default function Score({ auth, applicant, userJobList }) {
                         className="text-xl cursor-pointer font-semibold leading-tight text-gray-800 dark:text-gray-200 cursor-pointer hover:underline transition-colors duration-200">
                         &laquo; back
                     </a>&nbsp;&nbsp;&nbsp;&nbsp;
+
                     <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                        SCORING {`Applicant "${`${data.f_name} ${data.m_name} ${data.sr_name}`.toUpperCase()}"`}
+                        SCORING {` "${ucwords(`${applicant.f_name} ${applicant.m_name} ${applicant.sr_name}`)}"`}
                     </h2>
                 </div>
             }
         >
 
-            <Head title={`Applicant "${`${data.f_name} ${data.m_name} ${data.sr_name}`.toUpperCase()}"`} />
+            <Head title={`Applicant "${ucwords(`${applicant.f_name} ${applicant.m_name} ${applicant.sr_name}`)}"`} />
 
 
             <div className="pt-8 pb-2">
@@ -116,7 +123,10 @@ export default function Score({ auth, applicant, userJobList }) {
                         </div>
                         <div className="flex-1 my-5">
                             <p><label className="font-semibold">ID: </label> {data.applicant_id} </p>
-                            <p><label className="font-semibold">NAME: </label> {`${data.sr_name},  ${data.f_name} ${data.m_name}`.toUpperCase()} </p>
+                            <p>
+                                <label className="font-semibold">NAME: </label>
+                                {ucwords(`${data.sr_name}, ${data.f_name} ${data.m_name}`)}
+                            </p>
                             <p><label className="font-semibold">PROGRAM: </label> {data.prog.acronym + " - " + data.prog.name} </p>
                             <p><label className="font-semibold">EXAM: </label> {formattedDate + " - Rm. " + data.exam_room} </p>
                         </div>

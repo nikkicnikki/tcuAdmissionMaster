@@ -1,7 +1,7 @@
 import { APPLICANT_STATUS_CLASS_MAP, APPLICANT_STATUS_TEXT_MAP, USER_STATUS_CLASS_MAP, USER_STATUS_TEXT_MAP } from '@/constants';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { ClipboardDocumentListIcon, DocumentArrowDownIcon } from '@heroicons/react/24/outline';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import * as XLSX from 'xlsx/xlsx.mjs';
 
@@ -216,7 +216,7 @@ export default function Dashboard({
 
     // TOTAL AVERAGE OF ALL EXAMINED APPLICANT
     const totalAverage = Object.values(averagesOverall).reduce((acc, val) => acc + val, 0);
-    const averageOfAverages = totalAverage / Object.values(averagesOverall).length;
+    const averageOfAverages = round((totalAverage / Object.values(averagesOverall).length), 2);
 
     // TOTAL NO. OF PASS, FAIL AND EXAMINED APPLICANT
     const totalExamined = program_count_perc.reduce((sum, program) => sum + program.examined, 0);
@@ -225,6 +225,11 @@ export default function Dashboard({
     const totalFail = program_count_perc.reduce((sum, program) => sum + program.failed, 0);
     const percFail = round((totalFail / totalExamined) * 100, 2);
 
+    const ucwords = (str) => {
+        return str
+            .toLowerCase()
+            .replace(/\b\w/g, (char) => char.toUpperCase());
+    };
 
     const contentMap = {
         Overall:
@@ -334,7 +339,12 @@ export default function Dashboard({
                                                 <tr key={incompleteList.id}>
                                                     <th className="px-3 py-0">{index + 1}</th>
                                                     <td className="px-3 py-0">{incompleteList.id}</td>
-                                                    <td className="px-3 py-0">{incompleteList.name}</td>
+                                                    <td className="px-3 py-0">
+                                                        <Link className='hover:text-blue-700'
+                                                            href={route('applicant.show', incompleteList.id)}>
+                                                            {ucwords(incompleteList.name)}
+                                                        </Link>
+                                                    </td>
                                                     <td className="px-3 py-0">{incompleteList.remarks}</td>
                                                     <td className="px-3 py-0">{incompleteList.program.acronym}</td>
                                                     <td className="px-3 py-0">
@@ -373,7 +383,12 @@ export default function Dashboard({
                                             <tr>
                                                 <th className="px-3 py-0">{index + 1}</th>
                                                 <td className="px-3 py-0">{incompleteList.id}</td>
-                                                <td className="px-3 py-0">{incompleteList.name}</td>
+                                                <td className="px-3 py-0">
+                                                    <Link className='hover:text-blue-700'
+                                                        href={route('applicant.show', incompleteList.id)}>
+                                                        {ucwords(incompleteList.name)}
+                                                    </Link>
+                                                </td>
                                                 <td className="px-3 py-0">{incompleteList.remarks}</td>
                                                 <td className="px-3 py-0">{incompleteList.program.acronym}</td>
                                                 <td className="px-3 py-0">
@@ -417,7 +432,12 @@ export default function Dashboard({
                                                 <tr key={validList.id}>
                                                     <th className="px-3 py-0">{index + 1}</th>
                                                     <td className="px-3 py-0">{validList.id}</td>
-                                                    <td className="px-3 py-0">{validList.name}</td>
+                                                    <td className="px-3 py-0">
+                                                        <Link className='hover:text-blue-700'
+                                                            href={route('applicant.show', validList.id)}>
+                                                            {ucwords(validList.name)}
+                                                        </Link>
+                                                    </td>
                                                     <td className="px-3 py-0"><span className={" rounded text-[11px] p-1" + APPLICANT_STATUS_CLASS_MAP[validList.status]}>{APPLICANT_STATUS_TEXT_MAP[validList.status]}</span></td>
                                                     <td className="px-3 py-0">{validList.program.acronym}</td>
                                                     <td className="px-3 py-0">
@@ -456,7 +476,12 @@ export default function Dashboard({
                                             <tr>
                                                 <th className="px-3 py-0">{index + 1}</th>
                                                 <td className="px-3 py-0">{validList.id}</td>
-                                                <td className="px-3 py-0">{validList.name}</td>
+                                                <td className="px-3 py-0">
+                                                    <Link className='hover:text-blue-700'
+                                                        href={route('applicant.show', validList.id)}>
+                                                        {ucwords(validList.name)}
+                                                    </Link>
+                                                </td>
                                                 <td className="px-3 py-0"><span className={" rounded text-[11px] p-1" + APPLICANT_STATUS_CLASS_MAP[validList.status]}>{APPLICANT_STATUS_TEXT_MAP[validList.status]}</span></td>
                                                 <td className="px-3 py-0">{validList.program.acronym}</td>
                                                 <td className="px-3 py-0">
@@ -501,7 +526,17 @@ export default function Dashboard({
                                                 <tr key={applicant.id}>
                                                     <th className="px-3 py-0">{index + 1}</th>
                                                     <td className="px-3 py-0">{applicant.id}</td>
-                                                    <td className="px-3 py-0 uppercase">{`${applicant.f_name} ${applicant.m_name} ${applicant.sr_name}`}</td>
+
+                                                    <td className="px-3 py-0">
+                                                        <Link className='hover:text-blue-700'
+                                                            href={route('applicant.show', applicant.id)}>
+                                                            {ucwords(
+                                                                [applicant.f_name, applicant.m_name, applicant.sr_name]
+                                                                    .filter(Boolean) // removes falsy values like null, undefined, ''
+                                                                    .join(' ')
+                                                            )}
+                                                        </Link>
+                                                    </td>
                                                     <td className="px-3 py-0">{applicant.schedule_key}</td>
                                                     <td className="px-3 py-0">
                                                         <span className={"rounded text-[11px] p-1 " + APPLICANT_STATUS_CLASS_MAP[applicant.status]}>
@@ -583,7 +618,14 @@ export default function Dashboard({
                                                     <tr key={index}>
                                                         <th className="px-3 py-0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{index + 1}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                                         <td className="px-3 py-0">&nbsp;&nbsp;&nbsp;{applicant.id}&nbsp;&nbsp;&nbsp;</td>
-                                                        <td className="px-3 py-0">{applicant.sr_name.toUpperCase() + ", " + applicant.f_name.toUpperCase() + " " + applicant.m_name.toUpperCase()}</td>
+                                                        <td className="px-3 py-0">
+                                                            <Link className='hover:text-blue-700'
+                                                                href={route('applicant.show', applicant.id)}>
+                                                                {ucwords(
+                                                                    `${applicant.sr_name}, ${applicant.f_name} ${applicant.m_name}`
+                                                                )}
+                                                            </Link>
+                                                        </td>
                                                         <td className={"px-3 py-0 "}>&nbsp;&nbsp;&nbsp;<span className={" rounded text-[9px] p-1" + APPLICANT_STATUS_CLASS_MAP[applicant.status]}>{APPLICANT_STATUS_TEXT_MAP[applicant.status]}</span>&nbsp;&nbsp;&nbsp;</td>
                                                         <td className="px-3 py-0">&nbsp;&nbsp;&nbsp;{applicant.valid_by} <span className={"text-[9px] text-white p-1 rounded" + USER_STATUS_CLASS_MAP[applicant.valid_by_role]}>{USER_STATUS_TEXT_MAP[applicant.valid_by_role]}</span>&nbsp;&nbsp;&nbsp;</td>
                                                         <td className="px-3 py-0">&nbsp;&nbsp;&nbsp;{applicant.print_by} <span className={"text-[9px] p-1 rounded" + USER_STATUS_CLASS_MAP[applicant.print_by_role]}>{USER_STATUS_TEXT_MAP[applicant.print_by_role]}</span>&nbsp;&nbsp;&nbsp;</td>
@@ -598,7 +640,7 @@ export default function Dashboard({
                         </div>
                     </div>
                 </div>
-            </div>,
+            </div >,
 
         Scored:
             <div className='h-screen'>
@@ -630,7 +672,12 @@ export default function Dashboard({
                                                 <tr key={scoreList.id}>
                                                     <th className="px-3 py-0">{index + 1}</th>
                                                     <td className="px-3 py-0">{scoreList.id}</td>
-                                                    <td className="px-3 py-0">{scoreList.name}</td>
+                                                    <td className="px-3 py-0">
+                                                        <Link className='hover:text-blue-700'
+                                                            href={route('applicant.show', scoreList.id)}>
+                                                            {ucwords(scoreList.name)}
+                                                        </Link>
+                                                    </td>
                                                     <td className="px-3 py-0">{scoreList.program.acronym}</td>
                                                     <td className="px-3 py-0">{scoreList.score} <span>%</span></td>
                                                     <td className="px-3 py-0">{scoreList.program.passing_grade}.00 %</td>
@@ -711,7 +758,12 @@ export default function Dashboard({
                                             <tr>
                                                 <th className="px-3 py-0">{index + 1}</th>
                                                 <td className="px-3 py-0">{scoreList.id}</td>
-                                                <td className="px-3 py-0">{scoreList.name}</td>
+                                                <td className="px-3 py-0">
+                                                    <Link className='hover:text-blue-700'
+                                                        href={route('applicant.show', scoreList.id)}>
+                                                        {ucwords(scoreList.name)}
+                                                    </Link>
+                                                </td>
                                                 <td className="px-3 py-0">{scoreList.program.acronym}</td>
                                                 <td className="px-3 py-0">{scoreList.score} <span>%</span></td>
                                                 <td className="px-3 py-0">{scoreList.program.passing_grade}.00 %</td>
