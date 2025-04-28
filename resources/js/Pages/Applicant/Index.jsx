@@ -1,7 +1,7 @@
 import Pagination from "@/Components/Pagination";
 import SelectInput from "@/Components/SelectInput";
 import TextInput from "@/Components/TextInput";
-import { APPLICANT_STATUS_CLASS_MAP, APPLICANT_STATUS_TEXT_MAP } from "@/constants";
+import { APPLICANT_STATUS_CLASS_MAP, APPLICANT_STATUS_TEXT_MAP, USER_STATUS_CLASS_MAP, USER_STATUS_TEXT_MAP } from "@/constants";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, router, usePage } from "@inertiajs/react";
 //import { ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/16/solid";
@@ -307,9 +307,21 @@ export default function Index({
                                                         }) : "none"
                                                     }
                                                 </td>
-                                                <td className="px-3 py-2">{applicant.validate_by?.name}</td>
-                                                <td className="px-3 py-2">{applicant.printed_by?.name}</td>
-                                                <td className="px-3 py-2">{applicant.score_by?.name}</td>
+                                                <td className={"px-3 py-2" + (USER_STATUS_CLASS_MAP[applicant.validate_by?.role] || '')}
+                                                    title={USER_STATUS_TEXT_MAP?.[applicant.validate_by?.role]}
+                                                >
+                                                    {applicant.validate_by?.name}
+                                                </td>
+                                                <td className={"px-3 py-2" + (USER_STATUS_CLASS_MAP[applicant.printed_by?.role] || '')}
+                                                    title={USER_STATUS_TEXT_MAP?.[applicant.printed_by?.role]}
+                                                >
+                                                    {applicant.printed_by?.name}
+                                                </td>
+                                                <td className={"px-3 py-2" + (USER_STATUS_CLASS_MAP[applicant.score_by?.role] || '')}
+                                                    title={USER_STATUS_TEXT_MAP?.[applicant.score_by?.role]}
+                                                >
+                                                    {applicant.score_by?.name}
+                                                </td>
                                                 <ApplicantFormAction
                                                     role={auth.user.role}
                                                     status={applicant.status}

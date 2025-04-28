@@ -20,6 +20,10 @@ class UserController extends Controller
         $sortDirection = request("sort_direction", "desc");
 
 
+        if (request( "id" )) {
+            $query->where("id", "like", "%" . request("id")  );
+        }
+
         if (request( "name" )) {
             $query->where("name", "like", "%" . request("name") . "%" );
         }

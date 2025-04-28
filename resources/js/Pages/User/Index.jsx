@@ -153,17 +153,25 @@ export default function Index({ auth, users, queryParams = null, success, sucTyp
                                             >
                                                 UPDATE
                                             </TableHeading>
-                                            
+
                                             {auth.user.role == 1 && (
                                                 <th className="px-3 py-3 text-right">ACTIONS</th>
                                             )}
-                                            
+
                                         </tr>
                                     </thead>
 
                                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
                                         <tr className="text-nowrap">
-                                            <th className="px-3 py-3"></th>
+                                            <th className="px-0 py-0 w-10">
+                                                <TextInput
+                                                    className="w-full"
+                                                    defaultValue={queryParams.id}
+                                                    placeholder="#"
+                                                    onBlur={e => searchFieldChanged('id', e.target.value)}
+                                                    onKeyPress={e => onKeyPress('id', e)}
+                                                />
+                                            </th>
                                             <th className="px-3 py-3">
                                                 <TextInput
                                                     className="w-full"
@@ -179,7 +187,7 @@ export default function Index({ auth, users, queryParams = null, success, sucTyp
                                                     defaultValue={queryParams.role}
                                                     onChange={e => searchFieldChanged('role', e.target.value)}>
                                                     <option value="">Select Role</option>
-                                                    {auth.user.role == 1 && <option value="1">ADMIN</option> } 
+                                                    {auth.user.role == 1 && <option value="1">ADMIN</option>}
                                                     <option value="2">MIS</option>
                                                     <option value="3">VALIDATOR</option>
                                                     <option value="4">SCORING STAFF</option>
@@ -206,60 +214,60 @@ export default function Index({ auth, users, queryParams = null, success, sucTyp
                                         {users.data.map(user => (
 
                                             (user.role == 1 && auth.user.role != 1) ? "" :
-                                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={user.id}>
-                                                <th className="px-3 py-2">{user.id}</th>
-                                                <td className="px-3 py-2 uppercase text-nowrap text-blue-600">
-                                                    {user.name}
-                                                </td>
-                                                <td className="px-3 py-2">
-                                                    <span className={
-                                                        "px-2 py-1 rounded " +
-                                                        USER_STATUS_CLASS_MAP[user.role]
-                                                    }>
-                                                        {USER_STATUS_TEXT_MAP[user.role]}
-                                                    </span>
-                                                </td>
-                                                <td className="px-3 py-2">{user.email}</td>
-                                                <td className="px-3 py-2 text-nowrap">
-                                                    {new Date(user.created_at).toLocaleDateString("en-US", {
-                                                        year: "numeric",
-                                                        month: "long",
-                                                        day: "numeric",
-                                                        hour: "2-digit",
-                                                        minute: "2-digit",
-                                                        second: "2-digit",
-                                                        hour12: true, // Set to false for 24-hour format
-                                                    })}
-                                                </td>
-                                                <td className="px-3 py-2 text-nowrap">
-                                                    {new Date(user.updated_at).toLocaleDateString("en-US", {
-                                                        year: "numeric",
-                                                        month: "long",
-                                                        day: "numeric",
-                                                        hour: "2-digit",
-                                                        minute: "2-digit",
-                                                        second: "2-digit",
-                                                        hour12: true, // Set to false for 24-hour format
-                                                    })}
-                                                </td>
-                                                {auth.user.role == 1 && (
-                                                    <td className="px-3 py-2 text-right text-nowrap">
-                                                        <Link
-                                                            href={route('user.edit', user.id)}
-                                                            className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1"
-                                                        >
-                                                            Edit
-                                                        </Link>
-                                                        <button
-                                                            onClick={(e) => deleteUser(user)}
-                                                            //href={route('examRoom.destroy', examRoom.id)}
-                                                            className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"
-                                                        >
-                                                            delete
-                                                        </button>
+                                                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={user.id}>
+                                                    <th className="px-3 py-2">{user.id}</th>
+                                                    <td className="px-3 py-2 uppercase text-nowrap text-blue-600">
+                                                        {user.name}
                                                     </td>
-                                                )}
-                                            </tr> 
+                                                    <td className="px-3 py-2">
+                                                        <span className={
+                                                            "px-2 py-1 rounded " +
+                                                            USER_STATUS_CLASS_MAP[user.role]
+                                                        }>
+                                                            {USER_STATUS_TEXT_MAP[user.role]}
+                                                        </span>
+                                                    </td>
+                                                    <td className="px-3 py-2">{user.email}</td>
+                                                    <td className="px-3 py-2 text-nowrap">
+                                                        {new Date(user.created_at).toLocaleDateString("en-US", {
+                                                            year: "numeric",
+                                                            month: "long",
+                                                            day: "numeric",
+                                                            hour: "2-digit",
+                                                            minute: "2-digit",
+                                                            second: "2-digit",
+                                                            hour12: true, // Set to false for 24-hour format
+                                                        })}
+                                                    </td>
+                                                    <td className="px-3 py-2 text-nowrap">
+                                                        {new Date(user.updated_at).toLocaleDateString("en-US", {
+                                                            year: "numeric",
+                                                            month: "long",
+                                                            day: "numeric",
+                                                            hour: "2-digit",
+                                                            minute: "2-digit",
+                                                            second: "2-digit",
+                                                            hour12: true, // Set to false for 24-hour format
+                                                        })}
+                                                    </td>
+                                                    {auth.user.role == 1 && (
+                                                        <td className="px-3 py-2 text-right text-nowrap">
+                                                            <Link
+                                                                href={route('user.edit', user.id)}
+                                                                className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1"
+                                                            >
+                                                                Edit
+                                                            </Link>
+                                                            <button
+                                                                onClick={(e) => deleteUser(user)}
+                                                                //href={route('examRoom.destroy', examRoom.id)}
+                                                                className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"
+                                                            >
+                                                                delete
+                                                            </button>
+                                                        </td>
+                                                    )}
+                                                </tr>
                                         ))}
                                     </tbody>
                                 </table>

@@ -96,7 +96,7 @@ export default function ApplicantFormAction({
                 <td className="px-3 py-2 text-right flex flex-nowrap">
                     <a
                         href={route('permit.reprint', { applicant_id: applicantId })}
-                        className="p-2 shadow-inner bg-gray-100 hover:shadow-md"
+                        className="p-2 rounded shadow-inner bg-gray-100 hover:shadow-md"
                         title="REPRINT"
                         target="_blank"
                     >
@@ -112,7 +112,7 @@ export default function ApplicantFormAction({
 
                     <Link
                         href={route('applicant.scoring', applicantId)}
-                        className="font-medium rounded flex-1 px-1 py-1 text-yellow-500 bg-white dark:text-red-500 hover:shadow mx-1 flex flex-nowrap items-center justify-center"
+                        className="font-medium rounded flex-1 px-1 py-1 shadow-inner bg-gray-100 dark:text-red-500 hover:shadow-md mx-1 flex flex-nowrap items-center justify-center"
                         title="RE-SCORE"
                     >
                         <PercentBadgeIcon className="w-5 h-5" />
