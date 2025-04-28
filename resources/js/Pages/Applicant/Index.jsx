@@ -37,7 +37,7 @@ export default function Index({
 
         router.get(route('applicant.index'), queryParams);
     }
-
+    console.log(applicants)
     const onKeyPress = (name, e) => {
         if (e.key !== 'Enter') return;
 
@@ -211,13 +211,22 @@ export default function Index({
                                             </TableHeading>
                                             <th className="px-3 py-3">VALIDATOR</th>
                                             <th className="px-3 py-3">PRINT BY</th>
+                                            <th className="px-3 py-3">SCORED BY</th>
                                             <th className="px-3 py-3 text-right">ACTIONS</th>
                                         </tr>
                                     </thead>
 
                                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
                                         <tr className="text-nowrap">
-                                            <th className="px-3 py-3"></th>
+                                            <th className="px-0 py-0 w-10">
+                                                <TextInput
+                                                    className="w-full"
+                                                    defaultValue={queryParams.id}
+                                                    placeholder="#"
+                                                    onBlur={e => searchFieldChanged('id', e.target.value)}
+                                                    onKeyPress={e => onKeyPress('id', e)}
+                                                />
+                                            </th>
                                             <th className="px-3 py-3">
                                                 <TextInput
                                                     className="w-full"
@@ -240,6 +249,7 @@ export default function Index({
                                                     <option value="5">Scored</option>
                                                 </SelectInput>
                                             </th>
+                                            <th className="px-3 py-3"></th>
                                             <th className="px-3 py-3"></th>
                                             <th className="px-3 py-3"></th>
                                             <th className="px-3 py-3"></th>
@@ -299,6 +309,7 @@ export default function Index({
                                                 </td>
                                                 <td className="px-3 py-2">{applicant.validate_by?.name}</td>
                                                 <td className="px-3 py-2">{applicant.printed_by?.name}</td>
+                                                <td className="px-3 py-2">{applicant.score_by?.name}</td>
                                                 <ApplicantFormAction
                                                     role={auth.user.role}
                                                     status={applicant.status}

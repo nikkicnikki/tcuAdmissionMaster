@@ -42,6 +42,10 @@ class ApplicantController extends Controller
                                     ->where('applicants.exam_date', $activeDateID )
                                     ->where('exam_rooms.set_user', $userID )
                                     ->count();
+
+        if (request("id")) {
+            $query->where('id', "like","%" . request("id"));
+        }
         
         if (request( "name" )) {
             $query->where(function ($q) {
