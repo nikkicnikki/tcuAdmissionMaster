@@ -19,9 +19,7 @@ export default function Edit({ auth, applicants, programs }) {
         updated_at: applicants.updated_at || '',
         validate_by: applicants.validate_by || curr_user,
         validator_name: auth.user.name || '',
-        created_at: applicants.created_at || '',
-        updated_at: applicants.updated_at || '',
-
+        
         applicant_id: applicants.id || '',
 
         f_name: applicants.f_name || '',
