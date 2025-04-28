@@ -280,7 +280,7 @@ export default function Index({
 
                                                 <td className="px-3 py-2">
                                                     <span className={
-                                                        "px-2 py-1 rounded  " +
+                                                        "px-2 py-1 rounded  text-[10px]" +
                                                         APPLICANT_STATUS_CLASS_MAP[applicant.status]
                                                     }>
                                                         {APPLICANT_STATUS_TEXT_MAP[applicant.status]}
@@ -307,20 +307,24 @@ export default function Index({
                                                         }) : "none"
                                                     }
                                                 </td>
-                                                <td className={"px-3 py-2" + (USER_STATUS_CLASS_MAP[applicant.validate_by?.role] || '')}
+                                                <td className={"px-3 py-2 text-[11px]"}
                                                     title={USER_STATUS_TEXT_MAP?.[applicant.validate_by?.role]}
                                                 >
                                                     {applicant.validate_by?.name}
+                                                    <span className={"rounded-full ml-1"+ (USER_STATUS_CLASS_MAP[applicant.validate_by?.role] || '')}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                                                 </td>
-                                                <td className={"px-3 py-2" + (USER_STATUS_CLASS_MAP[applicant.printed_by?.role] || '')}
+                                                <td className={"px-3 py-2 text-[11px]" }
                                                     title={USER_STATUS_TEXT_MAP?.[applicant.printed_by?.role]}
                                                 >
                                                     {applicant.printed_by?.name}
+                                                    <span className={"rounded-full ml-1"+ (USER_STATUS_CLASS_MAP[applicant.printed_by?.role] || '')}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                                                 </td>
-                                                <td className={"px-3 py-2" + (USER_STATUS_CLASS_MAP[applicant.score_by?.role] || '')}
+                                                <td className={"px-3 py-2 text-[11px]"}
                                                     title={USER_STATUS_TEXT_MAP?.[applicant.score_by?.role]}
                                                 >
                                                     {applicant.score_by?.name}
+                                                    <span className={"rounded-full ml-1"+ (USER_STATUS_CLASS_MAP[applicant.score_by?.role] || '')}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
                                                 </td>
                                                 <ApplicantFormAction
                                                     role={auth.user.role}

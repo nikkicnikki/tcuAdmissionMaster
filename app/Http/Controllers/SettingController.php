@@ -138,6 +138,10 @@ class SettingController extends Controller
     public function examRoomStore(StoreExamRoomRequest $request)
     {
         $data = $request->validated();
+        
+        $limitValue = ExamRoom::where('status', 2)->first()?->limit;
+
+        $data['limit'] = $limitValue;
         //dd($data);
         ExamRoom::create($data);
 

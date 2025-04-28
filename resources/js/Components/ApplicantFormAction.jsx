@@ -66,7 +66,7 @@ export default function ApplicantFormAction({
                 <td className="px-3 py-2 text-right flex flex-nowrap">
                     <a
                         href={route('permit.reprint', { applicant_id: applicantId })}
-                        className="p-2 shadow-inner bg-gray-100 hover:shadow-md"
+                        className="p-2 rounded shadow-inner bg-gray-100 hover:shadow-md"
                         title="REPRINT"
                         target="_blank"
                     >
