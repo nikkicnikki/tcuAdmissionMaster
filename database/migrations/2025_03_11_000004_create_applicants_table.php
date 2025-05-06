@@ -44,6 +44,7 @@ return new class extends Migration
             
             $table->smallinteger('exam_date')->nullable();
             $table->smallinteger('exam_room')->nullable();
+            $table->smallinteger('exam_time')->nullable();
 
             $table->longText('remarks')->nullable();
             

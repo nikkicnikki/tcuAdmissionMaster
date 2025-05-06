@@ -80,4 +80,8 @@ class Applicant extends Model
     public function examRoom(): BelongsTo {
         return $this->belongsTo(ExamRoom::class , 'exam_room');
     }
+
+    public function examTime(): BelongsTo {
+        return $this->belongsTo(ExamTime::class , 'exam_time');
+    }
 }

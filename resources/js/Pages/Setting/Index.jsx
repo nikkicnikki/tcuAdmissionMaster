@@ -8,7 +8,7 @@ import { Head, Link, router, useForm, usePage } from "@inertiajs/react";
 import { Inertia } from '@inertiajs/inertia';
 
 
-export default function Index({ auth, examDates, examRooms, programs, users, applicantWithPermit, success, sucType }) {
+export default function Index({ auth, examDates, examTime, examRooms, programs, users, applicantWithPermit, success, sucType }) {
 
     // console.log(applicantWithPermit);
     const { data, setData, patch, processing, errors } = useForm({
@@ -32,6 +32,7 @@ export default function Index({ auth, examDates, examRooms, programs, users, app
         router.delete(route('date.delete', examDate.id));
     }
 
+
     const deleteExamRoom = (examRoom) => {
         const room = examRoom.exam_room;
 
@@ -53,7 +54,7 @@ export default function Index({ auth, examDates, examRooms, programs, users, app
         router.delete(route('program.delete', program.id));
     }
 
-    
+
 
 
     const limitSubmit = (e) => {
@@ -179,7 +180,69 @@ export default function Index({ auth, examDates, examRooms, programs, users, app
                             </table>
                             <br /><br />
 
+                            {/* TIME TABLE */}
+                            <div className="flex justify-between items-center p-2 text-xs text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
+                                <h2 className=" text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200 justify items-center">
+                                    Time
+                                </h2>
+                                <Link
+                                    href={route("setting.examTimeCreate")}
+                                    className="bg-emerald-500 p-4 mx-4 text-white rounded shadow transition-all hover:bg-emerald-600"
+                                >
+                                    Add new
+                                </Link>
+                            </div>
+                            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 border border-gray-300">
+
+
+                                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
+                                    <tr className="text-nowrap">
+                                        <th className="px-3 py-3">TIME</th>
+                                        <th className="px-3 py-3">STATE</th>
+                                        <th className="px-3 py-3">DESCRIPTION</th>
+                                        <th className="px-3 py-3">CREATE</th>
+                                        <th className="px-3 py-3">ACTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {examTime.data.map(examTime => (
+                                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={examTime.id}>
+                                            <td className="px-3 py-2">
+                                                {examTime.exam_time}
+                                            </td>
+                                            <td className="px-3 py-2">
+                                                <span className={"px-2 py-1 rounded text-white " + EXAM_STATUS_CLASS_MAP[examTime.status]}>
+                                                    {EXAM_STATUS_TEXT_MAP[examTime.status]}
+                                                </span>
+                                            </td>
+                                            <td className="px-3 py-2">
+                                                {examTime.des}
+                                            </td>
+                                            <td className="px-3 py-2">
+                                                {new Date(examTime.created_at).toLocaleDateString("en-US", {
+                                                    year: "numeric",
+                                                    month: "long",
+                                                    day: "numeric",
+                                                })}
+                                            </td>
+                                            <td className="px-3 py-2 text-right">
+                                                <Link
+                                                    href={route('time.edit', examTime.id)}
+                                                    className="font-medium text-blue-600 dark:text-red-500 hover:underline mx-1"
+                                                >
+                                                    edit
+                                                </Link>
+                                                
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+
+                            <br /><br />
+
                             {/* ROOMS TABLE */}
+                            
                             <div className="flex justify-between items-center p-2 text-xs text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
                                 <h2 className=" text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200 justify items-center">
                                     Rooms
@@ -333,7 +396,7 @@ export default function Index({ auth, examDates, examRooms, programs, users, app
                                                 {program.name.toUpperCase() + " - " + program.acronym.toUpperCase()}
                                             </td>
                                             <td className="px-3 py-2 text-center">
-                                                {program.passing_grade ? program.passing_grade : "-" }
+                                                {program.passing_grade ? program.passing_grade : "-"}
                                             </td>
                                             <td className="px-3 py-2">
                                                 {new Date(program.created_at).toLocaleDateString("en-US", {
@@ -370,7 +433,7 @@ export default function Index({ auth, examDates, examRooms, programs, users, app
                 </div>
             </div>
 
-            
+
 
         </AuthenticatedLayout>
     );

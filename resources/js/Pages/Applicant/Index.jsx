@@ -37,7 +37,7 @@ export default function Index({
 
         router.get(route('applicant.index'), queryParams);
     }
-    console.log(applicants)
+    // console.log(applicants)
     const onKeyPress = (name, e) => {
         if (e.key !== 'Enter') return;
 

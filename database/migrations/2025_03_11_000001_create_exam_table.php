@@ -31,6 +31,15 @@ return new class extends Migration
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
 
+        Schema::create('exam_time', function (Blueprint $table){
+            $table->id();
+            $table->string('exam_time');
+            $table->integer('status')->default(2);
+            $table->text('des')->nullable();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
+        });
+
         
     }
     
@@ -42,5 +51,6 @@ return new class extends Migration
     {
         Schema::dropIfExists('exam_dates');
         Schema::dropIfExists('exam_rooms');
+        Schema::dropIfExists('exam_time');
     }
 };

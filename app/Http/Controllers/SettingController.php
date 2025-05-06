@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreExamTimeRequest;
+use App\Http\Requests\UpdateExamTimeRequest;
+use App\Http\Resources\ExamTimeResource;
+use App\Models\ExamTime;
 use Illuminate\Http\Request;
 use App\Models\Program;
 use App\Http\Requests\StoreProgramRequest;
@@ -38,6 +42,7 @@ class SettingController extends Controller
     public function index()
     {
         $examDateQuery = ExamDate::query();
+        $examTimeQuery = ExamTime::query();
         $programQuery = Program::query();
         $examRoomQuery = ExamRoom::query();
 
@@ -77,14 +82,15 @@ class SettingController extends Controller
 
 
 
-
         $examDates = $examDateQuery->paginate(200)->onEachSide(1);
+        $examTime = $examTimeQuery->paginate(200)->onEachSide(1);
         $examRooms = $examRoomQuery->paginate(200)->onEachSide(1);
         $programs = $programQuery->paginate(200)->onEachSide(1);
         $users = User::all();
 
         return inertia('Setting/Index', [
             'examDates' => $examDates,
+            'examTime' => $examTime,
             'examRooms' => $examRooms,
             'programs' => $programs,
             'users' => $users,
@@ -99,6 +105,12 @@ class SettingController extends Controller
     {
         // do something here
         return inertia("Setting/DateCreate");
+    }
+
+    public function examTimeCreate()
+    {
+        // do something here
+        return inertia("Setting/TimeCreate");
     }
 
     public function examRoomCreate()
@@ -131,6 +143,21 @@ class SettingController extends Controller
 
         return to_route('setting.index')->with([
             'success' => "Successful Add Schedule \"{$formattedDate}\" ",
+            'sucType' => 'add'
+        ]);
+    }
+
+    public function examTimeStore(StoreExamTimeRequest $request)
+    {
+        $data = $request->validated();
+        //dd($data);
+        ExamTime::create($data);
+
+
+        $time = $data['exam_time'];
+
+        return to_route('setting.index')->with([
+            'success' => "Successful Add Time \"{$time}\" ",
             'sucType' => 'add'
         ]);
     }
@@ -241,6 +268,13 @@ class SettingController extends Controller
         ]);
     }
 
+    public function examTimeEdit(ExamTime $examtime)
+    {
+        return inertia('Setting/TimeEdit', [
+            'examtime' => new ExamTimeResource($examtime),
+        ]);
+    }
+
     public function examRoomEdit(ExamRoom $examroom)
     {
         return inertia('Setting/RoomEdit', [
@@ -283,6 +317,27 @@ class SettingController extends Controller
 
         return to_route('setting.index')->with([
             'success' => "Schedule \"$formattedDate\" was Updated",
+            'sucType' => 'edit',
+        ]);
+    }
+
+    public function examTimeUpdate(UpdateExamTimeRequest $request, ExamTime $examtime)
+    {
+        $data = $request->validated();
+
+        // Check if the updated status is 2
+        if ($data['status'] == 2) {
+            // Set all other Examtime statuses to 1
+            ExamTime::where('id', '!=', $examtime->id)->update(['status' => 1]);
+        }
+
+        // Update the current exam date record
+        $examtime->update($data);
+
+        $time = $examtime->exam_time;
+
+        return to_route('setting.index')->with([
+            'success' => "Time \"$time\" was Updated",
             'sucType' => 'edit',
         ]);
     }
