@@ -19,9 +19,9 @@ class ImportApplicant implements ToCollection, ToModel
     {
         foreach ($collection->skip(1) as $row) { // Skip the first row (headers)
             // Find the corresponding Program
-            $program = Program::where('acronym', 'LIKE', substr($row[3], 0, 3) . '%')->first();
+            $program = Program::where('acronym', 'LIKE', substr($row[2], 0, 3) . '%')->first();
             $create_date = self::excelToTimestamp($row[0]);
-            $bday = self::excelToTimestamp($row[8]);
+            $bday = self::excelToTimestamp($row[7]);
 
             $applicant = Applicant::where('email', 'LIKE', $row[1])->first();
 
@@ -30,28 +30,28 @@ class ImportApplicant implements ToCollection, ToModel
                 $applicant->update([
                     'created_at'  => $create_date,
                     'prog'        => $program ? $program->id : null, // Assign program ID if found
-                    'sr_name'     => $row[4],
-                    'f_name'      => $row[5],
-                    'm_name'      => $row[6],
-                    'sex'         => $row[7],
-                    'bday'        => $bday ,
-                    'bplace'      => $row[9],
-                    'cont'        => $row[10],
-                    'tag_res'     => $row[11],
-                    'curr_add'    => $row[12],
-                    'fb_acc'      => $row[13],
-                    'fb_acc_link' => $row[14],
-                    'bs_degree'   => $row[15],
-                    'l_schl_att'  => $row[16],
-                    'yr_grad'     => $row[17],
-                    'curr_emp'    => $row[18],
-                    'conn_com_ins' => $row[19],
-                    'curr_occ'    => $row[20],
-                    'l_serv'      => $row[21],
-                    'reason'      => $row[22],
-                    'gov_id'      => $row[23],
-                    'tor'         => $row[24],
-                    'voter_id'    => $row[25],
+                    'sr_name'     => $row[3],
+                    'f_name'      => $row[4],
+                    'm_name'      => $row[5],
+                    'sex'         => $row[6],
+                    'bday'        => $bday,
+                    'bplace'      => $row[8],
+                    'cont'        => $row[9],
+                    'tag_res'     => $row[10],
+                    'curr_add'    => $row[11],
+                    'fb_acc'      => $row[12],
+                    'fb_acc_link' => $row[13],
+                    'bs_degree'   => $row[14],
+                    'l_schl_att'  => $row[15],
+                    'yr_grad'     => $row[16],
+                    'curr_emp'    => $row[17],
+                    'conn_com_ins' => $row[18],
+                    'curr_occ'    => $row[19],
+                    'l_serv'      => $row[20],
+                    'reason'      => $row[21],
+                    'gov_id'      => $row[22],
+                    'tor'         => $row[23],
+                    'voter_id'    => $row[24],
                     //'status'      => 1, // for status be pending(1)
                 ]);
 
@@ -61,28 +61,28 @@ class ImportApplicant implements ToCollection, ToModel
                     'created_at'  => $create_date,
                     'email'       => $row[1],
                     'prog'        => $program ? $program->id : null, // Assign program ID if found
-                    'sr_name'     => $row[4],
-                    'f_name'      => $row[5],
-                    'm_name'      => $row[6],
-                    'sex'         => $row[7],
+                    'sr_name'     => $row[3],
+                    'f_name'      => $row[4],
+                    'm_name'      => $row[5],
+                    'sex'         => $row[6],
                     'bday'        => $bday,
-                    'bplace'      => $row[9],
-                    'cont'        => $row[10],
-                    'tag_res'     => $row[11],
-                    'curr_add'    => $row[12],
-                    'fb_acc'      => $row[13],
-                    'fb_acc_link' => $row[14],
-                    'bs_degree'   => $row[15],
-                    'l_schl_att'  => $row[16],
-                    'yr_grad'     => $row[17],
-                    'curr_emp'    => $row[18],
-                    'conn_com_ins' => $row[19],
-                    'curr_occ'    => $row[20],
-                    'l_serv'      => $row[21],
-                    'reason'      => $row[22],
-                    'gov_id'      => $row[23],
-                    'tor'         => $row[24],
-                    'voter_id'    => $row[25],
+                    'bplace'      => $row[8],
+                    'cont'        => $row[9],
+                    'tag_res'     => $row[10],
+                    'curr_add'    => $row[11],
+                    'fb_acc'      => $row[12],
+                    'fb_acc_link' => $row[13],
+                    'bs_degree'   => $row[14],
+                    'l_schl_att'  => $row[15],
+                    'yr_grad'     => $row[16],
+                    'curr_emp'    => $row[17],
+                    'conn_com_ins' => $row[18],
+                    'curr_occ'    => $row[19],
+                    'l_serv'      => $row[20],
+                    'reason'      => $row[21],
+                    'gov_id'      => $row[22],
+                    'tor'         => $row[23],
+                    'voter_id'    => $row[24],
                     'status'      => 1, // for status be pending(1)
                 ]);
 
