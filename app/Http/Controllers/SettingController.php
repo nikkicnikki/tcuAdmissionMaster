@@ -47,6 +47,7 @@ class SettingController extends Controller
         $examRoomQuery = ExamRoom::query();
 
         $activeDateID = ExamDate::where('status', 2)->value('id');
+        $activeTimeID = ExamTime::where('status', 2)->value('id');
 
         // $examRoomQuery = DB::table('applicants')
         //     ->join('exam_rooms', 'applicants.exam_room', '=', 'exam_rooms.id')
@@ -77,6 +78,7 @@ class SettingController extends Controller
 
         $applicantWithPermit = Applicant::selectRaw('COUNT(exam_room) AS curr_count, exam_room, exam_date')
             ->where('exam_date', $activeDateID)
+            ->where('exam_time', $activeTimeID)
             ->groupBy('exam_room', 'exam_date')
             ->get();
 

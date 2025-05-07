@@ -38,9 +38,11 @@ class ApplicantController extends Controller
 
         $userID = auth()->user()->id;
         $activeDateID = ExamDate::where('status', 2)->value('id'); 
+        $activeTimeID = ExamTime::where('status', 2)->value('id'); 
         $examRoomLimit = ExamRoom::where('set_user', $userID)->value('limit');
         $examRoomLimitStatus = Applicant::join('exam_rooms', 'applicants.exam_room', '=', 'exam_rooms.id')
                                     ->where('applicants.exam_date', $activeDateID )
+                                    ->where('applicants.exam_time', $activeTimeID )
                                     ->where('exam_rooms.set_user', $userID )
                                     ->count();
 
