@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ApplicantScoringResource;
 use App\Models\Applicant;
+use App\Models\ExamTime;
 use App\Models\Program;
 use App\Models\User;
 use App\Models\ExamDate;
@@ -74,6 +75,7 @@ class ApplicantController extends Controller
             'success' => session('success'),
             'sucType' => session('sucType'),
             'examdate' => ExamDate::all() ,
+            'examtime' => ExamTime::all() ,
             'examrooms' =>  ExamRoom::all() ,
             'examRoomLimit' => $examRoomLimit,
             'examRoomLimitStatus' => $examRoomLimitStatus,
@@ -204,6 +206,7 @@ class ApplicantController extends Controller
             'applicants' => new ApplicantPermitResource($applicant) ,
             'users'      => User::all() ,    
             'examdates'  => ExamDate::all() ,
+            'examtime'  => ExamTime::all() ,
             'examrooms'  => ExamRoom::all() ,
         ]);
     }

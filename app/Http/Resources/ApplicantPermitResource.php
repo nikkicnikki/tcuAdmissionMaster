@@ -54,6 +54,7 @@ class ApplicantPermitResource extends JsonResource
             'remarks'       => $this->remarks,
 
             'exam_date'     => $this->exam_date,
+            'exam_time'     => $this->exam_time,
             'exam_room'     => $this->exam_room,
 
             'image_capture' => $this->image_capture,

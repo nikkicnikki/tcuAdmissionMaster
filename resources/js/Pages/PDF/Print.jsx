@@ -6,7 +6,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 export default function Print({ auth }) {
 
-    const { applicant, exam_date_name, exam_room_name, image_capture } = usePage().props;
+    const { applicant, exam_date_name, exam_time_name, exam_room_name, image_capture } = usePage().props;
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -46,6 +46,8 @@ export default function Print({ auth }) {
             <View style={styles.content}>
                 <Text style={styles.contField}>DATE OF EXAMINATION :</Text>
                 <Text style={styles.contValue2}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{formattedDate}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</Text>
+                <Text style={styles.contField}>TIME :</Text>
+                <Text style={styles.contValue2}>{exam_time_name}</Text>
                 <Text style={styles.contField}>ROOM NO. :</Text>
                 <Text style={styles.contValue2}>{exam_room_name}</Text>
             </View>

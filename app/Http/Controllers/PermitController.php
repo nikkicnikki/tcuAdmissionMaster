@@ -23,6 +23,7 @@ class PermitController extends Controller
         ]);
 
         $examDate = $request->input('exam_date');
+        $examTime = $request->input('exam_time');
         $examRoom = $request->input('exam_room');
         // SELECT COUNT(*) FROM `applicants` WHERE exam_date = 4 AND exam_room = 1
         $applicant = Applicant::findOrFail($applicant_id);
@@ -56,6 +57,7 @@ class PermitController extends Controller
         $applicant->image_capture = "applicants/{$imageName}";
         $applicant->printed_by = $request->input('printed_by');
         $applicant->exam_date = $examDate;
+        $applicant->exam_time = $examTime;
         $applicant->exam_room = $examRoom;
         $applicant->status = 4;
         $applicant->printed_date = now();
@@ -64,6 +66,7 @@ class PermitController extends Controller
         return Inertia::render('PDF/Print', [
             'applicant' => new ApplicantPermitResource($applicant),
             'exam_date_name' => $request->input('exam_date_name'),
+            'exam_time_name' => $request->input('exam_time_name'),
             'exam_room_name' => $request->input('exam_room_name'),
             'image_capture' => "applicants/{$imageName}"
         ]);
@@ -76,6 +79,7 @@ class PermitController extends Controller
         $applicant = Applicant::findOrFail($applicant_id);
         
         $exam_date_name = $applicant->examDate->exam_date;
+        $exam_time_name = $applicant->examTime->exam_time;
         $exam_room_name = $applicant->examRoom->exam_room;
         $image_capture = $applicant->image_capture;
 
@@ -93,6 +97,7 @@ class PermitController extends Controller
         return Inertia::render('PDF/Print', [
             'applicant' => new ApplicantPermitResource($applicant),
             'exam_date_name' => $exam_date_name,
+            'exam_time_name' => $exam_time_name,
             'exam_room_name' => $exam_room_name,
             'image_capture' => $image_capture,
         ]);

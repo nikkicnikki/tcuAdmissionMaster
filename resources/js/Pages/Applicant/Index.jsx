@@ -17,12 +17,14 @@ export default function Index({
     success,
     sucType,
     examdate,
+    examtime,
     examrooms,
     examRoomLimit,
     examRoomLimitStatus
 }) {
 
     const active_schedule = examdate.find(examd => examd.status == 2)?.exam_date;
+    const active_time = examtime.find(examt => examt.status == 2)?.exam_time;
     const assign_room = examrooms.find(examroom => examroom.set_user == auth.user.id)?.exam_room;
 
     queryParams = queryParams || {}
@@ -94,6 +96,11 @@ export default function Index({
                                 <label className="font-bold">ACTIVE SCHEDULE: </label>
                                 <label className="bg-[rgb(250,245,226)] shadow-inner p-5">{active_schedule ? new Date(active_schedule).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }) : "no schedule"}</label>
                             </div>
+                            <div className=" text-nowrap">
+                                <label className="font-bold">ACTIVE TIME: </label>
+                                <label className="bg-[rgb(250,245,226)] shadow-inner p-5">{active_time ? active_time : "no active time"}</label>
+                            </div>
+                            
                             {((auth.user.role == 1 || auth.user.role == 2) || auth.user.role == 5) ?
                                 <div>
                                     <label className="font-bold">YOUR ASSIGN ROOM: </label>

@@ -8,7 +8,7 @@ import { router } from '@inertiajs/react'
 import Webcam from 'react-webcam';
 
 
-export default function Permit({ auth, applicants, users, examdates, examrooms }) {
+export default function Permit({ auth, applicants, users, examdates, examtime, examrooms }) {
 
     const [isWebcamReady, setIsWebcamReady] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
@@ -27,6 +27,8 @@ export default function Permit({ auth, applicants, users, examdates, examrooms }
     const vald_user_role = users.find(user => user.id === vald_user_id)?.role;
     const schedule_date_id = examdates.find(examdate => examdate.status === 2)?.id;
     const schedule_exam_date = examdates.find(examdate => examdate.status === 2)?.exam_date;
+    const active_time_id = examtime.find(examt => examt.status === 2)?.id;
+    const active_time = examtime.find(examt => examt.status === 2)?.exam_time;
     const room_id = examrooms.find(examroom => examroom.set_user === curr_user)?.id;
     const room_exam = examrooms.find(examroom => examroom.set_user === curr_user)?.exam_room;
 
@@ -56,6 +58,7 @@ export default function Permit({ auth, applicants, users, examdates, examrooms }
         image_capture: applicants.image_capture || '',
 
         exam_date: schedule_date_id || '',
+        exam_time: active_time_id || '',
         exam_room: room_id || '',
 
     });
@@ -72,8 +75,10 @@ export default function Permit({ auth, applicants, users, examdates, examrooms }
             image_capture: cap,
             printed_by: data.printed_by,
             exam_date: data.exam_date,
+            exam_time: data.exam_time,
             exam_room: data.exam_room,
             exam_date_name: schedule_exam_date,
+            exam_time_name: active_time,
             exam_room_name: room_exam,
         }).toString();
 
@@ -237,6 +242,8 @@ export default function Permit({ auth, applicants, users, examdates, examrooms }
                                                     day: "numeric",
                                                 })}
                                             </td>
+                                            <th className="text-right text-gray-500 text-xs"> TIME : </th>
+                                            <td className="border-b border-black px-3 text-md">{active_time}</td>
                                             <th className="text-right text-gray-500 text-xs"> ROOM NO. : </th>
                                             <td className="border-b border-black px-3 text-md">{room_exam}</td>
                                         </tr>

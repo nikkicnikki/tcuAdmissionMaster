@@ -28,7 +28,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                     href={route('dashboard')}
                                     active={route().current('dashboard')}
                                 >
-                                    Dashboard
+                                    DASHBOARD
                                 </NavLink>
 
                                 {((user.role == 1 || user.role == 2) || user.role == 5) && (
