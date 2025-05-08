@@ -33,7 +33,7 @@ export default function ApplicantFormAction({
             )}
 
             {/* ADMIN Role 1, MANAGER Role 5 or MIS Role 2 - Status 3 */}
-            {(((role == 1 || role == 2) || role == 5)  && status == 3) && (
+            {(((role == 1 || role == 2) || role == 5) && status == 3) && (
                 <td className="px-3 py-2 text-right flex flex-nowrap">
                     <Link
                         href={route("applicant.edit", applicantId)}
@@ -92,7 +92,7 @@ export default function ApplicantFormAction({
             )}
 
             {/* ADMIN Role 1 , MANAGER Role 5 - Status 5 */}
-            {(((role == 1 || role == 5) && status == 5) || ( role == 2 && (status == 4 || status == 5))) && (
+            {(((role == 1 || role == 5) && status == 5)) && (
                 <td className="px-3 py-2 text-right flex flex-nowrap">
                     <a
                         href={route('permit.reprint', { applicant_id: applicantId })}
@@ -122,7 +122,7 @@ export default function ApplicantFormAction({
 
 
             {/* SCORING STAFF Role 4 - Status 4 */}
-            {role == 4 && status == 4  && (
+            {role == 4 && status == 4 && (
                 <td className="px-3 py-2 text-right flex flex-nowrap">
 
                     <Link
@@ -149,6 +149,29 @@ export default function ApplicantFormAction({
                 </td>
             )}
 
+            {/* MIS REPRINT UPDATE */}
+            {(role == 2 && (status == 4 || status == 5)) && (
+                <td className="px-3 py-2 text-right flex flex-nowrap">
+                    <a
+                        href={route('permit.reprint', { applicant_id: applicantId })}
+                        className="p-2 rounded shadow-inner bg-gray-100 hover:shadow-md"
+                        title="REPRINT"
+                        target="_blank"
+                    >
+                        <PrinterIcon className="w-5 h-3 text-gray-900" />
+                    </a>
+
+                    <Link
+                        href={route("applicant.edit", applicantId)}
+                        className="font-medium rounded flex-1 px-2 py-2 text-white bg-[rgb(153,217,234)] dark:text-red-500 hover:bg-blue-500 mx-1 flex flex-nowrap items-center justify-center"
+                        title="UPDATE"
+                    >
+                        <ArrowPathIcon className="w-5 h-3" />
+                    </Link>
+                </td>
+            )
+
+            }
 
         </>
 
