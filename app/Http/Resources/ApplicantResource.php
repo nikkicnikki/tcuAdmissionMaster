@@ -55,6 +55,7 @@ class ApplicantResource extends JsonResource
             'status'        => $this->status,
             'remarks'       => $this->remarks,
             'exam_date'     => new ExamDateResource($this->examDate),
+            'exam_time'     => new ExamTimeResource($this->examTime),
             'exam_room'     => new ExamRoomResource($this->examRoom),
 
             'image_capture' => $this->image_capture,

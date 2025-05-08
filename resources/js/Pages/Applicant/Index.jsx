@@ -22,7 +22,7 @@ export default function Index({
     examRoomLimit,
     examRoomLimitStatus
 }) {
-
+    
     const active_schedule = examdate.find(examd => examd.status == 2)?.exam_date;
     const active_time = examtime.find(examt => examt.status == 2)?.exam_time;
     const assign_room = examrooms.find(examroom => examroom.set_user == auth.user.id)?.exam_room;
@@ -201,12 +201,20 @@ export default function Index({
                                                 EXAM DATE
                                             </TableHeading>
                                             <TableHeading
+                                                name="exam_time"
+                                                sort_field={queryParams.sort_field}
+                                                sort_direction={queryParams.sort_direction}
+                                                sortChanged={sortChanged}
+                                            >
+                                                EXAM TIME
+                                            </TableHeading>
+                                            <TableHeading
                                                 name="exam_room"
                                                 sort_field={queryParams.sort_field}
                                                 sort_direction={queryParams.sort_direction}
                                                 sortChanged={sortChanged}
                                             >
-                                                EXAM ROOM
+                                                ROOM
                                             </TableHeading>
                                             <TableHeading
                                                 name="created_at"
@@ -293,7 +301,7 @@ export default function Index({
                                                         {APPLICANT_STATUS_TEXT_MAP[applicant.status]}
                                                     </span>
                                                 </td>
-                                                <td className="px-3 py-2">
+                                                <td className="px-3 py-2 text-[10px]">
                                                     { }
                                                     {applicant.exam_date?.exam_date ?
                                                         new Date(applicant.exam_date?.exam_date).toLocaleDateString("en-US", {
@@ -303,8 +311,9 @@ export default function Index({
                                                         }) : " - "
                                                     }
                                                 </td>
-                                                <td className="px-3 py-2">{applicant.exam_room?.exam_room ? applicant.exam_room?.exam_room : " - "}</td>
-                                                <td className="px-3 py-2 text-nowrap">
+                                                <td className="px-3 py-2 text-[10px]">{applicant.exam_time?.exam_time ? applicant.exam_time?.exam_time : " - "}</td>
+                                                <td className="px-3 py-2 text-[10px]">{applicant.exam_room?.exam_room ? applicant.exam_room?.exam_room : " - "}</td>
+                                                <td className="px-3 py-2 text-nowrap  text-[10px]">
 
                                                     {applicant.created_at ?
                                                         new Date(applicant.created_at).toLocaleDateString("en-US", {
