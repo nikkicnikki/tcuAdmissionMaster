@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
     },
     watermarkImageBot: {
         position: 'absolute',
-        top: '51.5%',
+        top: '50.1%',
         left: '15%',
         width: 400,
         opacity: 0.1,
@@ -66,7 +66,7 @@ export const styles = StyleSheet.create({
     remindHead: { fontSize: 13, fontWeight: 'bold', margin: 14, },
     remindBold: { fontSize: 10, fontWeight: 'bold' },
     remind: { fontSize: 10, },
-    dvEnd: { marginBottom: 45, borderBottomWidth: 2, borderBottomColor: 'orange', borderBottomStyle: 'dashed', paddingBottom: 15, },
+    dvEnd: { marginBottom: 31, borderBottomWidth: 2, borderBottomColor: 'orange', borderBottomStyle: 'dashed', paddingBottom: 25, },
 
 
     pic1: {

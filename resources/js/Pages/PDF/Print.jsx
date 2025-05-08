@@ -124,7 +124,7 @@ export default function Print({ auth }) {
             </View>
             <View style={styles.dv}>
                 <Text style={styles.remind}>6. Bring the following items and put it in transparent plastic envelope:</Text>
-                <Text style={styles.remindBold}> Printed Test Permit, VALID ID, BLACK</Text>
+                <Text style={styles.remindBold}> Printed Test Permit, VALID ID, </Text>
             </View>
 
         </>
@@ -164,18 +164,19 @@ export default function Print({ auth }) {
                 <HeadTitle />
                 {applicant ? <ApplicantINFO applicant={applicant} /> : <View><Text>NO DATA INPUT</Text></View>}
                 <Reminders />
-                <View style={styles.dvEnd}>
-                    <Text style={styles.remindBold}>&nbsp;&nbsp;&nbsp;&nbsp;Ballpen </Text>
+                <View style={styles.dv}>
+                    <Text style={styles.remindBold}>&nbsp;&nbsp;&nbsp;&nbsp;BLACK Ballpen </Text>
                     <Text style={styles.remind}> (2 pcs), and Bottled drinking water.</Text>
                 </View>
-
+                <View style={styles.dvEnd}>
+                </View>
 
 
                 <HeadTitle />
                 {applicant ? <ApplicantINFO applicant={applicant} /> : <View><Text>NO DATA INPUT</Text></View>}
                 <Reminders />
                 <View style={styles.dv}>
-                    <Text style={styles.remindBold}>&nbsp;&nbsp;&nbsp;&nbsp;Ballpen </Text>
+                    <Text style={styles.remindBold}>&nbsp;&nbsp;&nbsp;&nbsp;BLACK Ballpen </Text>
                     <Text style={styles.remind}> (2 pcs), and Bottled drinking water.</Text>
                 </View>
 
