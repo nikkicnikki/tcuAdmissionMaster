@@ -19,11 +19,17 @@ use Inertia\Inertia;
 
 Route::redirect('/', '/dashboard');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return Inertia::render('Dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware([
+    'auth', 
+    'verified', 
+    'restrict.ip',
+    // \App\Http\Middleware\RestrictIpMiddleware::class
+    ])->group(function () {
+        
     Route::get('/dashboard', [DashbaordController::class, 'index'])->name('dashboard');
 
 
