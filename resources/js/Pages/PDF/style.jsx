@@ -55,7 +55,9 @@ export const styles = StyleSheet.create({
     head4: { fontSize: 10, fontWeight: 'bold', marginBottom: 16, },
     head5: { fontSize: 13, fontWeight: 'bold', marginBottom: 20, },
 
-    content: { flexDirection: 'row', marginBottom: 1, },
+    
+
+    content: { flexDirection: 'row', marginBottom: 1, marginLeft: 50,},
     contentId: { flexDirection: 'row', marginBottom: 15, },
     contField: { fontSize: 10, fontWeight: 'bold', },
     contField2: { fontSize: 10, },
