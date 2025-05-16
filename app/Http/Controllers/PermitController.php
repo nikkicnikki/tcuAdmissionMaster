@@ -29,7 +29,8 @@ class PermitController extends Controller
         $applicant = Applicant::findOrFail($applicant_id);
 
         $limit = Applicant::where('exam_date', $examDate)
-            ->where('exam_room', $examRoom)->count();
+            ->where('exam_room', $examRoom)
+            ->where('exam_time', $examTime)->count();
 
         $userID = Auth::user()->id;
         $activeDateID = ExamDate::where('status', 2)->value('id');
@@ -38,7 +39,7 @@ class PermitController extends Controller
 
         if ($limit >= $setLimit) {
             //change State to complete
-            return redirect()->back()->with('error', 'Limit of $setLimit applicants per room has been reached.');
+            return redirect()->back()->with('error', 'Limit of '.$setLimit.' applicants per room has been reached.');
         }
 
         $imageData = $request->input('image_capture');

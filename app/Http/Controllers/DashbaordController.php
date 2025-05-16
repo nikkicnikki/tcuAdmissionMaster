@@ -117,20 +117,37 @@ class DashbaordController extends Controller
 
 
         // HAS PERMIT 
-        $scheduleListCount = Applicant::with('examDate')
-            ->whereNotNull('exam_date')
-            // ->where('status', '=' , 4)
-            ->groupBy('exam_date')
-            ->select('exam_date')
-            ->selectRaw('exam_date, COUNT(*) as total')
-            ->get()
-            ->map(function ($item) {
-                return [
-                    'exam_date' => Carbon::parse($item->examDate->exam_date)->format('F j, Y'),
-                    'total' => $item->total,
-                ];
-            });
-
+        // $scheduleListCount = Applicant::with(['examDate', 'examTime'])
+        //     ->whereNotNull('exam_date')
+        //     // ->where('status', '=' , 4)
+        //     ->groupBy('exam_date')
+        //     ->select('exam_date', 'exam_time')
+        //     ->selectRaw('exam_date, COUNT(*) as total')
+        //     ->get()
+        //     ->map(function ($item) {
+        //         return [
+        //             'exam_date' => Carbon::parse($item->examDate->exam_date)->format('F j, Y'),
+        //             'total' => $item->total,
+        //         ];
+        //     });
+            $scheduleListCount = Applicant::with(['examDate', 'examTime'])
+                ->whereNotNull('exam_date')
+                ->whereNotNull('exam_time') // ensure exam_time exists
+                ->groupBy('exam_date', 'exam_time')
+                ->select('exam_date', 'exam_time')
+                ->selectRaw('COUNT(*) as total')
+                ->get()
+                ->map(function ($item) {
+                    return [
+                        'exam_date' => $item->examDate
+                            ? Carbon::parse($item->examDate->exam_date)->format('F j, Y')
+                            : Carbon::parse($item->exam_date)->format('F j, Y'),
+                        'exam_time' => $item->examTime
+                            ? $item->examTime->time // or format if needed
+                            : $item->exam_time,
+                        'total' => $item->total,
+                    ];
+                });
 
         // GET THE SET LIMIT FROM SETTINGS FORM
         // go the first row of the ExamRoom and get the value of the column field 'limit'
