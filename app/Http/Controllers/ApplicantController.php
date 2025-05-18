@@ -33,8 +33,8 @@ class ApplicantController extends Controller
     {
         $query = Applicant::query();
 
-        $sortField = request("sort_field", "created_at");
-        $sortDirection = request("sort_direction", "desc");
+        $sortField = request("sort_field", "id"); // created_at
+        $sortDirection = request("sort_direction", "asc"); //desc
 
         $userID = auth()->user()->id;
         $activeDateID = ExamDate::where('status', 2)->value('id'); 
