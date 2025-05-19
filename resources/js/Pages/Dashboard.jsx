@@ -23,7 +23,7 @@ export default function Dashboard({
     program_count_perc,
     averagesOverall,
 }) {
-    // console.log(averagesOverall);
+    // console.log(scheduleListCount);
     const ProgramExcelButton = ({ with_score_list, program_acronym, titleProg }) => {
 
         const handleDownload = () => {

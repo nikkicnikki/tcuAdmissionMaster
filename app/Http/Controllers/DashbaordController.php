@@ -130,11 +130,11 @@ class DashbaordController extends Controller
         //             'total' => $item->total,
         //         ];
         //     });
-            $scheduleListCount = Applicant::with(['examDate', 'examTime'])
+            $scheduleListCount = Applicant::with(['examDate'])//, 'examTime'
                 ->whereNotNull('exam_date')
-                ->whereNotNull('exam_time') // ensure exam_time exists
-                ->groupBy('exam_date', 'exam_time')
-                ->select('exam_date', 'exam_time')
+                // ->whereNotNull('exam_time') // ensure exam_time exists
+                ->groupBy('exam_date')//, 'exam_time'
+                ->select('exam_date')//, 'exam_time'
                 ->selectRaw('COUNT(*) as total')
                 ->get()
                 ->map(function ($item) {
@@ -142,9 +142,9 @@ class DashbaordController extends Controller
                         'exam_date' => $item->examDate
                             ? Carbon::parse($item->examDate->exam_date)->format('F j, Y')
                             : Carbon::parse($item->exam_date)->format('F j, Y'),
-                        'exam_time' => $item->examTime
-                            ? $item->examTime->time // or format if needed
-                            : $item->exam_time,
+                        // 'exam_time' => $item->examTime
+                        //     ? $item->examTime->time // or format if needed
+                        //     : $item->exam_time,
                         'total' => $item->total,
                     ];
                 });
@@ -160,7 +160,7 @@ class DashbaordController extends Controller
             ->get();
 
         $havePermitApplicants = $applicants->groupBy(function ($item) {
-            return Carbon::parse($item->examDate->exam_date)->format('F j, Y') . ' | Rm. ' . $item->examRoom->exam_room;
+            return Carbon::parse($item->examDate->exam_date)->format('F j, Y') .' | Shift: '. $item->examTime->exam_time . ' | Rm. ' . $item->examRoom->exam_room;
         });
 
         // Convert to array so we can return as JSON
