@@ -23,7 +23,7 @@ export default function Dashboard({
     program_count_perc,
     averagesOverall,
 }) {
-    // console.log(scheduleListCount);
+    // console.log(havePermitApplicants);
     const ProgramExcelButton = ({ with_score_list, program_acronym, titleProg }) => {
 
         const handleDownload = () => {
@@ -92,6 +92,7 @@ export default function Dashboard({
     }
 
     const DateRoomExcelButton = ({ exam_date_room }) => {
+
         const handleDownload = () => {
 
             const examDate = new Date(exam_date_room[0].exam_date).toLocaleDateString('en-US', {
@@ -101,10 +102,11 @@ export default function Dashboard({
             });
 
             const cleanedData = exam_date_room.map(({
-                exam_date_id, exam_room_id,
-                exam_date, exam_room,
+                exam_date_id, exam_time_id, exam_room_id,
+                exam_date, exam_time, exam_room,
                 valid_by, print_by,
-                f_name, m_name, sr_name, id, ...rest }) => {
+                f_name, m_name, sr_name, id, ...rest
+            }, index) => {
 
                 const firstName = f_name ? f_name.toUpperCase() : '';
                 const middleName = m_name ? m_name.toUpperCase() : '';
@@ -112,18 +114,20 @@ export default function Dashboard({
                 const ID = id;
 
                 return {
-                    ...rest,
+                    // ...rest,
+                    'No.': index + 1, // Use index from map callback
                     'ID': ID,
                     'NAME': `${surname}, ${firstName} ${middleName}`.trim(),
                 };
             });
+
 
             var wb = XLSX.utils.book_new(),
                 ws = XLSX.utils.json_to_sheet(cleanedData);
 
             XLSX.utils.book_append_sheet(wb, ws, "ApplicantList");
 
-            XLSX.writeFile(wb, examDate + "-" + exam_date_room[0].exam_room + ".xlsx");
+            XLSX.writeFile(wb, examDate + "-Shift-" + exam_date_room[0].exam_time + "-Rm-" + exam_date_room[0].exam_room + ".xlsx");
         };
 
 
@@ -580,11 +584,11 @@ export default function Dashboard({
                                         {(auth.user.role == 1 || auth.user.role == 5) &&
                                             <div className='flex gap-2 ml-5'>
                                                 <button
-                                                    onClick={() => window.open(route('dateRoomList.pdf', {
+                                                    onClick={() => window.open(route('schedule.pdf', {
                                                         exam_date_id: havePermitApplicants[groupKey][0].exam_date_id,
+                                                        exam_time_id: havePermitApplicants[groupKey][0].exam_time_id,
                                                         exam_room_id: havePermitApplicants[groupKey][0].exam_room_id,
-                                                        exam_date: havePermitApplicants[groupKey][0].exam_date,
-                                                        exam_room: havePermitApplicants[groupKey][0].exam_room,
+                                                        groupKey: groupKey,
                                                     }),
                                                         '_blank')}
                                                     className="hover:text-blue-500"

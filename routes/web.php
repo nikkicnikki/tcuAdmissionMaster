@@ -99,7 +99,7 @@ Route::middleware([
     
 
     // reports PDF
-    Route::get('/PDF/date_room/{exam_date_id}/{exam_room_id}/{exam_date}/{exam_room}', [ReportController::class, 'dateRoomList'])->name('dateRoomList.pdf');
+    Route::get('/PDF/schedule/{exam_date_id}/{exam_time_id}/{exam_room_id}/{groupKey}', [ReportController::class, 'schedule'])->name('schedule.pdf');
     Route::get('/PDF/exam_result/{program_acronym}', [ReportController::class, 'examResult'])->name('examResult.pdf');
 
 

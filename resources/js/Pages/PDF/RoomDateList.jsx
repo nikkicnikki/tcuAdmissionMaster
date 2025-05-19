@@ -6,8 +6,8 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 export default function Print({ auth }) {
 
-    const { exam_date_id, exam_room_id, exam_date, exam_room, roomDateApplicants, } = usePage().props;
-    // console.log(roomDateApplicants)
+    const { exam_date_id, exam_time_id, exam_room_id, groupKey, roomDateApplicants, } = usePage().props;
+    console.log(exam_time_id)
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         return date.toLocaleDateString('en-US', {
@@ -17,7 +17,7 @@ export default function Print({ auth }) {
         });
     };
 
-    const formattedDate = formatDate(exam_date);
+    // const formattedDate = formatDate(exam_date);
 
     const HeadTitle = () => (
         <View style={styles.viewHead}>
@@ -34,10 +34,8 @@ export default function Print({ auth }) {
 
 
             <View style={styles.content}>
-                <Text style={styles.contField}>DATE OF EXAMINATION :</Text>
-                <Text style={styles.contValue2}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{formattedDate}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</Text>
-                <Text style={styles.contField}>ROOM NO. :</Text>
-                <Text style={styles.contValue2}>{exam_room}</Text>
+                <Text style={styles.contField}>SCHEDULE :</Text>
+                <Text style={styles.contValue2}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{groupKey}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</Text>
             </View>
 
             <View style={styles.table}>
@@ -84,11 +82,11 @@ export default function Print({ auth }) {
         </Document>
     );
 
-    if (!exam_date_id || !exam_room_id || !exam_date || !exam_room || !roomDateApplicants) {
+    if (!exam_date_id || !exam_time_id || !exam_room_id || !groupKey|| !roomDateApplicants) {
         return <p>Loading...</p>;
     }
 
-    const memoizedPDF = useMemo(() => <PermitPrintPDF />, [exam_date_id, exam_room_id, exam_date, exam_room, roomDateApplicants]);
+    const memoizedPDF = useMemo(() => <PermitPrintPDF />, [exam_date_id, exam_time_id, exam_room_id, groupKey, roomDateApplicants]);
 
     return (
 
