@@ -35,7 +35,7 @@ class UpdateUserRequest extends FormRequest
                 "email",
                 Rule::unique('users')->ignore($user->id),
             ],
-            "role"  => ["required","integer","in:1,2,3,4"],
+            "role"  => ["required","integer","in:1,2,3,4,5"],
             "password" => [ 
                 "nullable",
                 "confirmed", 
