@@ -9,19 +9,20 @@ use Inertia\Inertia;
 
 class ReportController extends Controller
 {
-    public function dateRoomList($exam_date_id, $exam_room_id, $exam_date, $exam_room)
+    public function schedule($exam_date_id, $exam_time_id , $exam_room_id, $groupKey)
     {
         // dd($exam_date_id ." ". $exam_room_id ." ". $exam_date ." ". $exam_room);
         $roomDateApplicants = Applicant::where("exam_date", $exam_date_id)
+            ->where("exam_time", $exam_time_id)
             ->where("exam_room", $exam_room_id)
             ->select(DB::raw("UPPER(CONCAT(sr_name, ', ', f_name, ' ', m_name )) as NAME , id"))
             ->get();
 
         return Inertia::render('PDF/RoomDateList', [
             'exam_date_id' => $exam_date_id,
+            'exam_time_id' => $exam_time_id,
             'exam_room_id' => $exam_room_id,
-            'exam_date' => $exam_date,
-            'exam_room' => $exam_room,
+            'groupKey' => $groupKey,
             'roomDateApplicants' => $roomDateApplicants,
         ]);
     }
