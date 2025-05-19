@@ -26,7 +26,7 @@ Route::redirect('/', '/dashboard');
 Route::middleware([
     'auth', 
     'verified', 
-    'restrict.ip',
+    // 'restrict.ip',
     // \App\Http\Middleware\RestrictIpMiddleware::class
     ])->group(function () {
         
