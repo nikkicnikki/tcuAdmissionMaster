@@ -9,7 +9,9 @@ use Symfony\Component\HttpFoundation\Response;
 class RestrictIpMiddleware
 {
     protected array $allowedIps = [
-        '127.0.0.1',
+        // '127.0.0.1',
+        '172.16.0.18',
+		'172.16.0.13',
         // Add your IP here if needed
     ];
 
