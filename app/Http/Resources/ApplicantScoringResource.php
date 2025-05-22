@@ -31,6 +31,7 @@ class ApplicantScoringResource extends JsonResource
             'score'         => $this->score,
 
             'exam_date'     => new ExamDateResource($this->examDate),
+            'exam_time'     => new ExamTimeResource($this->examTime),
             'exam_room'     => new ExamRoomResource($this->examRoom),
 
             'image_capture' => $this->image_capture,

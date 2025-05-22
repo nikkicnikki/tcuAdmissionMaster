@@ -19,6 +19,7 @@ export default function Score({ auth, applicant, userJobList }) {
         sr_name: applicant.sr_name || '',
         score: applicant.score || '',
         exam_date: applicant.exam_date.exam_date || '',
+        exam_time: applicant.exam_time.exam_time || '',
         exam_room: applicant.exam_room.exam_room || '',
         image_capture: '/storage/' + applicant.image_capture || '',
         prog: applicant.prog || '',
@@ -29,7 +30,7 @@ export default function Score({ auth, applicant, userJobList }) {
 
 
     });
-    console.log(applicant);
+
     const formattedDate = new Date(data.exam_date).toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'long',
@@ -122,13 +123,13 @@ export default function Score({ auth, applicant, userJobList }) {
                             />
                         </div>
                         <div className="flex-1 my-5">
-                            <p><label className="font-semibold">ID: </label> {data.applicant_id} </p>
+                            <p><label className="font-semibold">ID: </label> <u className="text-gray-500">{data.applicant_id}</u> </p>
                             <p>
                                 <label className="font-semibold">NAME: </label>
-                                {ucwords(`${data.sr_name}, ${data.f_name} ${data.m_name}`)}
+                                <u className="text-gray-500">{ucwords(`${data.sr_name}, ${data.f_name} ${data.m_name}`)}</u>
                             </p>
-                            <p><label className="font-semibold">PROGRAM: </label> {data.prog.acronym + " - " + data.prog.name} </p>
-                            <p><label className="font-semibold">EXAM: </label> {formattedDate + " - Rm. " + data.exam_room} </p>
+                            <p><label className="font-semibold">PROGRAM: </label> <u className="text-gray-500 text-[12px]">{data.prog.acronym + " - " + data.prog.name}</u> </p>
+                            <p><label className="font-semibold">EXAM: </label> <u className="text-gray-500 text-[14px]">{formattedDate + "|" + data.exam_time + "|Rm. " + data.exam_room}</u> </p>
                         </div>
                         <div className="relative my-4 mr-5 justify-end bg-gray-100 w-2/6 mb-8">
                             <form onSubmit={scoreHandle}>
@@ -219,14 +220,7 @@ export default function Score({ auth, applicant, userJobList }) {
                 </div>
             </div>
 
-            {/* <pre>{console.log(userJobList)}
-                {JSON.stringify(userJobList, null, 2)}
-            </pre>
-            <hr /> */}
-            {/* <pre>
-                {JSON.stringify(applicant, null, 2)}
-            </pre> */}
-
+            
         </AuthenticatedLayout>
     );
 }
