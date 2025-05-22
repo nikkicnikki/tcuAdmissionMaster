@@ -53,7 +53,7 @@ export default function Show({ auth, applicant }) {
                                 </div>
                                 <div className="flex-1">
                                     <p className="mt-1 ">
-                                        <label className="font-bold text-lg">Schedule : </label>
+                                        <label className="font-bold text-lg">Exam Sched : </label>
                                         {applicant.exam_date?.exam_date ?
                                             new Date(applicant.exam_date.exam_date).toLocaleDateString("en-US", {
                                                 year: "numeric",
@@ -61,9 +61,13 @@ export default function Show({ auth, applicant }) {
                                                 day: "numeric",
                                             }) : "none"
                                         }
-                                        <label className="font-bold text-lg"> Room : </label>
-                                        {applicant.exam_room?.exam_room ? applicant.exam_room.exam_room : "none"}
                                     </p>
+
+                                        <label className="font-bold text-lg"> Shift: </label>
+                                        {applicant.exam_room?.exam_room ? applicant.exam_time.exam_time : "none"}
+
+                                        <label className="font-bold text-lg"> Rm.: </label>
+                                        {applicant.exam_room?.exam_room ? applicant.exam_room.exam_room : "none"}
                                 </div>
                                 <div className="flex-1 text-right">
                                     <div className="mt-1 ">

@@ -22,7 +22,7 @@ export default function Index({
     examRoomLimit,
     examRoomLimitStatus
 }) {
-    
+
     const active_schedule = examdate.find(examd => examd.status == 2)?.exam_date;
     const active_time = examtime.find(examt => examt.status == 2)?.exam_time;
     const assign_room = examrooms.find(examroom => examroom.set_user == auth.user.id)?.exam_room;
@@ -100,7 +100,7 @@ export default function Index({
                                 <label className="font-bold">ACTIVE TIME: </label>
                                 <label className="bg-[rgb(250,245,226)] shadow-inner p-5">{active_time ? active_time : "no active time"}</label>
                             </div>
-                            
+
                             {((auth.user.role == 1 || auth.user.role == 2) || auth.user.role == 5) ?
                                 <div>
                                     <label className="font-bold">YOUR ASSIGN ROOM: </label>
@@ -276,8 +276,13 @@ export default function Index({
 
                                     <tbody>
 
-                                        {applicants.data.map(applicant => (
-                                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={applicant.id}>
+                                        {applicants.data.map((applicant , index) => (
+                                            <tr key={applicant.id}
+                                                className={`border-b dark:border-gray-700 ${Math.floor(index / 2) % 2 === 0
+                                                        ? 'bg-white dark:bg-gray-800'
+                                                        : 'bg-green-200 dark:bg-gray-700'
+                                                    }`}
+                                            >
                                                 <th className="px-3 py-2">{applicant.id}</th>
 
 
@@ -327,19 +332,19 @@ export default function Index({
                                                     title={USER_STATUS_TEXT_MAP?.[applicant.validate_by?.role]}
                                                 >
                                                     {applicant.validate_by?.name}
-                                                    <span className={"rounded-full ml-1"+ (USER_STATUS_CLASS_MAP[applicant.validate_by?.role] || '')}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                    <span className={"rounded-full ml-1" + (USER_STATUS_CLASS_MAP[applicant.validate_by?.role] || '')}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                                                 </td>
-                                                <td className={"px-3 py-2 text-[11px]" }
+                                                <td className={"px-3 py-2 text-[11px]"}
                                                     title={USER_STATUS_TEXT_MAP?.[applicant.printed_by?.role]}
                                                 >
                                                     {applicant.printed_by?.name}
-                                                    <span className={"rounded-full ml-1"+ (USER_STATUS_CLASS_MAP[applicant.printed_by?.role] || '')}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                    <span className={"rounded-full ml-1" + (USER_STATUS_CLASS_MAP[applicant.printed_by?.role] || '')}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                                                 </td>
                                                 <td className={"px-3 py-2 text-[11px]"}
                                                     title={USER_STATUS_TEXT_MAP?.[applicant.score_by?.role]}
                                                 >
                                                     {applicant.score_by?.name}
-                                                    <span className={"rounded-full ml-1"+ (USER_STATUS_CLASS_MAP[applicant.score_by?.role] || '')}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                    <span className={"rounded-full ml-1" + (USER_STATUS_CLASS_MAP[applicant.score_by?.role] || '')}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 
                                                 </td>
                                                 <ApplicantFormAction
