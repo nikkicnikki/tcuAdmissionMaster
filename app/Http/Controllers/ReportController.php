@@ -9,7 +9,7 @@ use Inertia\Inertia;
 
 class ReportController extends Controller
 {
-    public function schedule($exam_date_id, $exam_time_id , $exam_room_id, $groupKey)
+    public function schedule($exam_date_id, $exam_time_id, $exam_room_id, $groupKey)
     {
         // dd($exam_date_id ." ". $exam_room_id ." ". $exam_date ." ". $exam_room);
         $roomDateApplicants = Applicant::where("exam_date", $exam_date_id)
@@ -72,7 +72,7 @@ class ReportController extends Controller
 
         return Inertia::render('PDF/ExamResult', [
             'exam_result' => $exam_result,
-            'type'=> $type,
+            'type' => $type,
         ]);
     }
 }
