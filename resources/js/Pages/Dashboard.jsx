@@ -28,60 +28,73 @@ export default function Dashboard({
 
         const handleDownload = () => {
             const typeOfExcel = program_acronym ? `${program_acronym}-OverallExamResult.xlsx` : "OverallExamResult.xlsx";
-            const cleanedData = program_acronym ?
-                with_score_list.filter(applicant => applicant.program.acronym === program_acronym).map(({
-                    // (applicant => applicant.print_by_id === auth.user.id)
-                    id, f_name, m_name, sr_name, score, program, ...rest }) => {
 
-                    const firstName = f_name ? f_name.toUpperCase() : '';
-                    const middleName = m_name ? m_name.toUpperCase() : '';
-                    const surname = sr_name ? sr_name.toUpperCase() : '';
-                    const ID = id;
+            const cleanedData = program_acronym 
+                ? with_score_list
+                    .filter(applicant => applicant.program.acronym === program_acronym)
+                    .map(({ id, f_name, m_name, sr_name, score, program }, index) => {
+                        const firstName = f_name?.toUpperCase() ?? '';
+                        const middleName = m_name?.toUpperCase() ?? '';
+                        const surname = sr_name?.toUpperCase() ?? '';
+                        const PASSING = program.passing_grade;
+
+                        return {
+                            'NO.': index + 1,
+                            'ID': id,
+                            'NAME': `${surname}, ${firstName} ${middleName}`.trim(),
+                            'SCORE': score,
+                            'PASSING GRADE': PASSING,
+                            'RESULT': score >= PASSING ? 'PASS' : 'FAIL',
+                        };
+                    })
+
+                : with_score_list.map((applicant, index) => {
+                    const {
+                        id, f_name, m_name, sr_name, score, program, 
+                        sex, bday, bplace, cont, email, curr_add,
+                        fb_acc, fb_acc_link, bs_degree, l_schl_att,
+                        curr_occ, conn_com_ins, l_serv, gov_id,
+                        voter_id, tor
+                    } = applicant;
+
+                    const firstName = f_name?.toUpperCase() ?? '';
+                    const middleName = m_name?.toUpperCase() ?? '';
+                    const surname = sr_name?.toUpperCase() ?? '';
                     const PROGRAM = program.acronym;
                     const PASSING = program.passing_grade;
 
-
                     return {
-                        // ...rest,
-                        'ID': ID,
-                        'NAME': `${surname}, ${firstName} ${middleName}`.trim(),
+                        'NO.': index + 1,
+                        'FIRST NAME': firstName,
+                        'MIDDLE NAME': middleName,
+                        'LAST NAME': surname,
                         'PROGRAM': PROGRAM,
-                        'SCORE': score,
-                        'PASSING GRADE': PASSING,
-                        'RESULT': (score >= PASSING ? 'pass' : 'fail'),
-                    };
-
-                })
-
-                : with_score_list.map(({
-
-                    id, f_name, m_name, sr_name, score, program, ...rest }) => {
-
-                    const firstName = f_name ? f_name.toUpperCase() : '';
-                    const middleName = m_name ? m_name.toUpperCase() : '';
-                    const surname = sr_name ? sr_name.toUpperCase() : '';
-                    const ID = id;
-                    const PROGRAM = program.acronym;
-                    const PASSING = program.passing_grade;
-
-                    return {
-                        // ...rest,
-                        'ID': ID,
-                        'NAME': `${surname}, ${firstName} ${middleName}`.trim(),
-                        'PROGRAM': PROGRAM,
-                        'SCORE': score,
-                        'PASSING GRADE': PASSING,
-                        'RESULT': (score >= PASSING ? 'pass' : 'fail'),
+                        'GENDER': sex,
+                        'BIRTHDAY': bday,
+                        'BIRTHPLACE': bplace,
+                        'CONTACT NO.': cont,
+                        'EMAIL': email,
+                        'ADDRESS': curr_add,
+                        'FB ACCOUNT': fb_acc,
+                        'FB LINK': fb_acc_link,
+                        'BS DEGREE': bs_degree,
+                        'LAST SCHOOL ATTENDED': l_schl_att,
+                        'CURRENT OCCUPATION': curr_occ,
+                        'CONNECTED INSTITUTION': conn_com_ins,
+                        'LENGTH OF SERVICE': l_serv,
+                        'GOV ID': gov_id,
+                        'VOTERS ID': voter_id,
+                        'TOR': tor,
                     };
                 });
 
-            var wb = XLSX.utils.book_new(),
-                ws = XLSX.utils.json_to_sheet(cleanedData);
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.json_to_sheet(cleanedData);
 
             XLSX.utils.book_append_sheet(wb, ws, "ExamResult");
-
             XLSX.writeFile(wb, typeOfExcel);
         };
+
 
 
         return (

@@ -106,7 +106,33 @@ class DashbaordController extends Controller
 
         // SCORE
         $withScoreList = Applicant::whereNotNull('score_by')->with('program:id,name,acronym,passing_grade', 'scoreBy:id,name,role')
-            ->select('id', 'sr_name', 'f_name', 'm_name', 'status', 'score', 'prog', 'score_by')
+            ->select(
+                'id',
+                'sr_name',
+                'f_name',
+                'm_name',
+                'status',
+                'score',
+                'prog',
+                'score_by',
+
+                'sex',
+                'bday',
+                'bplace',
+                'cont',
+                'email',
+                'curr_add',
+                'fb_acc',
+                'fb_acc_link',
+                'bs_degree',
+                'l_schl_att',
+                'curr_occ',
+                'conn_com_ins',
+                'l_serv',
+                'gov_id',
+                'voter_id',
+                'tor',
+            )
             ->orderBy('score', 'desc')
             ->get()
             ->map(function ($item) {
@@ -130,24 +156,24 @@ class DashbaordController extends Controller
         //             'total' => $item->total,
         //         ];
         //     });
-            $scheduleListCount = Applicant::with(['examDate'])//, 'examTime'
-                ->whereNotNull('exam_date')
-                // ->whereNotNull('exam_time') // ensure exam_time exists
-                ->groupBy('exam_date')//, 'exam_time'
-                ->select('exam_date')//, 'exam_time'
-                ->selectRaw('COUNT(*) as total')
-                ->get()
-                ->map(function ($item) {
-                    return [
-                        'exam_date' => $item->examDate
-                            ? Carbon::parse($item->examDate->exam_date)->format('F j, Y')
-                            : Carbon::parse($item->exam_date)->format('F j, Y'),
-                        // 'exam_time' => $item->examTime
-                        //     ? $item->examTime->time // or format if needed
-                        //     : $item->exam_time,
-                        'total' => $item->total,
-                    ];
-                });
+        $scheduleListCount = Applicant::with(['examDate']) //, 'examTime'
+            ->whereNotNull('exam_date')
+            // ->whereNotNull('exam_time') // ensure exam_time exists
+            ->groupBy('exam_date') //, 'exam_time'
+            ->select('exam_date') //, 'exam_time'
+            ->selectRaw('COUNT(*) as total')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'exam_date' => $item->examDate
+                        ? Carbon::parse($item->examDate->exam_date)->format('F j, Y')
+                        : Carbon::parse($item->exam_date)->format('F j, Y'),
+                    // 'exam_time' => $item->examTime
+                    //     ? $item->examTime->time // or format if needed
+                    //     : $item->exam_time,
+                    'total' => $item->total,
+                ];
+            });
 
         // GET THE SET LIMIT FROM SETTINGS FORM
         // go the first row of the ExamRoom and get the value of the column field 'limit'
@@ -160,7 +186,7 @@ class DashbaordController extends Controller
             ->get();
 
         $havePermitApplicants = $applicants->groupBy(function ($item) {
-            return Carbon::parse($item->examDate->exam_date)->format('F j, Y') .' | Shift: '. $item->examTime->exam_time . ' | Rm. ' . $item->examRoom->exam_room;
+            return Carbon::parse($item->examDate->exam_date)->format('F j, Y') . ' | Shift: ' . $item->examTime->exam_time . ' | Rm. ' . $item->examRoom->exam_room;
         });
 
         // Convert to array so we can return as JSON
