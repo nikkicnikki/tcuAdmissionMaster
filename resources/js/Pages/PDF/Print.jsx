@@ -153,14 +153,14 @@ export default function Print({ auth }) {
                     src="/storage/source/TCU2024.png" // can also be base64 or local path
                 />
 
-                {/* <Image
+                <Image
                     style={styles.pic1}
                     src={"/storage/" + image_capture}
                 />
                 <Image
                     style={styles.pic2}
                     src={"/storage/" + image_capture}
-                /> */}
+                />
                 <HeadTitle />
                 {applicant ? <ApplicantINFO applicant={applicant} /> : <View><Text>NO DATA INPUT</Text></View>}
                 <Reminders />
